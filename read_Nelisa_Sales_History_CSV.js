@@ -15,37 +15,41 @@ function bubbleSort (array) {
 
 function write_to_file (filename, data, data_nummer) {
 	// body...
-	var fs = require('fs');
+	var file_ops = require('fs');
 
-	//if(data_nummer === null || data_nummer === 1){
-	fs.writeFile(filename, "", function(err){
-		if(err) throw err;
-	});
-
-	data.forEach(function(item){
-		fs.appendFile(filename, item + '\n', function(err){
+	if(data_nummer === null || data_nummer === 1){ 
+		file_ops.writeFile(filename, "", function(err){
 			if(err) throw err;
 		});
-	});
 
-	console.log(data);
-	/*}
+		console.log('');
+		data.forEach(function(item){
+			file_ops.appendFile(filename, item + '\n', function(err){
+				if(err) throw err;
+
+				console.log(item);
+			});
+		});
+	}
+	
 	else{
-		fs.writeFileSync(filename, "");
+		console.log('');
+		file_ops.writeFileSync(filename, "");
 		
 		data.forEach(function(item){
-			fs.appendFile(filename, item["product"] + ';'+ item["sold_no"] + '\n', function(err){
+			file_ops.appendFile(filename, item["product"] + ';'+ item["sold_no"] + '\n', function(err){
 				if (err) throw err;
 				console.log(item["product"] + ' '+ item["sold_no"]);
 			});	
 		});
-	}*/
+	}
+
 	console.log('\n' + "Wrote to file: " + filename);
 	console.log('');
 
 };
 
-function getTheInventory(filename) { //This get the items sold the spaza shop
+function getTheInventory(filename) { //This gets the items sold the spaza shop
 	// body...
 	var fs = require('fs');
 	var buffer = fs.readFileSync(filename);
@@ -85,7 +89,6 @@ function getTheInventory(filename) { //This get the items sold the spaza shop
 		}
 
 	});	//Getting the inventory ends here
-
 	write_to_file("Inventory.csv", spaza_inventory, 1);
 
 	//Answering the question 'How much of each item has been sold?' starts here
@@ -105,7 +108,7 @@ function getTheInventory(filename) { //This get the items sold the spaza shop
 	});
 
 	bubbleSort(inventory_sold);
-	//write_to_file("Sold Of Each (Sorted).csv", inventory_sold, 2)
+	write_to_file("Sold Of Each (Sorted).csv", inventory_sold, 2)
 
 };
 
