@@ -1,3 +1,16 @@
+function print_logo (callback) {
+	// body...
+	var logo = require('figlet');
+
+	logo("Nelisa's Spaza Shop!!!", function(err, data){
+		if(err)
+			throw err;
+
+		process.stdout.write(data + "\n");
+		callback();
+	});
+}
+
 function bubbleSort (array) {
 	// body...
 
@@ -13,6 +26,7 @@ function bubbleSort (array) {
 	};
 }
 
+
 function write_to_file (filename, data, data_nummer) {
 	// body...
 	var file_ops = require('fs');
@@ -27,7 +41,7 @@ function write_to_file (filename, data, data_nummer) {
 			file_ops.appendFile(filename, item + '\n', function(err){
 				if(err) throw err;
 
-				console.log(item);
+				//console.log(item);
 			});
 		});
 	}
@@ -39,7 +53,7 @@ function write_to_file (filename, data, data_nummer) {
 		data.forEach(function(item){
 			file_ops.appendFile(filename, item["product"] + ';'+ item["sold_no"] + '\n', function(err){
 				if (err) throw err;
-				console.log(item["product"] + ' '+ item["sold_no"]);
+				console.log(item["product"] + '  '+ item["sold_no"]);
 			});	
 		});
 	}
@@ -89,7 +103,7 @@ function getTheInventory(filename) { //This gets the items sold the spaza shop
 		}
 
 	});	//Getting the inventory ends here
-	write_to_file("Inventory.csv", spaza_inventory, 1);
+	write_to_file("Selling Items.csv", spaza_inventory, 1);
 
 	//Answering the question 'How much of each item has been sold?' starts here
 	var inventory_sold = [];
@@ -108,8 +122,11 @@ function getTheInventory(filename) { //This gets the items sold the spaza shop
 	});
 
 	bubbleSort(inventory_sold);
-	write_to_file("Sold Of Each (Sorted).csv", inventory_sold, 2)
+	write_to_file("Selling Items (Sorted by Number sold).csv", inventory_sold, 2)
 
 };
 
-getTheInventory('Nelisa Sales History.csv');
+print_logo(function(){
+	process.stdout.write("\n" + "---------------------------------------------------------------------------------------------------" + "\n");
+	getTheInventory('Nelisa Sales History.csv');
+});
