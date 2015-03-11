@@ -1,24 +1,38 @@
 ------------------------------
-Perishable Goods:
+Junk Food:
 ------------------------------
 Mixed Sweets 5s
-Coke 500ml
-Milk 1l
-Bread
-Imasi
-Bananas - loose
 Top Class Soy Mince
-Chakalaka Can
 Fanta 500ml
-Gold Dish Vegetable Curry Can
 Cream Soda 500ml
-Iwisa Pap 5kg
-Apples - loose
 Heart Chocolates
+
+-----------------------------
+
+-----------------------------
+Chakalaka Can
+Gold Dish Vegetable Curry Can
+Iwisa Pap 5kg
+Bread
+Coke 500ml
 
 
 -----------------------------
-Dry Goods:
+Fruit
+----------------------------
+Bananas - loose
+Apples - loose
+
+
+-----------------------------
+Dairy Products
+----------------------------
+Milk 1l
+Imasi
+
+
+-----------------------------
+Not Food:
 -----------------------------
 Soap Bar
 Shampoo 1 litre
