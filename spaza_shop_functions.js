@@ -1,25 +1,27 @@
 module.exports = {
 
-	print_logo: function (callback) {
+	print_logo: function (name, callback) {
 		var logo = require('figlet');
 
-		logo("Nelisa's Spaza Shop!!!", function(err, data){
+		logo(name, function(err, data){
 			if(err)
 				throw err;
 
 			process.stdout.write(data + "\n");
-			callback();
+
+			if(callback)
+				callback();
 		});
 	},
 
-	bubbleSort: function (array) {
+	bubbleSort: function (array_of_objects) {
 
 		for(var i = 0; i < array.length; i++){
 			for (var k = 0; k < array.length-1; k++) {
-				if(array[k]["sold_no"] < array[k+1]["sold_no"]){
-					var temp = array[k];
-					array[k] = array[k+1];
-					array[k+1] = temp;
+				if(array_of_objects[k]["sold_no"] < array_of_objects[k+1]["sold_no"]){
+					var temp = array_of_objects[k];
+					array_of_objects[k] = array_of_objects[k+1];
+					array_of_objects[k+1] = temp;
 				}
 			};
 		};
@@ -56,8 +58,7 @@ module.exports = {
 			console.log("\n");
 		}
 		console.log("Wrote to file: " + filename + "\n\n");*/
-
-	}
+	},
 
 
 	popular_products: function  (spaza_inventory, sales_history) {
@@ -76,9 +77,11 @@ module.exports = {
 
 		});
 
-		this.bubbleSort(inventory_sold);
-		this.write_to_file("Selling Items (Sorted by Number sold).csv", inventory_sold, 2);
-	
+		return inventory_sold.sort(function(b, a){
+			return Number(a["sold_no"]) - Number(b["sold_no"]);
+		});
+		//this.bubbleSort(inventory_sold);
+		//this.write_to_file("Selling Items (Sorted by Number sold).csv", inventory_sold, 2);
 	},
 
 	get_sales_history: function (filename) {
@@ -141,9 +144,9 @@ module.exports = {
 	},
 
 
-	getTheInventory: function (filename) { //This gets the items sold the spaza shop
+	selling_items: function (filename) { //This gets the items sold at the spaza shop
 
-		var sales_history = get_sales_history(filename);
+		var sales_history = this.get_sales_history(filename);
 
 		var spaza_inventory = [];
 
@@ -165,9 +168,10 @@ module.exports = {
 		});	//Getting the inventory ends here
 		//write_to_file("Selling Items.csv", spaza_inventory, 1);
 	
-		this.popular_products(spaza_inventory, sales_history);
+		return spaza_inventory;
+		//this.popular_products(spaza_inventory, sales_history);
 
-		this.popular_products_over_days(filename, spaza_inventory, "12-Feb", "16-Feb");
+		//this.popular_products_over_days(filename, spaza_inventory, "12-Feb", "16-Feb");
 	}
 };
 
