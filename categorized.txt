@@ -6,15 +6,15 @@ Top Class Soy Mince
 Fanta 500ml
 Cream Soda 500ml
 Heart Chocolates
+Coke 500ml
 
 -----------------------------
-
+Veg & Carbs
 -----------------------------
 Chakalaka Can
 Gold Dish Vegetable Curry Can
 Iwisa Pap 5kg
 Bread
-Coke 500ml
 
 
 -----------------------------
@@ -32,7 +32,7 @@ Imasi
 
 
 -----------------------------
-Not Food:
+Not Edible:
 -----------------------------
 Soap Bar
 Shampoo 1 litre

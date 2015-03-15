@@ -14,17 +14,20 @@ module.exports = {
 		});
 	},
 
-	bubbleSort: function (array_of_objects) {
+	bubbleSort: function (array) {
 
-		for(var i = 0; i < array.length; i++){
-			for (var k = 0; k < array.length-1; k++) {
-				if(array_of_objects[k]["sold_no"] < array_of_objects[k+1]["sold_no"]){
-					var temp = array_of_objects[k];
-					array_of_objects[k] = array_of_objects[k+1];
-					array_of_objects[k+1] = temp;
+		var array1 = array;
+
+		for(var i = 0; i < array1.length; i++){
+			for (var k = 0; k < array1.length-1; k++) {
+				if(array1[k]] < array1[k+1]){
+					var temp = array1[k];
+					array1[k] = array1[k+1];
+					array1[k+1] = temp;
 				}
 			};
 		};
+		return array1;
 	},
 
 	write_to_file: function (filename, data, data_nummer) {
@@ -61,7 +64,7 @@ module.exports = {
 	},
 
 
-	popular_products: function  (spaza_inventory, sales_history) {
+	popular_products: function  (selling_items, sales_history) {
 		//Answering the question 'How much of each item has been sold?' starts here
 		var inventory_sold = [];
 
@@ -144,7 +147,7 @@ module.exports = {
 	},
 
 
-	selling_items: function (filename) { //This gets the items sold at the spaza shop
+	get_selling_items: function (filename) { //This gets the items sold at the spaza shop
 
 		var sales_history = this.get_sales_history(filename);
 
@@ -172,6 +175,66 @@ module.exports = {
 		//this.popular_products(spaza_inventory, sales_history);
 
 		//this.popular_products_over_days(filename, spaza_inventory, "12-Feb", "16-Feb");
+	}
+
+	popular_category: function(popular_items_list){
+
+		var junk_food = 0,
+			veg_and_carbs = 0,
+			fruit = 0,
+			dairy = 0,
+			not_edible = 0;
+
+		popular_items_list.forEach(function(item, i){
+
+			switch(item){
+				case "Mixed Sweets 5s":
+				case "Top Class Soy Mince":
+				case "Fanta 500ml":
+				case "Cream Soda 500ml":
+				case "Heart Chocolates":
+				case "Coke 500ml":
+					junk_food += Number(item["sold_no"]);
+				break;
+
+				case "Chakalaka Can":
+				case "Gold Dish Vegetable Curry Can":
+				case "Iwisa Pap 5kg":
+				case "Bread":
+					veg_and_carbs += Number(item["sold_no"]);
+				break;
+
+				case "Bananas - loose":
+				case "Apples - loose":
+					fruit += Number(item["sold_no"]);
+				break;
+
+				case "Milk 1l":
+				case "Imasi":
+					dairy += Number(item["sold_no"]);
+				break;
+
+				case "Soap Bar":
+				case "Shampoo 1 litre":
+				case "Rose (Plastic)":
+				case "Valentines Cards":
+					not_edible += Number(item["sold_no"]);
+				break;
+			};
+		});
+
+		var cats = bubbleSort([junk_food, veg_and_carbs, fruit, dairy, not_edible])
+		
+		var categories = [
+						{junk_food: junk_food},
+						{veg_and_carbs: veg_and_carbs}
+						{fruit:fruit},
+						{dairy:dairy}.
+						{not_edible:not_edible}
+						];
+
+		})
+
 	}
 };
 
