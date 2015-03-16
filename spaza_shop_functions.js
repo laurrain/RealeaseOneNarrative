@@ -240,8 +240,27 @@ module.exports = {
 		return categories;
 	},
 
-	get_regular_sales: function(sales_history_list){
+	get_regular_sales: function(sales_history_list, selling_items){
 
+		var regulariry = [];
+		selling_items.forEach(function(sellin){
+
+			var starter = 0;
+
+			sales_history_list.forEach(function(item){
+				if(sellin === item["stock_item"]){
+					if(Number(item["no_sold_items"]) > 0){
+						starter++;
+					}
+				}
+			});
+
+			regulariry.push({stock_item: sellin, frequency: starter});
+
+		});
+		return regulariry.sort(function(a, b){
+			return b["frequency"] - a["frequency"];
+		});
 	}
 
 };

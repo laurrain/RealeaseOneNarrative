@@ -16,3 +16,5 @@ var popular_categories = spaza.get_popular_category(popularity);
 /*popular_categories.forEach(function(item){
 			console.log(item["cat"] + " === " + item["sold_no"]);
 		});*/
+var regular_sales  = spaza.get_regular_sales(sales_history, selling_items);
+//console.log(regular_sales);
