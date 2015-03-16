@@ -20,7 +20,7 @@ module.exports = {
 
 		for(var i = 0; i < array1.length; i++){
 			for (var k = 0; k < array1.length-1; k++) {
-				if(array1[k]] < array1[k+1]){
+				if(array1[k] < array1[k+1]){
 					var temp = array1[k];
 					array1[k] = array1[k+1];
 					array1[k+1] = temp;
@@ -64,11 +64,11 @@ module.exports = {
 	},
 
 
-	popular_products: function  (selling_items, sales_history) {
+	get_popular_products: function  (selling_items, sales_history) {
 		//Answering the question 'How much of each item has been sold?' starts here
 		var inventory_sold = [];
 
-		spaza_inventory.forEach(function (item) {
+		selling_items.forEach(function (item) {
 			var sold = 0;
 			sales_history.forEach(function(row){
 				if(item === row['stock_item']){
@@ -175,9 +175,9 @@ module.exports = {
 		//this.popular_products(spaza_inventory, sales_history);
 
 		//this.popular_products_over_days(filename, spaza_inventory, "12-Feb", "16-Feb");
-	}
+	},
 
-	popular_category: function(popular_items_list){
+	get_popular_category: function(popular_items_list){
 
 		var junk_food = 0,
 			veg_and_carbs = 0,
@@ -186,8 +186,8 @@ module.exports = {
 			not_edible = 0;
 
 		popular_items_list.forEach(function(item, i){
-
-			switch(item){
+			//console.log(item, " - ", i);
+			switch(item["product"]){
 				case "Mixed Sweets 5s":
 				case "Top Class Soy Mince":
 				case "Fanta 500ml":
@@ -223,19 +223,27 @@ module.exports = {
 			};
 		});
 
-		var cats = bubbleSort([junk_food, veg_and_carbs, fruit, dairy, not_edible])
+		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories = [
-						{junk_food: junk_food},
-						{veg_and_carbs: veg_and_carbs}
-						{fruit:fruit},
-						{dairy:dairy}.
-						{not_edible:not_edible}
+						{cat: "junk_food", sold_no: junk_food},
+						{cat: "veg_and_carbs", sold_no: veg_and_carbs},
+						{cat: "fruit", sold_no:fruit},
+						{cat: "dairy", sold_no: dairy},
+						{cat: "not_edible", sold_no: not_edible}
 						];
 
-		})
+		categories.sort(function(a, b){
+			return Number(b["sold_no"]) - Number(a["sold_no"])
+		});
+
+		return categories;
+	},
+
+	get_regular_sales: function(sales_history_list){
 
 	}
+
 };
 
 
