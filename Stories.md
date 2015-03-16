@@ -12,7 +12,13 @@ Hint: You will need to capture the sales data in order to do these stories
 
 ### Xolani wants to find out trends over time
 * Story 6: Xolani wants to see the most regular sales 
+<<<<<<< HEAD
 * Story 7:  Xolani wants to see the stock levels going down the fastest & slowest - this is still nice, but then we need stock purchase history...
+=======
+* Story 7:  Xolani wants to see the stock levels going down the fastest & slowest
+ 
+Hint: You will need to capture the purchase data in order to calculate stock levels.
+>>>>>>> 17fa67c2f5c34e5abfab5779569f32d0cd46353d
 
 ---
 
