@@ -32,7 +32,7 @@ module.exports = {
 
 	write_to_file: function (filename, data, data_nummer) {
 
-		/*var file_ops = require('fs');
+		var file_ops = require('fs');
 
 		if(data_nummer === null || data_nummer === 1){ 
 			file_ops.writeFile(filename, "", function(err){
@@ -60,7 +60,7 @@ module.exports = {
 			});
 			console.log("\n");
 		}
-		console.log("Wrote to file: " + filename + "\n\n");*/
+		console.log("Wrote to file: " + filename + "\n\n");
 	},
 
 
@@ -226,11 +226,11 @@ module.exports = {
 		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories = [
-						{cat: "junk_food", sold_no: junk_food},
-						{cat: "veg_and_carbs", sold_no: veg_and_carbs},
-						{cat: "fruit", sold_no:fruit},
-						{cat: "dairy", sold_no: dairy},
-						{cat: "not_edible", sold_no: not_edible}
+						{product: "junk_food", sold_no: junk_food},
+						{product: "veg_and_carbs", sold_no: veg_and_carbs},
+						{product: "fruit", sold_no:fruit},
+						{product: "dairy", sold_no: dairy},
+						{product: "not_edible", sold_no: not_edible}
 						];
 
 		categories.sort(function(a, b){
@@ -255,15 +255,82 @@ module.exports = {
 				}
 			});
 
-			regulariry.push({stock_item: sellin, frequency: starter});
+			regulariry.push({product: sellin, sold_no/*frequency*/: starter});
 
 		});
 		return regulariry.sort(function(a, b){
-			return b["frequency"] - a["frequency"];
+			return b["sold_no"] - a["sold_no"];
+		});
+	},
+
+	get_purchase_history: function(filename){
+		var fs = require('fs');
+		var buffer = fs.readFileSync(filename);
+		var list = buffer.toString().replace(/,/gi, '.');
+		var purchase_history_rows = list.split('\r');
+
+		var purchase_history = purchase_history_rows.map(function(row){
+		
+			var fields = row.split(";");
+
+			return {
+				shop: fields[0],
+				date: fields[1],
+				stock_item: fields[2],
+				quantity: fields[3],
+				cost: fields[4],
+				total_cost: fields[5]
+			}
+
+		});
+
+		return purchase_history;
+	},
+
+	get_entire_stock: function(selling_items, purchase_history){
+
+		var stock_levels = [];
+
+		selling_items.forEach(function (item) {
+			var bought = 0;
+			purchase_history.forEach(function(row){
+				if(item === row['stock_item']){
+					bought += Number(row['quantity']);
+				}
+			});
+
+			stock_levels.push({product: item, quantity: bought});
+
+		});
+
+		return stock_levels.sort(function(a, b){
+			return Number(b["quantity"]) - Number(a["quantity"]);
+		});
+	},
+
+	get_stock_rates: function(entire_stock, popular_products){
+
+		var stock_rates = [];
+
+		popular_products.forEach(function(item){
+			var inventory_left = 0;
+			var percent = 0;
+			entire_stock.forEach(function(stock_item){
+				if(item["product"] === stock_item["product"]){
+					inventory_left += Number(stock_item["quantity"]) - Number(item["sold_no"]);
+					percent += (inventory_left/Number(stock_item["quantity"]))*100;
+				}
+			});
+			stock_rates.push({product: item["product"], remaining_stock: inventory_left, percent_left: percent});
+		});
+
+		return stock_rates.sort(function(a, b){
+			return b["percent_left"] - a["percent_left"];
 		});
 	}
+}
 
-};
+//};
 
 
 	/*print_logo(function(){
