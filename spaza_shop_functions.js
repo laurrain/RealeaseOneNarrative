@@ -350,6 +350,180 @@ module.exports = {
 		});
 
 		return product_earnings;
+	},
+
+	get_category_earnings: function(product_earnings_list){
+
+		var junk_food_earnings = 0,
+			veg_and_carbs_earnings = 0,
+			fruit_earnings = 0,
+			dairy_earnings = 0,
+			not_edible_earnings = 0;
+
+		product_earnings_list.forEach(function(item, i){
+			//console.log(item, " - ", i);
+			switch(item["product"]){
+				case "Mixed Sweets 5s":
+				case "Top Class Soy Mince":
+				case "Fanta 500ml":
+				case "Cream Soda 500ml":
+				case "Heart Chocolates":
+				case "Coke 500ml":
+					junk_food_earnings += Number(item["earnings"]);
+				break;
+
+				case "Chakalaka Can":
+				case "Gold Dish Vegetable Curry Can":
+				case "Iwisa Pap 5kg":
+				case "Bread":
+					veg_and_carbs_earnings += Number(item["earnings"]);
+				break;
+
+				case "Bananas - loose":
+				case "Apples - loose":
+					fruit_earnings += Number(item["earnings"]);
+				break;
+
+				case "Milk 1l":
+				case "Imasi":
+					dairy_earnings += Number(item["earnings"]);
+				break;
+
+				case "Soap Bar":
+				case "Shampoo 1 litre":
+				case "Rose (Plastic)":
+				case "Valentines Cards":
+					not_edible_earnings += Number(item["earnings"]);
+				break;
+			};
+		});
+
+		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
+		
+		var categories_earnings = [
+						{product: "junk_food", earnings: junk_food_earnings},
+						{product: "veg_and_carbs", earnings: veg_and_carbs_earnings},
+						{product: "fruit", earnings:fruit_earnings},
+						{product: "dairy", earnings: dairy_earnings},
+						{product: "not_edible", earnings: not_edible_earnings}
+						];
+
+		categories_earnings.sort(function(a, b){
+			return Number(b["earnings"]) - Number(a["earnings"])
+		});
+
+		return categories_earnings;
+	},
+
+	get_product_price_and_cost:function(selling_items, sales_history, purchase_history){
+
+		var price_cost = [];
+
+		selling_items.forEach(function(item){
+			var Price = 0;
+			sales_history.forEach(function(product){
+				if(product["stock_item"] === item){
+					
+					Price = product["sales_price"];
+				}
+			});
+
+			var Cost = 0;
+
+			purchase_history.forEach(function(product){
+				if(product["stock_item"] === item){
+					
+					Cost = product["cost"];
+				}
+			});
+
+			price_cost.push({product:item, price: Price.substr(1,Price.length), cost:Cost.substr(1,Cost.length)});
+
+		});
+
+		return price_cost;
+	},
+
+	get_product_profits: function(price_cost, popular_products){
+		var gains = [];
+
+		popular_products.forEach(function(item){
+			var prof = 0;
+
+			price_cost.forEach(function(product){
+				if(item["product"] === product["product"]){
+					prof = (Number(product["price"]) - Number(product["cost"]))*Number(item["sold_no"]);
+				}
+			});
+			gains.push({product:item["product"], profits: prof});
+		});
+
+		return gains.sort(function(a, b){
+			return b["profits"] - a["profits"];
+		});
+	},
+
+	get_category_profits: function(product_profits){
+
+		var junk_food_profits = 0,
+			veg_and_carbs_profits = 0,
+			fruit_profits = 0,
+			dairy_profits = 0,
+			not_edible_profits = 0;
+
+		product_profits.forEach(function(item){
+			//console.log(item, " - ", i);
+			switch(item["product"]){
+				case "Mixed Sweets 5s":
+				case "Top Class Soy Mince":
+				case "Fanta 500ml":
+				case "Cream Soda 500ml":
+				case "Heart Chocolates":
+				case "Coke 500ml":
+					junk_food_profits += Number(item["profits"]);
+				break;
+
+				case "Chakalaka Can":
+				case "Gold Dish Vegetable Curry Can":
+				case "Iwisa Pap 5kg":
+				case "Bread":
+					veg_and_carbs_profits += Number(item["profits"]);
+				break;
+
+				case "Bananas - loose":
+				case "Apples - loose":
+					fruit_profits += Number(item["profits"]);
+				break;
+
+				case "Milk 1l":
+				case "Imasi":
+					dairy_profits += Number(item["profits"]);
+				break;
+
+				case "Soap Bar":
+				case "Shampoo 1 litre":
+				case "Rose (Plastic)":
+				case "Valentines Cards":
+					not_edible_profits += Number(item["profits"]);
+				break;
+			};
+		});
+
+		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
+		
+		var categories_profits = [
+						{product: "junk_food", profits: junk_food_profits},
+						{product: "veg_and_carbs", profits: veg_and_carbs_profits},
+						{product: "fruit", profits:fruit_profits},
+						{product: "dairy", profits: dairy_profits},
+						{product: "not_edible", profits: not_edible_profits}
+						];
+
+		categories_profits.sort(function(a, b){
+			return Number(b["profits"]) - Number(a["profits"])
+		});
+
+		return categories_profits;
 	}
 }
 

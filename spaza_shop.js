@@ -48,5 +48,30 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	var product_earnings = spaza.get_product_earnings(sales_history, popular_products);
 	product_earnings.forEach(function(item){
 		console.log(item["product"] + "       R" + item["earnings"])
-	})
+	});
+
+	console.log("\nCATEGORY EARNINGS\n---------------------------")
+	var category_earnings = spaza.get_category_earnings(product_earnings);
+	category_earnings.forEach(function(item){
+		console.log(item["product"] + "       R" + item["earnings"])
+	});
+
+	console.log("\nPRODUCT PRICE AND COST\n--------------------------------------")
+	var price_cost = spaza.get_product_price_and_cost(selling_items,sales_history, purchase_history);
+	price_cost.forEach(function(item){
+		console.log(item["product"] + "       R" + item["price"]+ "       R" + item["cost"])
+	});
+
+	console.log("\nPRODUCTS PROFITS\n---------------------------")
+	var product_profits = spaza.get_product_profits(price_cost,popular_products);
+	product_profits.forEach(function(item){
+		console.log(item["product"] + "       R" + item["profits"]);
+	});	
+
+	console.log("\nCATEGORY PROFITS\n---------------------------")
+	var cat_profits = spaza.get_category_profits(product_profits);
+	cat_profits.forEach(function(item){
+		console.log(item["product"] + "       R" + item["profits"]);
+	});	
+
 });
