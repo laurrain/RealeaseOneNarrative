@@ -318,15 +318,38 @@ module.exports = {
 			entire_stock.forEach(function(stock_item){
 				if(item["product"] === stock_item["product"]){
 					inventory_left += Number(stock_item["quantity"]) - Number(item["sold_no"]);
-					percent += (inventory_left/Number(stock_item["quantity"]))*100;
+					percent += Math.round((inventory_left/Number(stock_item["quantity"]))*100);
 				}
 			});
-			stock_rates.push({product: item["product"], remaining_stock: inventory_left, percent_left: percent});
+			stock_rates.push({product: item["product"], /*remaining_stock: inventory_left,*/ percent_left: percent});
 		});
 
 		return stock_rates.sort(function(a, b){
-			return b["percent_left"] - a["percent_left"];
+			return a["percent_left"] - b["percent_left"];
 		});
+	},
+
+	get_product_earnings: function(sales_history_list, popular_products){
+
+		var product_earnings = [];
+
+		popular_products.forEach(function(item){
+
+			var earning = 0;
+			var found = 0;
+
+			sales_history_list.forEach(function(product){
+				if(item["product"] === product["stock_item"]){
+					found++;
+					//console.log(Number(product["sales_price"].substr(1, product["sales_price"].length)));
+					earning = Number(product["sales_price"].substr(1, product["sales_price"].length))*Number(item["sold_no"]);
+				}
+			});
+			product_earnings.push({product: item["product"], earnings: earning});
+
+		});
+
+		return product_earnings;
 	}
 }
 
