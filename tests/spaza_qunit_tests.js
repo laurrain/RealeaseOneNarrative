@@ -87,25 +87,41 @@ QUnit.test("testing get_selling_items function", function(assert){
 
 });
 QUnit.test("Testing get_popular_category function", function(assert){
-	var junk_food = 0,
-			veg_and_carbs = 0,
-			fruit = 0,
-			dairy = 0,
-			not_edible = 0;
+	var expected = [{category: "junk_food", sold_no: 548}, 
+		            {category: "veg_and_carbs", sold_no: 216},
+		            {category: "dairy", sold_no: 75},
+		            {category: "fruit", sold_no:55},
+		            {category: "not_edible", sold_no: 50}
+			];
 
 
 
-	var expected_popular_Items = [  "product:Mixed Sweets 5s":
-				                     "Top Class Soy Mince":
-				case "Fanta 500ml":
-				case "Cream Soda 500ml":
-				case "Heart Chocolates":
-				case "Coke 500ml":
-									{product: "phone", sold_no: 80},
-									{product: "8.1", sold_no: 45},
-									{product: "windows", sold_no:15},
-									{product: "black", sold_no:5}
-									{product: ""}
-									];
+	var popular_item = [
+					{product:"Mixed Sweets 5s",sold_no: 123},
+				    {product:"Top Class Soy Mince", sold_no: 109},
+				    {product:"Bread", sold_no: 100},
+					{product:"Fanta 500ml", sold_no: 98},
+				    {product:"Cream Soda 500ml", sold_no:78},
+				    {product:"Heart Chocolates", sold_no:75},
+				    {product:"Coke 500ml", sold_no:65},
+					{product:"Chakalaka Can", sold_no: 62},
+				    {product:"Gold Dish Vegetable Curry Can", sold_no: 54},
+				    {product: "Milk 1l", sold_no: 40},
+				    {product: "Imasi", sold_no: 35},
+				    {product:"Bananas - loose", sold_no: 30},
+				    {product: "Apples - loose", sold_no: 25},
+				    {product:  "Soap Bar", sold_no: 22},
+				    {product: "Shampoo 1 litre", sold_no: 15},
+				    {product: "Rose (Plastic)", sold_no: 10},
+				    {product: "Valentines Cards", sold_no: 3}
+                	];
 
+    result = mymodule.get_popular_category(popular_item);
+
+
+	for(var i = 0; i < result.length; i++){
+		for(var key in result[i]){
+			assert.deepEqual(result[i][key], expected[i][key], "Match!");
+		}
+	}
 });
