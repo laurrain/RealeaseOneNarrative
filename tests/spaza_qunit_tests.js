@@ -174,4 +174,186 @@ QUnit.test("Testing get_regular_sales function", function(assert){
 			assert.deepEqual(result[i][key], expected[i][key], "Match!");
 		}
 	}
-})
+});
+
+QUnit.test("Testing get_purchase_history function", function(assert){
+
+	var expected = [
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item6", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item7", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item8", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item9", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item6", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item7", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item8", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item9", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"}
+					];
+
+	var result = mymodule.get_purchase_history("tests/get_purchase_history_test.csv");
+
+
+	for(var i = 0; i < result.length; i++){
+		for(var key in result[i]){
+
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+
+});
+
+QUnit.test("Testing get_entire_stock function", function(assert){
+
+	var purchase_history = [
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "10", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "20", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "30", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "40", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "50", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item6", quantity: "60", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item7", quantity: "70", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item8", quantity: "80", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item9", quantity: "90", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "10", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "20", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "30", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "40", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "50", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item6", quantity: "60", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item7", quantity: "70", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item8", quantity: "80", cost: "Cost", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item9", quantity: "90", cost: "Cost", total_cost: "Total Cost"}
+					];
+
+	var selling_items = [
+						{product: "Item1"},
+						{product: "Item2"},
+						{product: "Item3"},
+						{product: "Item4"},
+						{product: "Item5"},
+						{product: "Item6"},
+						{product: "Item7"},
+						{product: "Item8"},
+						{product: "Item9"}
+						];
+
+	var result = mymodule.get_entire_stock(selling_items, purchase_history);
+
+	var expected = [
+						{product: "Item9", quantity: 180},
+						{product: "Item8", quantity: 160},
+						{product: "Item7", quantity: 140},
+						{product: "Item6", quantity: 120},
+						{product: "Item5", quantity: 100},
+						{product: "Item4", quantity: 80},
+						{product: "Item3", quantity: 60},
+						{product: "Item2", quantity: 40},
+						{product: "Item1", quantity: 20}
+						];
+
+	for(var i = 0; i < result.length; i++){
+		for(var key in result[i]){
+
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+
+});
+
+QUnit.test("Testing get_stock_rates function", function(assert){
+
+	var entire_stock = [
+						{product: "Item9", quantity: 180},
+						{product: "Item8", quantity: 160},
+						{product: "Item7", quantity: 140},
+						{product: "Item6", quantity: 120},
+						{product: "Item5", quantity: 100},
+						{product: "Item4", quantity: 80},
+						{product: "Item3", quantity: 60},
+						{product: "Item2", quantity: 40},
+						{product: "Item1", quantity: 20}
+						];
+
+	var popular_products = [
+							{product: "Item9", sold_no: 95},
+							{product: "Item8", sold_no: 85},
+							{product: "Item7", sold_no: 75},
+							{product: "Item6", sold_no: 65},
+							{product: "Item5", sold_no: 55},
+							{product: "Item4", sold_no: 45},
+							{product: "Item3", sold_no: 35},
+							{product: "Item2", sold_no: 25},
+							{product: "Item1", sold_no: 15}
+							];
+
+	var result = mymodule.get_stock_rates(entire_stock, popular_products);
+
+	var expected = [
+					{product: "Item1", percent_left: 25.00},
+					{product: "Item2", percent_left: 38.00},
+					{product: "Item3", percent_left: 42.00},
+					{product: "Item4", percent_left: 44.00},
+					{product: "Item5", percent_left: 45.00},
+					{product: "Item6", percent_left: 46.00},
+					{product: "Item7", percent_left: 46.00},
+					{product: "Item8", percent_left: 47.00},
+					{product: "Item9", percent_left: 47.00},
+										
+					];
+
+	for(var i = 0; i < result.length; i++){
+		for(var key in result[i]){
+			console.log(result[i][key], expected[i][key])
+		}
+	}
+
+	for(var i = 0; i < result.length; i++){
+		for(var key in result[i]){
+			console.log(result[i][key], expected[i][key])
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+});
+
+QUnit.test("Testing get_product_earnings function", function(assert){
+
+	var sales_history = [
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "10"},
+					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
+					{day2:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
+					{day2:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "1", sales_price: "10"},
+					{day3:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "30", sales_price: "10"},
+					{day3:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "40", sales_price: "10"},
+					{day4:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "0", sales_price: "10"},
+					{day4:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
+					{day11:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "30", sales_price: "10"},
+					{day11:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "34", sales_price: "10"},
+					{day21:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "40", sales_price: "10"},
+					{day21:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "15", sales_price: "10"},
+					{day31:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "5", sales_price: "10"},
+					{day31:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
+					{day41:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "20", sales_price: "10"},
+					{day41:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "10"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "10"},
+					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "5", sales_price: "10"},
+					];
+
+	var popular_products = [
+							{product: "stock item5", sold_no: 55},
+							{product: "stock item4", sold_no: 45},
+							{product: "stock item3", sold_no: 35},
+							{product: "stock item2", sold_no: 25},
+							{product: "stock item1", sold_no: 15}
+							];
+
+});

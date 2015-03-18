@@ -267,7 +267,7 @@ module.exports = {
 		var fs = require('fs');
 		var buffer = fs.readFileSync(filename);
 		var list = buffer.toString().replace(/,/gi, '.');
-		var purchase_history_rows = list.split('\r');
+		var purchase_history_rows = list.split('\n');
 
 		var purchase_history = purchase_history_rows.map(function(row){
 		
@@ -318,14 +318,17 @@ module.exports = {
 			entire_stock.forEach(function(stock_item){
 				if(item["product"] === stock_item["product"]){
 					inventory_left += Number(stock_item["quantity"]) - Number(item["sold_no"]);
-					percent += Math.round((inventory_left/Number(stock_item["quantity"]))*100);
+					percent += (inventory_left/Number(stock_item["quantity"]))*100;
 				}
 			});
-			stock_rates.push({product: item["product"], /*remaining_stock: inventory_left,*/ percent_left: percent.toFixed(2)});
+			stock_rates.push({product: item["product"], percent_left: Math.round(percent).toFixed(2)});
 		});
 
 		return stock_rates.sort(function(a, b){
-			return a["percent_left"] - b["percent_left"];
+			if((a["percent_left"] - b["percent_left"]) < 0)
+				return -1;
+			else
+				return 1;
 		});
 	},
 
@@ -341,7 +344,6 @@ module.exports = {
 			sales_history_list.forEach(function(product){
 				if(item["product"] === product["stock_item"]){
 					found++;
-					//console.log(Number(product["sales_price"].substr(1, product["sales_price"].length)));
 					earning = Number(product["sales_price"].substr(1, product["sales_price"].length))*Number(item["sold_no"]);
 				}
 			});
