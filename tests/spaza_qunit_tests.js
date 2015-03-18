@@ -125,3 +125,53 @@ QUnit.test("Testing get_popular_category function", function(assert){
 		}
 	}
 });
+
+
+QUnit.test("Testing get_regular_sales function", function(assert){
+
+	var sales_history = [
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "10", sales_price: "Sales Price"},
+					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "10", sales_price: "Sales Price"},
+					{day2:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "1", sales_price: "Sales Price"},
+					{day2:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "01", sales_price: "Sales Price"},
+					{day3:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "30", sales_price: "Sales Price"},
+					{day3:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "40", sales_price: "Sales Price"},
+					{day4:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "0", sales_price: "Sales Price"},
+					{day4:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "0", sales_price: "Sales Price"},
+					{day11:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "30", sales_price: "Sales Price"},
+					{day11:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "40", sales_price: "Sales Price"},
+					{day21:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "40", sales_price: "Sales Price"},
+					{day21:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "0", sales_price: "Sales Price"},
+					{day31:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "2", sales_price: "Sales Price"},
+					{day31:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "0", sales_price: "Sales Price"},
+					{day41:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "20", sales_price: "Sales Price"},
+					{day41:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "20", sales_price: "Sales Price"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "10", sales_price: "Sales Price"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "10", sales_price: "Sales Price"},
+					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "10", sales_price: "Sales Price"},
+					];
+
+	var selling_items = [
+						{product: "stock item1"},
+						{product: "stock item2"},
+						{product: "stock item3"},
+						{product: "stock item4"},
+						{product: "stock item5"},
+						];
+
+	var expected = [
+					{product: "stock item1", frequency: 5},
+					{product: "stock item2", frequency: 4},
+					{product: "stock item4", frequency: 3},
+					{product: "stock item3", frequency: 2},
+					{product: "stock item5", frequency: 1}
+					];
+
+	var result = mymodule.get_regular_sales(sales_history, selling_items);
+
+	for(var i = 0; i < result.length; i++){
+		for(var key in result[i]){
+			assert.deepEqual(result[i][key], expected[i][key], "Match!");
+		}
+	}
+})
