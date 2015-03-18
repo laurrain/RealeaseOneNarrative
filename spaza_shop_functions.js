@@ -71,12 +71,12 @@ module.exports = {
 		selling_items.forEach(function (item) {
 			var sold = 0;
 			sales_history.forEach(function(row){
-				if(item === row['stock_item']){
+				if(item["product"] === row['stock_item']){
 					sold += Number(row['no_sold_items']);
 				}
 			});
 
-			inventory_sold.push({product: item, sold_no: sold});
+			inventory_sold.push({product: item["product"], sold_no: sold});
 
 		});
 
@@ -158,14 +158,14 @@ module.exports = {
 			var i = 0;
 
 			spaza_inventory.forEach(function(item){
-				if(item === row['stock_item']){
+				if(item["product"] === row['stock_item']){
 					++i;
 				}
 			
 			});
 
 			if(i === 0 && row['stock_item'] !== 'stock item'){
-				spaza_inventory.push(row['stock_item']);
+				spaza_inventory.push({product: row['stock_item']});
 			}
 
 		});	//Getting the inventory ends here
@@ -226,11 +226,11 @@ module.exports = {
 		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories = [
-						{product: "junk_food", sold_no: junk_food},
-						{product: "veg_and_carbs", sold_no: veg_and_carbs},
-						{product: "fruit", sold_no:fruit},
-						{product: "dairy", sold_no: dairy},
-						{product: "not_edible", sold_no: not_edible}
+						{category: "junk_food", sold_no: junk_food},
+						{category: "veg_and_carbs", sold_no: veg_and_carbs},
+						{category: "fruit", sold_no:fruit},
+						{category: "dairy", sold_no: dairy},
+						{category: "not_edible", sold_no: not_edible}
 						];
 
 		categories.sort(function(a, b){
@@ -248,18 +248,18 @@ module.exports = {
 			var starter = 0;
 
 			sales_history_list.forEach(function(item){
-				if(sellin === item["stock_item"]){
+				if(sellin["product"] === item["stock_item"]){
 					if(Number(item["no_sold_items"]) > 0){
 						starter++;
 					}
 				}
 			});
 
-			regulariry.push({product: sellin, sold_no/*frequency*/: starter});
+			regulariry.push({product: sellin["product"], frequency: starter});
 
 		});
 		return regulariry.sort(function(a, b){
-			return b["sold_no"] - a["sold_no"];
+			return b["frequency"] - a["frequency"];
 		});
 	},
 
@@ -294,12 +294,12 @@ module.exports = {
 		selling_items.forEach(function (item) {
 			var bought = 0;
 			purchase_history.forEach(function(row){
-				if(item === row['stock_item']){
+				if(item["product"] === row['stock_item']){
 					bought += Number(row['quantity']);
 				}
 			});
 
-			stock_levels.push({product: item, quantity: bought});
+			stock_levels.push({product: item["product"], quantity: bought});
 
 		});
 
@@ -401,11 +401,11 @@ module.exports = {
 		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories_earnings = [
-						{product: "junk_food", earnings: junk_food_earnings},
-						{product: "veg_and_carbs", earnings: veg_and_carbs_earnings},
-						{product: "fruit", earnings:fruit_earnings},
-						{product: "dairy", earnings: dairy_earnings},
-						{product: "not_edible", earnings: not_edible_earnings}
+						{category: "junk_food", earnings: junk_food_earnings},
+						{category: "veg_and_carbs", earnings: veg_and_carbs_earnings},
+						{category: "fruit", earnings:fruit_earnings},
+						{category: "dairy", earnings: dairy_earnings},
+						{category: "not_edible", earnings: not_edible_earnings}
 						];
 
 		categories_earnings.sort(function(a, b){
@@ -422,7 +422,7 @@ module.exports = {
 		selling_items.forEach(function(item){
 			var Price = 0;
 			sales_history.forEach(function(product){
-				if(product["stock_item"] === item){
+				if(product["stock_item"] === item["product"]){
 					
 					Price = product["sales_price"];
 				}
@@ -431,13 +431,13 @@ module.exports = {
 			var Cost = 0;
 
 			purchase_history.forEach(function(product){
-				if(product["stock_item"] === item){
+				if(product["stock_item"] === item["product"]){
 					
 					Cost = product["cost"];
 				}
 			});
 
-			price_cost.push({product:item, price: Price.substr(1,Price.length), cost:Cost.substr(1,Cost.length)});
+			price_cost.push({product: item["product"], price: Price.substr(1,Price.length), cost:Cost.substr(1,Cost.length)});
 
 		});
 
@@ -512,11 +512,11 @@ module.exports = {
 		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories_profits = [
-						{product: "junk_food", profits: junk_food_profits},
-						{product: "veg_and_carbs", profits: veg_and_carbs_profits},
-						{product: "fruit", profits:fruit_profits},
-						{product: "dairy", profits: dairy_profits},
-						{product: "not_edible", profits: not_edible_profits}
+						{category: "junk_food", profits: junk_food_profits},
+						{category: "veg_and_carbs", profits: veg_and_carbs_profits},
+						{category: "fruit", profits:fruit_profits},
+						{category: "dairy", profits: dairy_profits},
+						{category: "not_edible", profits: not_edible_profits}
 						];
 
 		categories_profits.sort(function(a, b){
@@ -524,6 +524,17 @@ module.exports = {
 		});
 
 		return categories_profits;
+	},
+
+	print: function(array_object){
+		//var keys = [];
+
+		array_object.forEach(function(item){
+			for(var key in item)
+				process.stdout.write(item[key] + "   ");
+			console.log()
+		});
+		console.log();
 	}
 }
 
