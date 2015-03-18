@@ -321,7 +321,7 @@ module.exports = {
 					percent += Math.round((inventory_left/Number(stock_item["quantity"]))*100);
 				}
 			});
-			stock_rates.push({product: item["product"], /*remaining_stock: inventory_left,*/ percent_left: percent});
+			stock_rates.push({product: item["product"], /*remaining_stock: inventory_left,*/ percent_left: percent.toFixed(2)});
 		});
 
 		return stock_rates.sort(function(a, b){
@@ -345,7 +345,7 @@ module.exports = {
 					earning = Number(product["sales_price"].substr(1, product["sales_price"].length))*Number(item["sold_no"]);
 				}
 			});
-			product_earnings.push({product: item["product"], earnings: earning});
+			product_earnings.push({product: item["product"], earnings: earning.toFixed(2)});
 
 		});
 
@@ -401,15 +401,15 @@ module.exports = {
 		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories_earnings = [
-						{category: "junk_food", earnings: junk_food_earnings},
-						{category: "veg_and_carbs", earnings: veg_and_carbs_earnings},
-						{category: "fruit", earnings:fruit_earnings},
-						{category: "dairy", earnings: dairy_earnings},
-						{category: "not_edible", earnings: not_edible_earnings}
+						{category: "junk_food", earnings: junk_food_earnings.toFixed(2)},
+						{category: "veg_and_carbs", earnings: veg_and_carbs_earnings.toFixed(2)},
+						{category: "fruit", earnings:fruit_earnings.toFixed(2)},
+						{category: "dairy", earnings: dairy_earnings.toFixed(2)},
+						{category: "not_edible", earnings: not_edible_earnings.toFixed(2)}
 						];
 
 		categories_earnings.sort(function(a, b){
-			return Number(b["earnings"]) - Number(a["earnings"])
+			return Number(b["earnings"]) - Number(a["earnings"]);
 		});
 
 		return categories_earnings;
@@ -455,7 +455,7 @@ module.exports = {
 					prof = (Number(product["price"]) - Number(product["cost"]))*Number(item["sold_no"]);
 				}
 			});
-			gains.push({product:item["product"], profits: prof});
+			gains.push({product:item["product"], profits: prof.toFixed(2)});
 		});
 
 		return gains.sort(function(a, b){
@@ -512,11 +512,11 @@ module.exports = {
 		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
 		
 		var categories_profits = [
-						{category: "junk_food", profits: junk_food_profits},
-						{category: "veg_and_carbs", profits: veg_and_carbs_profits},
-						{category: "fruit", profits:fruit_profits},
-						{category: "dairy", profits: dairy_profits},
-						{category: "not_edible", profits: not_edible_profits}
+						{category: "junk_food", profits: junk_food_profits.toFixed(2)},
+						{category: "veg_and_carbs", profits: veg_and_carbs_profits.toFixed(2)},
+						{category: "fruit", profits:fruit_profits.toFixed(2)},
+						{category: "dairy", profits: dairy_profits.toFixed(2)},
+						{category: "not_edible", profits: not_edible_profits.toFixed(2)}
 						];
 
 		categories_profits.sort(function(a, b){
