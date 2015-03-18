@@ -536,14 +536,4 @@ module.exports = {
 		});
 		console.log();
 	}
-}
-
-//};
-
-
-	/*print_logo(function(){
-
-		var filename = 'Nelisa Sales History.csv';
-		process.stdout.write("\n" + "---------------------------------------------------------------------------------------------------" + "\n");
-		getTheInventory(filename);
-	})*/
+};
