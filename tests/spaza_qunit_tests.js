@@ -86,3 +86,26 @@ QUnit.test("testing get_selling_items function", function(assert){
 	}
 
 });
+QUnit.test("Testing get_popular_category function", function(assert){
+	var junk_food = 0,
+			veg_and_carbs = 0,
+			fruit = 0,
+			dairy = 0,
+			not_edible = 0;
+
+
+
+	var expected_popular_Items = [  "product:Mixed Sweets 5s":
+				                     "Top Class Soy Mince":
+				case "Fanta 500ml":
+				case "Cream Soda 500ml":
+				case "Heart Chocolates":
+				case "Coke 500ml":
+									{product: "phone", sold_no: 80},
+									{product: "8.1", sold_no: 45},
+									{product: "windows", sold_no:15},
+									{product: "black", sold_no:5}
+									{product: ""}
+									];
+
+});
