@@ -310,15 +310,9 @@ QUnit.test("Testing get_stock_rates function", function(assert){
 										
 					];
 
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-			console.log(result[i][key], expected[i][key])
-		}
-	}
 
 	for(var i = 0; i < result.length; i++){
 		for(var key in result[i]){
-			console.log(result[i][key], expected[i][key])
 			assert.equal(result[i][key], expected[i][key], "Match!");
 		}
 	}
@@ -327,25 +321,25 @@ QUnit.test("Testing get_stock_rates function", function(assert){
 QUnit.test("Testing get_product_earnings function", function(assert){
 
 	var sales_history = [
-					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "10"},
-					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
-					{day2:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
-					{day2:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "1", sales_price: "10"},
-					{day3:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "30", sales_price: "10"},
-					{day3:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "40", sales_price: "10"},
-					{day4:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "0", sales_price: "10"},
-					{day4:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
-					{day11:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "30", sales_price: "10"},
-					{day11:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "34", sales_price: "10"},
-					{day21:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "40", sales_price: "10"},
-					{day21:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "15", sales_price: "10"},
-					{day31:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "5", sales_price: "10"},
-					{day31:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
-					{day41:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "20", sales_price: "10"},
-					{day41:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "10"},
-					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "10"},
-					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "10"},
-					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "5", sales_price: "10"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "R10.00"},
+					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "R10.00"},
+					{day2:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "R10.00"},
+					{day2:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "1", sales_price: "R10.00"},
+					{day3:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "30", sales_price: "R10.00"},
+					{day3:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "40", sales_price: "R10.00"},
+					{day4:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "0", sales_price: "R10.00"},
+					{day4:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "R10.00"},
+					{day11:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "30", sales_price: "R10.00"},
+					{day11:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "34", sales_price: "R10.00"},
+					{day21:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "40", sales_price: "R10.00"},
+					{day21:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "15", sales_price: "R10.00"},
+					{day31:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "5", sales_price: "R10.00"},
+					{day31:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "R10.00"},
+					{day41:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "20", sales_price: "R10.00"},
+					{day41:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "4", sales_price: "R10.00"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "R10.00"},
+					{day1:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "5", sales_price: "R10.00"},
+					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "5", sales_price: "R10.00"},
 					];
 
 	var popular_products = [
@@ -356,4 +350,129 @@ QUnit.test("Testing get_product_earnings function", function(assert){
 							{product: "stock item1", sold_no: 15}
 							];
 
+	var result = mymodule.get_product_earnings(sales_history, popular_products);
+
+	var expected = [
+					{product: "stock item5", earnings: 550},
+					{product: "stock item4", earnings: 450},
+					{product: "stock item3", earnings: 350},
+					{product: "stock item2", earnings: 250},
+					{product: "stock item1", earnings: 150}
+					];
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+});
+
+QUnit.test("Testing get_category_earnings function", function(assert){
+
+	var product_earnings = [
+						{product:"Mixed Sweets 5s",earnings: 123},
+				    	{product:"Top Class Soy Mince", earnings: 109},
+				    	{product:"Bread", earnings: 100},
+						{product:"Fanta 500ml", earnings: 98},
+				    	{product:"Cream Soda 500ml", earnings:78},
+				    	{product:"Heart Chocolates", earnings:75},
+				    	{product:"Coke 500ml", earnings:65},
+						{product:"Chakalaka Can", earnings: 62},
+				    	{product:"Gold Dish Vegetable Curry Can", earnings: 54},
+				    	{product: "Milk 1l", earnings: 40},
+				    	{product: "Imasi", earnings: 35},
+				    	{product:"Bananas - loose", earnings: 30},
+				    	{product: "Apples - loose", earnings: 25},
+				    	{product:  "Soap Bar", earnings: 22},
+				    	{product: "Shampoo 1 litre", earnings: 15},
+				    	{product: "Rose (Plastic)", earnings: 10},
+				    	{product: "Valentines Cards", earnings: 3}
+                	];
+
+	var result = mymodule.get_category_earnings(product_earnings);
+
+	var expected = [
+					{category: "junk_food", earnings: 548}, 
+		            {category: "veg_and_carbs", earnings: 216},
+		            {category: "dairy", earnings: 75},
+		            {category: "fruit", earnings:55},
+		            {category: "not_edible", earnings: 50}
+					];
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+
+});
+
+QUnit.test("Testing get_product_price_and_cost function", function(assert){
+
+	var sales_history = [
+					{day1:"Day", date:"Date", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day1:"Day", date:"Date", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day2:"Day", date:"Date", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day2:"Day", date:"Date", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
+					{day3:"Day", date:"Date", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
+					{day3:"Day", date:"Date", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
+					{day4:"Day", date:"Date", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
+					{day4:"Day", date:"Date", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day11:"Day", date:"Date", stock_item: "Item1", no_sold_items: "30", sales_price: "R20.00"},
+					{day11:"Day", date:"Date", stock_item: "Item3", no_sold_items: "34", sales_price: "R20.00"},
+					{day21:"Day", date:"Date", stock_item: "Item4", no_sold_items: "40", sales_price: "R20.00"},
+					{day21:"Day", date:"Date", stock_item: "Item5", no_sold_items: "15", sales_price: "R20.00"},
+					{day31:"Day", date:"Date", stock_item: "Item4", no_sold_items: "5", sales_price: "R20.00"},
+					{day31:"Day", date:"Date", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day41:"Day", date:"Date", stock_item: "Item1", no_sold_items: "20", sales_price: "R20.00"},
+					{day41:"Day", date:"Date", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day1:"Day", date:"Date", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day1:"Day", date:"Date", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day1:"Day", date:"Date", stock_item: "Item2", no_sold_items: "5", sales_price: "R20.00"},
+					];
+
+	var purchase_history = [
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "10", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "20", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "30", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "40", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "50", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "60", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "70", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "80", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "90", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "10", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item5", quantity: "20", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item4", quantity: "30", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "40", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "50", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "60", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item1", quantity: "70", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item2", quantity: "80", cost: "R10.00", total_cost: "Total Cost"},
+					{shop: "Shop", date: "Date", stock_item: "Item3", quantity: "90", cost: "R10.00", total_cost: "Total Cost"}
+					];
+
+	var selling_items = [
+						{product: "Item1"},
+						{product: "Item2"},
+						{product: "Item3"},
+						{product: "Item4"},
+						{product: "Item5"}
+						];
+
+	var result = get_product_price_and_cost(selling_items, sales_history, purchase_history);
+
+	var expected = [
+					{product: "Item1", price: 20, cost: 10},
+					{product: "Item2", price: 20, cost: 10},
+					{product: "Item3", price: 20, cost: 10},
+					{product: "Item4", price: 20, cost: 10},
+					{product: "Item5", price: 20, cost: 10}
+					];
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
 });

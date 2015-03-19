@@ -92,6 +92,7 @@ module.exports = {
 		var fs = require('fs');
 		var buffer = fs.readFileSync(filename);
 		var list = buffer.toString().replace(/,/gi, '.');
+		list = list.replace(/\r/gi, '\n')
 		var sales_history_rows = list.split('\n');
 
 		var sales_history = sales_history_rows.map(function(row){
@@ -267,8 +268,9 @@ module.exports = {
 		var fs = require('fs');
 		var buffer = fs.readFileSync(filename);
 		var list = buffer.toString().replace(/,/gi, '.');
+		list = list.replace(/\r/gi, '\n');
 		var purchase_history_rows = list.split('\n');
-
+		//console.log(purchase_history_rows)
 		var purchase_history = purchase_history_rows.map(function(row){
 		
 			var fields = row.split(";");
@@ -281,7 +283,6 @@ module.exports = {
 				cost: fields[4],
 				total_cost: fields[5]
 			}
-
 		});
 
 		return purchase_history;
@@ -351,7 +352,12 @@ module.exports = {
 
 		});
 
-		return product_earnings;
+		return product_earnings.sort(function(a, b){
+			if(b["earnings"] - a["earnings"] > 0)
+				return 1;
+			else
+				return -1;
+		});
 	},
 
 	get_category_earnings: function(product_earnings_list){
@@ -363,7 +369,6 @@ module.exports = {
 			not_edible_earnings = 0;
 
 		product_earnings_list.forEach(function(item, i){
-			//console.log(item, " - ", i);
 			switch(item["product"]){
 				case "Mixed Sweets 5s":
 				case "Top Class Soy Mince":
@@ -400,8 +405,6 @@ module.exports = {
 			};
 		});
 
-		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
-		
 		var categories_earnings = [
 						{category: "junk_food", earnings: junk_food_earnings.toFixed(2)},
 						{category: "veg_and_carbs", earnings: veg_and_carbs_earnings.toFixed(2)},
@@ -422,7 +425,7 @@ module.exports = {
 		var price_cost = [];
 
 		selling_items.forEach(function(item){
-			var Price = 0;
+			var Price = null;
 			sales_history.forEach(function(product){
 				if(product["stock_item"] === item["product"]){
 					
@@ -430,11 +433,10 @@ module.exports = {
 				}
 			});
 
-			var Cost = 0;
+			var Cost;
 
 			purchase_history.forEach(function(product){
 				if(product["stock_item"] === item["product"]){
-					
 					Cost = product["cost"];
 				}
 			});
@@ -474,7 +476,6 @@ module.exports = {
 			not_edible_profits = 0;
 
 		product_profits.forEach(function(item){
-			//console.log(item, " - ", i);
 			switch(item["product"]){
 				case "Mixed Sweets 5s":
 				case "Top Class Soy Mince":
@@ -511,8 +512,6 @@ module.exports = {
 			};
 		});
 
-		//console.log([junk_food, veg_and_carbs, fruit, dairy, not_edible])
-		
 		var categories_profits = [
 						{category: "junk_food", profits: junk_food_profits.toFixed(2)},
 						{category: "veg_and_carbs", profits: veg_and_carbs_profits.toFixed(2)},
