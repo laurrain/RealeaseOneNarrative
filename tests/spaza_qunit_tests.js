@@ -619,3 +619,61 @@ QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 	}
 
 });
+
+QUnit.test("Testing get_categories function", function(assert){
+
+	var expected = [
+						{junk_food: [
+									"Mixed Sweets 5s", 
+									"Top Class Soy Mince", 
+									"Fanta 500ml", 
+									"Cream Soda 500ml", 
+									"Heart Chocolates",
+									"Coke 500ml"]},
+
+						{not_edible: [
+									"Soap Bar",
+									"Shampoo 1 litre",
+									"Rose (Plastic)",
+									"Valentines Cards"
+									]
+						},
+						{fruit: [
+								"Bananas - loose",
+								"Apples - loose"]
+						},
+						{dairy: [
+								"Milk 1l",
+								"Imasi"]
+						}
+					];
+
+	var selling_items = [
+						{product:"Mixed Sweets 5s"},
+				    	{product:"Top Class Soy Mince"},
+				    	{product:"Bread"},
+						{product:"Fanta 500ml"},
+				    	{product:"Cream Soda 500ml"},
+				    	{product:"Heart Chocolates"},
+				    	{product:"Coke 500ml"},
+						{product:"Chakalaka Can"},
+				    	{product:"Gold Dish Vegetable Curry Can"},
+				    	{product: "Milk 1l"},
+				    	{product: "Imasi"},
+				    	{product:"Bananas - loose"},
+				    	{product: "Apples - loose"},
+				    	{product:  "Soap Bar"},
+				    	{product: "Shampoo 1 litre"},
+				    	{product: "Rose (Plastic)"},
+				    	{product: "Valentines Cards"}
+				    	]
+
+	var result = mymodule_2.get_categories(selling_items);
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+
+});
