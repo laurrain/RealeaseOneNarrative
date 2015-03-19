@@ -476,3 +476,38 @@ QUnit.test("Testing get_product_price_and_cost function", function(assert){
 		}
 	}
 });
+
+QUnit.test("Testing get_product_profits function", function(assert){
+
+	var price_cost = [
+					{product: "Item1", price: 20, cost: 10},
+					{product: "Item2", price: 20, cost: 10},
+					{product: "Item3", price: 20, cost: 10},
+					{product: "Item4", price: 20, cost: 10},
+					{product: "Item5", price: 20, cost: 10}
+					];
+
+	var popular_products = [
+							{product: "Item5", sold_no: 55},
+							{product: "Item4", sold_no: 45},
+							{product: "Item3", sold_no: 35},
+							{product: "Item2", sold_no: 25},
+							{product: "Item1", sold_no: 15}
+							];
+
+	var result = mymodule.get_product_profits(price_cost, popular_products);
+
+	var expected = [
+					{product: "Item5", profits: 550},
+					{product: "Item4", profits: 450},
+					{product: "Item3", profits: 350},
+					{product: "Item2", profits: 250},
+					{product: "Item1", profits: 150}
+					]
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+});
