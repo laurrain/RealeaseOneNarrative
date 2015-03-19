@@ -1,4 +1,5 @@
 var mymodule = require("../spaza_shop_functions");
+var mymodule_2 = require("../spaza_shop_functions_2.js")
 
 QUnit.test("Testing bubbleSort function", function(assert){
 
@@ -503,7 +504,7 @@ QUnit.test("Testing get_product_profits function", function(assert){
 					{product: "Item3", profits: 350},
 					{product: "Item2", profits: 250},
 					{product: "Item1", profits: 150}
-					]
+					];
 
 	for(var i = 0; i < expected.length; i++){
 		for(var key in expected[i]){
@@ -511,3 +512,91 @@ QUnit.test("Testing get_product_profits function", function(assert){
 		}
 	}
 });
+
+QUnit.test("Testing get_avg_day_week_sales", function(assert){
+
+	var sales_history = [
+					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day:"Day1", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
+					];	
+
+	var expected = [
+					{time: "day_avg", avg: 587.00},
+					{time: "week_avg", avg: 1760.00}
+					];
+
+	var result = mymodule_2.get_avg_day_week_sales(sales_history);
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+});
+
+QUnit.test("Testing get_avg_dayWeek_sales_productCategory", function(assert){
+
+	var expected = [
+									{product: "Item1", day_avg: 20, week_avg: 10},
+									{product: "Item2", day_avg: 20, week_avg: 10},
+									{product: "Item3", day_avg: 20, week_avg: 10},
+									{product: "Item4", day_avg: 20, week_avg: 10},
+									{product: "Item5", day_avg: 20, week_avg: 10}
+					];
+
+	var sales_history = [
+					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day:"Day1", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
+					];
+
+});
+
+/*QUnit.test("Testing get_day_sales function", function(assert){
+
+	var sales_history = [
+					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day:"Day1", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
+					];
+
+	var expected = [
+					[{date: "Date1"}, "Item1", "Item2"],
+					[{date: "Date2"}, "Item2", "Item3", "Item4", "Item5"],
+					[{date: "Date3"}, "Item1", "Item2"]
+					];
+
+	var selling_items = [
+						{product: "Item1"},
+						{product: "Item2"},
+						{product: "Item3"},
+						{product: "Item4"},
+						{product: "Item5"}
+						]
+
+	var result = mymodule.get_day_sales(selling_items, sales_history);
+
+	for (var i = 0; i < expected.length; i++) {
+		assert.equal(result[i][0]["date"], expected[i][0]["date"], "The dates match");
+		for (var j = 1; j < expected.length; j++) {
+			assert.equal(result[i][j], expected[i][j], "The items match");
+		};
+	};
+
+});*/

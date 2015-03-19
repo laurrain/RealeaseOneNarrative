@@ -246,17 +246,17 @@ module.exports = {
 		var regulariry = [];
 		selling_items.forEach(function(sellin){
 
-			var starter = 0;
+			var freq = 0;
 
 			sales_history_list.forEach(function(item){
 				if(sellin["product"] === item["stock_item"]){
 					if(Number(item["no_sold_items"]) > 0){
-						starter++;
+						freq++;
 					}
 				}
 			});
 
-			regulariry.push({product: sellin["product"], frequency: starter});
+			regulariry.push({product: sellin["product"], frequency: freq});
 
 		});
 		return regulariry.sort(function(a, b){
