@@ -513,7 +513,7 @@ QUnit.test("Testing get_product_profits function", function(assert){
 	}
 });
 
-QUnit.test("Testing get_avg_day_week_sales", function(assert){
+QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
 
 	var sales_history = [
 					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
@@ -531,7 +531,7 @@ QUnit.test("Testing get_avg_day_week_sales", function(assert){
 					{time: "week_avg", avg: 1760.00}
 					];
 
-	var result = mymodule_2.get_avg_day_week_sales(sales_history);
+	var result = mymodule_2.get_total_avg_day_week_sales(sales_history);
 
 	for(var i = 0; i < expected.length; i++){
 		for(var key in expected[i]){
@@ -540,15 +540,15 @@ QUnit.test("Testing get_avg_day_week_sales", function(assert){
 	}
 });
 
-QUnit.test("Testing get_avg_dayWeek_sales_productCategory", function(assert){
+QUnit.test("Testing get_product_avg_dayWeek_sales", function(assert){
 
-	var expected = [
-									{product: "Item1", day_avg: 20, week_avg: 10},
-									{product: "Item2", day_avg: 20, week_avg: 10},
-									{product: "Item3", day_avg: 20, week_avg: 10},
-									{product: "Item4", day_avg: 20, week_avg: 10},
-									{product: "Item5", day_avg: 20, week_avg: 10}
-					];
+var expected = [
+				{product: "Item1", day_avg: 100, week_avg: 100},
+				{product: "Item2", day_avg: 80, week_avg: 240},
+				{product: "Item3", day_avg: 20, week_avg: 20},
+				{product: "Item4", day_avg: 600, week_avg: 600},
+				{product: "Item5", day_avg: 800, week_avg: 800}
+				];
 
 	var sales_history = [
 					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
@@ -560,6 +560,61 @@ QUnit.test("Testing get_avg_dayWeek_sales_productCategory", function(assert){
 					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
 					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
 					];
+	var selling_items = [
+						{product: "Item1"},
+						{product: "Item2"},
+						{product: "Item3"},
+						{product: "Item4"},
+						{product: "Item5"}
+						]
+
+	var result = mymodule_2.get_product_avg_dayWeek_sales(sales_history, selling_items);
+
+	for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
+
+});
+
+QUunit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
+
+	var expected = [
+					{category: "junk_food", day_avg: 548}, 
+		            {category: "veg_and_carbs", day_avg: 216},
+		            {category: "dairy", day_avg: 75},
+		            {category: "fruit", day_avg:55},
+		            {category: "not_edible", day_avg: 50}
+		            ];
+
+	var selling_items = [
+					{product:"Mixed Sweets 5s"},
+				    {product:"Top Class Soy Mince"},
+				    {product:"Bread"},
+					{product:"Fanta 500ml"},
+				    {product:"Cream Soda 500ml"},
+				    {product:"Heart Chocolates"},
+				    {product:"Coke 500ml"},
+					{product:"Chakalaka Can"},
+				    {product:"Gold Dish Vegetable Curry Can"},
+				    {product: "Milk 1l"},
+				    {product: "Imasi"},
+				    {product:"Bananas - loose"},
+				    {product: "Apples - loose"},
+				    {product:  "Soap Bar"},
+				    {product: "Shampoo 1 litre"},
+				    {product: "Rose (Plastic)"},
+				    {product: "Valentines Cards"}
+                	];
+
+    var result = mymodule_2.get_avg_cat_dayWeek_sales(popular_item);
+
+    for(var i = 0; i < expected.length; i++){
+		for(var key in expected[i]){
+			assert.equal(result[i][key], expected[i][key], "Match!");
+		}
+	}
 
 });
 
