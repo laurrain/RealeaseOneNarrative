@@ -461,7 +461,7 @@ QUnit.test("Testing get_product_price_and_cost function", function(assert){
 						{product: "Item5"}
 						];
 
-	var result = get_product_price_and_cost(selling_items, sales_history, purchase_history);
+	var result = mymodule.get_product_price_and_cost(selling_items, sales_history, purchase_history);
 
 	var expected = [
 					{product: "Item1", price: 20, cost: 10},
@@ -578,37 +578,39 @@ var expected = [
 
 });
 
-QUunit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
+QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 
 	var expected = [
-					{category: "junk_food", day_avg: 548}, 
-		            {category: "veg_and_carbs", day_avg: 216},
-		            {category: "dairy", day_avg: 75},
-		            {category: "fruit", day_avg:55},
-		            {category: "not_edible", day_avg: 50}
+					{category: "junk_food", day_avg: 1620}, 
+		            {category: "dairy", day_avg: 1480},
+		            {category: "veg_and_carbs", day_avg: 840},
+		            {category: "not_edible", day_avg: 680},
+		            {category: "fruit", day_avg:400}
 		            ];
 
-	var selling_items = [
-					{product:"Mixed Sweets 5s"},
-				    {product:"Top Class Soy Mince"},
-				    {product:"Bread"},
-					{product:"Fanta 500ml"},
-				    {product:"Cream Soda 500ml"},
-				    {product:"Heart Chocolates"},
-				    {product:"Coke 500ml"},
-					{product:"Chakalaka Can"},
-				    {product:"Gold Dish Vegetable Curry Can"},
-				    {product: "Milk 1l"},
-				    {product: "Imasi"},
-				    {product:"Bananas - loose"},
-				    {product: "Apples - loose"},
-				    {product:  "Soap Bar"},
-				    {product: "Shampoo 1 litre"},
-				    {product: "Rose (Plastic)"},
-				    {product: "Valentines Cards"}
-                	];
+    var sales_history = [
+					{day1:"Day", date:"Date", stock_item: "Mixed Sweets 5s", no_sold_items: "5", sales_price: "R20.00"},
+					{day1:"Day", date:"Date", stock_item: "Top Class Soy Mince", no_sold_items: "4", sales_price: "R20.00"},
+					{day2:"Day", date:"Date", stock_item: "Bread", no_sold_items: "4", sales_price: "R20.00"},
+					{day2:"Day", date:"Date", stock_item: "Fanta 500ml", no_sold_items: "1", sales_price: "R20.00"},
+					{day3:"Day", date:"Date", stock_item: "Cream Soda 500ml", no_sold_items: "30", sales_price: "R20.00"},
+					{day3:"Day", date:"Date", stock_item: "Heart Chocolates", no_sold_items: "40", sales_price: "R20.00"},
+					{day4:"Day", date:"Date", stock_item: "Coke 500ml", no_sold_items: "0", sales_price: "R20.00"},
+					{day4:"Day", date:"Date", stock_item: "Chakalaka Can", no_sold_items: "4", sales_price: "R20.00"},
+					{day11:"Day", date:"Date", stock_item: "Gold Dish Vegetable Curry Can", no_sold_items: "30", sales_price: "R20.00"},
+					{day11:"Day", date:"Date", stock_item: "Milk 1l", no_sold_items: "34", sales_price: "R20.00"},
+					{day21:"Day", date:"Date", stock_item: "Imasi", no_sold_items: "40", sales_price: "R20.00"},
+					{day21:"Day", date:"Date", stock_item: "Bananas - loose", no_sold_items: "15", sales_price: "R20.00"},
+					{day31:"Day", date:"Date", stock_item: "Apples - loose", no_sold_items: "5", sales_price: "R20.00"},
+					{day31:"Day", date:"Date", stock_item: "Soap Bar", no_sold_items: "4", sales_price: "R20.00"},
+					{day41:"Day", date:"Date", stock_item: "Shampoo 1 litre", no_sold_items: "20", sales_price: "R20.00"},
+					{day44:"Day", date:"Date", stock_item: "Rose (Plastic)", no_sold_items: "4", sales_price: "R20.00"},
+					{day15:"Day", date:"Date", stock_item: "Valentines Cards", no_sold_items: "5", sales_price: "R20.00"},
+					{day14:"Day", date:"Date", stock_item: "Mixed Sweets 5s", no_sold_items: "5", sales_price: "R20.00"},
+					{day16:"Day", date:"Date", stock_item: "Shampoo 1 litre", no_sold_items: "5", sales_price: "R20.00"},
+					];
 
-    var result = mymodule_2.get_avg_cat_dayWeek_sales(popular_item);
+    var result = mymodule_2.get_avg_cat_dayWeek_sales(sales_history);
 
     for(var i = 0; i < expected.length; i++){
 		for(var key in expected[i]){
@@ -617,41 +619,3 @@ QUunit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 	}
 
 });
-
-/*QUnit.test("Testing get_day_sales function", function(assert){
-
-	var sales_history = [
-					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
-					{day:"Day1", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
-					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
-					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
-					];
-
-	var expected = [
-					[{date: "Date1"}, "Item1", "Item2"],
-					[{date: "Date2"}, "Item2", "Item3", "Item4", "Item5"],
-					[{date: "Date3"}, "Item1", "Item2"]
-					];
-
-	var selling_items = [
-						{product: "Item1"},
-						{product: "Item2"},
-						{product: "Item3"},
-						{product: "Item4"},
-						{product: "Item5"}
-						]
-
-	var result = mymodule.get_day_sales(selling_items, sales_history);
-
-	for (var i = 0; i < expected.length; i++) {
-		assert.equal(result[i][0]["date"], expected[i][0]["date"], "The dates match");
-		for (var j = 1; j < expected.length; j++) {
-			assert.equal(result[i][j], expected[i][j], "The items match");
-		};
-	};
-
-});*/
