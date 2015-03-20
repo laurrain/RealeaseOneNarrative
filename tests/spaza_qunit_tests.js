@@ -623,30 +623,31 @@ QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 QUnit.test("Testing get_categories function", function(assert){
 
 	var expected = [
-						{junk_food: [
-									"Mixed Sweets 5s", 
-									"Top Class Soy Mince", 
+						{junk_food: ["Mixed Sweets 5s", 
 									"Fanta 500ml", 
 									"Cream Soda 500ml", 
 									"Heart Chocolates",
 									"Coke 500ml"]},
 
-						{not_edible: [
-									"Soap Bar",
+						{veg_and_carbs: ["Top Class Soy Mince", 
+										"Bread",
+										"Chakalaka Can",
+										"Gold Dish Vegetable Curry Can",
+										"Iwisa Pap 5kg"]},
+
+						{not_edible: ["Soap Bar",
 									"Shampoo 1 litre",
 									"Rose (Plastic)",
-									"Valentines Cards"
-									]
-						},
-						{fruit: [
-								"Bananas - loose",
-								"Apples - loose"]
-						},
-						{dairy: [
-								"Milk 1l",
+									"Valentines Cards"]},
+
+						{fruit: ["Bananas - loose",
+								"Apples - loose"]},
+
+						{dairy: ["Milk 1l",
 								"Imasi"]
 						}
 					];
+
 
 	var selling_items = [
 						{product:"Mixed Sweets 5s"},
@@ -663,6 +664,7 @@ QUnit.test("Testing get_categories function", function(assert){
 				    	{product:"Bananas - loose"},
 				    	{product: "Apples - loose"},
 				    	{product:  "Soap Bar"},
+				    	{product: "Iwisa Pap 5kg"},
 				    	{product: "Shampoo 1 litre"},
 				    	{product: "Rose (Plastic)"},
 				    	{product: "Valentines Cards"}
@@ -670,10 +672,11 @@ QUnit.test("Testing get_categories function", function(assert){
 
 	var result = mymodule_2.get_categories(selling_items);
 
-	for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
+	expected.forEach(function(element, i){
+		for(var key in element){
+			element[key].forEach(function(value, k){
+				assert.equal(result[i][key][k], value, "They match");
+			})
 		}
-	}
-
+	})
 });

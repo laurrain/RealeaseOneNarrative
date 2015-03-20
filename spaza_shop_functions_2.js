@@ -62,6 +62,63 @@ module.exports = {
 		});
 		return the_product_avgs;
 
-	}
+	},
 
+	get_categories:function(selling_items){
+		var categories = [],
+			junk_food = [],
+			veg_and_carbs = [],
+			fruit = [],
+			dairy = [],
+			not_edible = [];
+
+		selling_items.forEach(function(item){
+
+			switch(item["product"]){
+
+				case "Mixed Sweets 5s":
+				case "Fanta 500ml":
+				case "Cream Soda 500ml":
+				case "Heart Chocolates":
+				case "Coke 500ml":
+					junk_food.push(item["product"]);
+				break;
+
+				case "Chakalaka Can":
+				case "Top Class Soy Mince":
+				case "Gold Dish Vegetable Curry Can":
+				case "Iwisa Pap 5kg":
+				case "Bread":
+					veg_and_carbs.push(item["product"]);
+				break;
+
+				case "Bananas - loose":
+				case "Apples - loose":
+					fruit.push(item["product"]);
+				break;
+
+				case "Milk 1l":
+				case "Imasi":
+					dairy.push(item["product"]);
+				break;
+
+				case "Soap Bar":
+				case "Shampoo 1 litre":
+				case "Rose (Plastic)":
+				case "Valentines Cards":
+					not_edible.push(item["product"]);
+				break;
+			}
+		});
+
+		categories.push(
+						{junk_food: junk_food},
+						{veg_and_carbs: veg_and_carbs},
+						{not_edible: not_edible},
+						{fruit: fruit},
+						{dairy: dairy}
+						);
+
+		return categories;
+	}
 };
