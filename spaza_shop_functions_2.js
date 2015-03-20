@@ -20,7 +20,7 @@ module.exports = {
 					count_weeks = Math.round(count_days/7) + 1;
 				}
 				else{
-					count_weeks = count_days/7;
+					count_weeks = Math.round(count_days/7);
 				}
 			}
 		});
@@ -52,7 +52,7 @@ module.exports = {
 						count_weeks = Math.round(count_days/7) + 1;
 					}
 					else{
-						count_weeks = count_days/7;
+						count_weeks = Math.round(count_days/7);
 					}	
 				}
 			});
