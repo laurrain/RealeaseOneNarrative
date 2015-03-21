@@ -1,4 +1,5 @@
 var spaza = require('./spaza_shop_functions');
+var spaza_2 = require('./spaza_shop_functions_2');
 
 //Print the logo first then execute the rest of the functions
 var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
@@ -25,6 +26,7 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	var regular_sales  = spaza.get_regular_sales(sales_history, selling_items);
 //	spaza.write_to_file("most_regular_sales.csv", regular_sales, 2);
 	console.log("\nMOST REGULAR SALES" + "\n-----------------------------------")
+	console.log("PRODUCT -- FREQUENCY\n----------  -  -----------")
 	spaza.print(regular_sales);
 
 	var purchase_history = spaza.get_purchase_history("NelisaPurchases.csv");
@@ -35,23 +37,45 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 
 	console.log("\nSALES GOING DOWN THE FASTEST-->SLOWEST\n-----------------------------------------");
 	var stock_rates = spaza.get_stock_rates(entire_stock, popular_products);
+	console.log("PRODUCT -- RATE(%)\n----------  -  ----------")
 	spaza.print(stock_rates);
 
 	console.log("\nPRODUCT EARNINGS IN RANDS(R)\n-----------------------")
 	var product_earnings = spaza.get_product_earnings(sales_history, popular_products);
+	console.log("PRODUCT -- EARNINGS\n----------  -  ----------")
 	spaza.print(product_earnings);
 
 	console.log("\nCATEGORY EARNINGS  IN RANDS(R)\n---------------------------")
 	var category_earnings = spaza.get_category_earnings(product_earnings);
+	console.log("CATEGORY --EARNINGS\n----------  -  -----------")
 	spaza.print(category_earnings);
 
 	var price_cost = spaza.get_product_price_and_cost(selling_items,sales_history, purchase_history);
 
 	console.log("\nPRODUCTS PROFITS  IN RANDS(R)\n---------------------------")
 	var product_profits = spaza.get_product_profits(price_cost,popular_products);
+	console.log("PRODUCT -- PROFITS\n----------  -  ----------")
 	spaza.print(product_profits);
 
 	console.log("\nCATEGORY PROFITS  IN RANDS(R)\n---------------------------")
 	var cat_profits = spaza.get_category_profits(product_profits);
+	console.log("CATEGORY -- PROFITS\n----------  -  ----------")
 	spaza.print(cat_profits);
+
+	console.log("\nAVERAGE TOTAL SALES PER DAY AND PER WEEK\n----------------------------------------------")
+	var sales_per_week_and_day = spaza_2.get_total_avg_day_week_sales(sales_history);
+	spaza.print(sales_per_week_and_day)
+
+	console.log("\nAVERAGE SALES PER DAY AND PER WEEK PER PRODUCT\n----------------------------------------------------")
+	var product_per_day_per_week = spaza_2.get_product_avg_dayWeek_sales(sales_history, selling_items)
+	console.log("PRODUCT -- DAY_AVERAGE -- WEEK_AVERAGE\n----------  -  -----------  -  ---------")
+	spaza.print(product_per_day_per_week)
+
+	console.log("\nAVERAGE SALES PER DAY AND PER WEEK PER CATEGORY\n----------------------------------------------------")
+	var category_per_day_per_week = spaza_2.get_avg_cat_dayWeek_sales(product_per_day_per_week)
+	console.log("CATEGORY -- DAY_AVERAGE -- WEEK_AVERAGE\n----------  -  -----------  -  ---------")
+	spaza.print(category_per_day_per_week)
+
+	console.log("\nMOST PROFITABLE DAYS\n------------------------")
+
 });

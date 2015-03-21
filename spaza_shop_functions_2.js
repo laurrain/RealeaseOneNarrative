@@ -20,7 +20,7 @@ module.exports = {
 					count_weeks = Math.round(count_days/7) + 1;
 				}
 				else{
-					count_weeks = Math.round(count_days/7);
+					count_weeks = count_days/7;
 				}
 			}
 		});
@@ -52,7 +52,7 @@ module.exports = {
 						count_weeks = Math.round(count_days/7) + 1;
 					}
 					else{
-						count_weeks = Math.round(count_days/7);
+						count_weeks = count_days/7;
 					}	
 				}
 			});
@@ -64,61 +64,69 @@ module.exports = {
 
 	},
 
-	get_categories:function(selling_items){
-		var categories = [],
-			junk_food = [],
-			veg_and_carbs = [],
-			fruit = [],
-			dairy = [],
-			not_edible = [];
+	get_avg_cat_dayWeek_sales:function(the_product_avgs){
 
-		selling_items.forEach(function(item){
+		var category_avgs = [];
 
+		var junk_food = {day_avg: 0, week_avg: 0},
+			veg_and_carbs = {day_avg: 0, week_avg: 0},
+			fruit = {day_avg: 0, week_avg: 0},
+			dairy = {day_avg: 0, week_avg: 0},
+			not_edible = {day_avg: 0, week_avg: 0};
+
+		the_product_avgs.forEach(function(item){
 			switch(item["product"]){
-
 				case "Mixed Sweets 5s":
+				case "Top Class Soy Mince":
 				case "Fanta 500ml":
 				case "Cream Soda 500ml":
 				case "Heart Chocolates":
 				case "Coke 500ml":
-					junk_food.push(item["product"]);
+					junk_food["day_avg"] += Number(item["day_avg"]);
+					junk_food["week_avg"] += Number(item["week_avg"]);
 				break;
 
 				case "Chakalaka Can":
-				case "Top Class Soy Mince":
 				case "Gold Dish Vegetable Curry Can":
 				case "Iwisa Pap 5kg":
 				case "Bread":
-					veg_and_carbs.push(item["product"]);
+					veg_and_carbs["day_avg"] += Number(item["day_avg"]);
+					veg_and_carbs["week_avg"] += Number(item["week_avg"]);
 				break;
 
 				case "Bananas - loose":
 				case "Apples - loose":
-					fruit.push(item["product"]);
+					fruit["day_avg"] += Number(item["day_avg"]);
+					fruit["week_avg"] += Number(item["week_avg"]);
 				break;
 
 				case "Milk 1l":
 				case "Imasi":
-					dairy.push(item["product"]);
+					dairy["day_avg"] += Number(item["day_avg"]);
+					dairy["week_avg"] += Number(item["week_avg"]);
 				break;
 
 				case "Soap Bar":
 				case "Shampoo 1 litre":
 				case "Rose (Plastic)":
 				case "Valentines Cards":
-					not_edible.push(item["product"]);
+					not_edible["day_avg"] += Number(item["day_avg"]);
+					not_edible["week_avg"] += Number(item["week_avg"]);
 				break;
-			}
+			};
+
 		});
 
-		categories.push(
-						{junk_food: junk_food},
-						{veg_and_carbs: veg_and_carbs},
-						{not_edible: not_edible},
-						{fruit: fruit},
-						{dairy: dairy}
+		category_avgs.push(
+						{category: "junk_food", day_avg: junk_food["day_avg"], week_avg: junk_food["week_avg"]}, 
+			            {category: "dairy", day_avg: dairy["day_avg"], week_avg: dairy["week_avg"]},
+			            {category: "veg_and_carbs", day_avg: veg_and_carbs["day_avg"], week_avg: veg_and_carbs["week_avg"]},
+			            {category: "not_edible", day_avg: not_edible["day_avg"], week_avg: not_edible["week_avg"]},
+			            {category: "fruit", day_avg:fruit["day_avg"], week_avg: fruit["week_avg"]}
 						);
 
-		return categories;
+		return category_avgs;
+
 	}
+
 };
