@@ -89,22 +89,51 @@ QUnit.test("Testing get_avg_profit_per_day", function (assert){
 						];
 
 	var expected = [
-					{day: "Sunday", profit: 0},
-					{day: "Monday", profit: 90},
 					{day: "Tuesday", profit: 750},
+					{day: "Monday", profit: 90},
 					{day: "Wednesday", profit: 40},
+					{day: "Sunday", profit: 0},
 					{day: "Thursday", profit: 0},
 					{day: "Friday", profit: 0},
 					{day: "Saturday", profit: 0}
 					];
 
 	var result = spaza_2.get_avg_profit_per_day(sales_history, price_cost);
-	/*console.log(result)
-	console.log(expected)*/
+	console.log(result)
+	console.log(expected)
 
 	expected.forEach(function(spec, i){
 		for(var profit in spec){
 			assert.equal(result[i][profit], spec[profit], "The day sales match")
 		}
 	});
+});
+
+QUnit.test("Testing get_supply_popular_product", function(assert){
+
+	var popular_products = [
+							{product: "phone", sold_no: 80},
+							{product: "8.1", sold_no: 45},
+							{product: "windows", sold_no:15},
+							{product: "black", sold_no:5}
+							];
+
+	var purchase_history = [
+							{shop: "Maglasana", product: "8.1", sold_no: 45},
+							{shop: "Nokulunga", product: "black", sold_no:5},		
+							{shop: "Madiba", product: "phone", sold_no: 80},
+							{shop: "Nolitha", product: "windows", sold_no:15}
+							];
+
+	var result = spaza_2.get_supply_popular_product(popular_products, purchase_history)
+
+	var expected = [
+					{product: "phone", shop: "Madiba"}
+					];
+
+	expected.forEach(function(specs, i){
+		for(var key in expected)
+			assert.equal(result[i][key], specs[key])
+	});
+
 });

@@ -270,7 +270,7 @@ module.exports = {
 		return these_days.sort(function(a, b){
 			if(b["profit"] - a["profit"] < 0)
 				return -1
-			else
+			else if(b["profit"] - a["profit"] > 0)
 				return 1
 		});
 
