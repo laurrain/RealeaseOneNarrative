@@ -327,6 +327,43 @@ module.exports = {
 
 		return suppliers;
 
+	},
+
+	write_to_file: function (data, filename) {
+
+		var file_ops = require('fs');
+
+		file_ops.writeFile(filename, "", function(err){
+			if(err) throw err
+		});
+
+		var num_of_properties = 0;
+
+		for(var key in data[0])
+			num_of_properties++;
+
+		data.forEach(function(row){
+
+			var property_num = 0;
+
+			for(var key in row){
+				++property_num;
+
+				if(property_num < num_of_properties){
+
+					file_ops.appendFile(filename, row[key] + ";", function(err){
+						if(err) throw err;
+					});
+				}
+				else{
+					file_ops.appendFile(filename, row[key] + "\n", function(err){
+						if(err) throw err;
+
+					});
+				}
+			}
+		});
+
 	}
 
 };

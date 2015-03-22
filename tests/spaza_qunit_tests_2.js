@@ -164,3 +164,49 @@ QUnit.test("Testing get_supply_popular_product", function(assert){
 	});
 
 });
+
+QUnit.test("Testing write_to_file function", function(assert){
+
+	var purchase_history = [
+							{shop: "Maglasana", stock_item: "8.1", sold_no: 45},
+							{shop: "Nokulunga", stock_item: "black", sold_no:5},		
+							{shop: "Madiba", stock_item: "phone", sold_no: 80},
+							{shop: "Nolitha", stock_item: "windows", sold_no:15}
+							];
+
+	spaza_2.write_to_file(purchase_history, "purchase_history_write_testing.csv");
+
+	var expected = [
+					{shop: "Maglasana", stock_item: "8.1", sold_no: 45},
+					{shop: "Nokulunga", stock_item: "black", sold_no:5},		
+					{shop: "Madiba", stock_item: "phone", sold_no: 80},
+					{shop: "Nolitha", stock_item: "windows", sold_no:15}
+					];
+
+	var fs = require('fs');
+	var buff = fs.readFileSync("purchase_history_write_testing.csv")
+	var str = buff.toString().split("\n")
+
+
+	var result = str.map(function(row){
+		var field = row.split(";")
+
+		return {
+				shop: field[0],
+				stock_item: field[1],
+				sold_no: field[2]
+				};
+	});
+
+	console.log(result)
+	console.log(expected)
+	console.log(buff)
+	console.log(str)
+
+	expected.forEach(function(specs, i){
+		for(var key in specs){
+			assert.equal(result[i][key], specs[key], "Found it!")
+		}
+	});
+
+});

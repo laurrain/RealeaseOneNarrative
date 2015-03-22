@@ -30,40 +30,6 @@ module.exports = {
 		return array1;
 	},
 
-	write_to_file: function (filename, data, data_nummer) {
-
-		var file_ops = require('fs');
-
-		if(data_nummer === null || data_nummer === 1){ 
-			file_ops.writeFile(filename, "", function(err){
-				if(err) throw err;
-			});
-
-			console.log('');
-			data.forEach(function(item){
-				file_ops.appendFile(filename, item + '\n', function(err){
-					if(err) throw err;
-
-				});
-			});
-		}
-	
-		else{
-			console.log('');
-			file_ops.writeFileSync(filename, "");
-			
-			data.forEach(function(item){
-				file_ops.appendFile(filename, item["product"] + ';'+ item["sold_no"] + '\n', function(err){
-					if (err) throw err;
-					//console.log(item["product"] + '  '+ item["sold_no"]);
-				});		
-			});
-			console.log("\n");
-		}
-		console.log("Wrote to file: " + filename + "\n\n");
-	},
-
-
 	get_popular_products: function  (selling_items, sales_history) {
 		//Answering the question 'How much of each item has been sold?' starts here
 		var inventory_sold = [];
