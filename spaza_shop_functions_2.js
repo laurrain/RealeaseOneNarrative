@@ -190,40 +190,31 @@ module.exports = {
 			track_date = sales_history[1]["date"],
 			these_weeks = [];
 
-		//these_days.forEach(function(week_day){
 
-			var total = 0,
-				counter = 1;
-				//date = row["date"];
+		var total = 0,
+			counter = 1;
 
-			sales_history.forEach(function(row){
+		sales_history.forEach(function(row){
 
-				if(track_day === row["day"] && track_date !== row["date"]){
-					these_weeks.push({week: "week"+counter, avg: total});
-					counter++;
-					track_date = row["date"]
-					total = 0;
-				}
-
-				total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
-
-
-			});
-
-
-			if(counter === 0){
-				these_weeks.push({week:"week1", avg: total});
+			if(track_day === row["day"] && track_date !== row["date"]){
+				these_weeks.push({week: "week"+counter, avg: total});
+				counter++;
+				track_date = row["date"]
+				total = 0;
 			}
-			else
-				these_weeks.push({week:"week"+counter, avg: total})
-/*
-			if(counter !== 0)
-				week_day["avg"] += Math.round(total/counter);
-			else
-				week_day["avg"] += Math.round(total)
+
+			total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
 
 
-		});*/
+		});
+
+
+		if(counter === 0){
+			these_weeks.push({week:"week1", avg: total});
+		}
+		else
+			these_weeks.push({week:"week"+counter, avg: total})
+
 		return these_weeks;
 
 	}
