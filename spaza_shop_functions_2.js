@@ -217,6 +217,57 @@ module.exports = {
 			these_weeks.push({week:"week"+counter, avg: total})
 
 		return these_weeks;
+	},
+
+	get_avg_profit_per_day:function(sales_history, price_cost){
+
+		var these_days = [
+							{day: "Sunday", profit: 0},
+							{day: "Monday", profit: 0},
+							{day: "Tuesday", profit: 0},
+							{day: "Wednesday", profit: 0},
+							{day: "Thursday", profit: 0},
+							{day: "Friday", profit: 0},
+							{day: "Saturday", profit: 0}
+							],
+
+			track_date = sales_history[1]["date"];
+
+		these_days.forEach(function(week_day){
+
+			var total = 0,
+				counter = 0;
+				//date = row["date"];
+
+			sales_history.forEach(function(row){
+
+				if(week_day["day"] === row["day"]){
+
+					price_cost.forEach(function(cost_price){
+
+						if(cost_price["product"] === row["stock_item"]){
+
+							total += Number(row["no_sold_items"]) * (Number(cost_price["price"]) - Number(cost_price["cost"]))
+
+							if(track_date !== row["date"]){
+								counter++;
+								track_date = row["date"]
+							}
+						}
+					});
+				}
+
+			});
+
+
+			if(counter !== 0)
+				week_day["profit"] += Math.round(total/counter);
+			else
+				week_day["profit"] += Math.round(total)
+
+
+		});
+		return these_days;
 
 	}
 

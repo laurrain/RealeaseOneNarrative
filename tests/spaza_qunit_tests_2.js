@@ -99,10 +99,12 @@ QUnit.test("Testing get_avg_profit_per_day", function (assert){
 					];
 
 	var result = spaza_2.get_avg_profit_per_day(sales_history, price_cost);
+	/*console.log(result)
+	console.log(expected)*/
 
 	expected.forEach(function(spec, i){
-		for(var day in spec){
-			assert.equal(result[i][day], spec[day], "The day sales match")
+		for(var profit in spec){
+			assert.equal(result[i][profit], spec[profit], "The day sales match")
 		}
 	});
 });
