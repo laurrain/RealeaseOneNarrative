@@ -65,6 +65,10 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	/*console.log("\nAVERAGE TOTAL SALES PER DAY AND PER WEEK\n----------------------------------------------")
 	var sales_per_week_and_day = spaza_2.get_total_avg_day_week_sales(sales_history);
 	spaza.print(sales_per_week_and_day)*/
+	console.log("\nAVERAGE SALES PER WEEK\n----------------------------")
+	console.log("WEEK  -- AVERAGE\n-------  - -----")
+	var sales_per_week = spaza_2.get_avg_sales_per_week(sales_history)
+	spaza.print(sales_per_week)
 
 	console.log("\nAVERAGE TOTAL SALES PER DAY IN RANDS(R)\n----------------------------------------------")
 	var sales_per_day = spaza_2.get_avg_sales_per_day(sales_history);

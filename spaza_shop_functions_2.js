@@ -196,15 +196,16 @@ module.exports = {
 
 		sales_history.forEach(function(row){
 
-			if(track_day === row["day"] && track_date !== row["date"]){
-				these_weeks.push({week: "week"+counter, avg: total});
-				counter++;
-				track_date = row["date"]
-				total = 0;
+			if(row["date"] !== "Date"){
+				if(track_day === row["day"] && track_date !== row["date"]){
+					these_weeks.push({week: "week"+counter, avg: total});
+					counter++;
+					track_date = row["date"]
+					total = 0;
+				}
+
+				total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
 			}
-
-			total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
-
 
 		});
 
