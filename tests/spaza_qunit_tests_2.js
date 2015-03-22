@@ -135,3 +135,32 @@ QUnit.test("Testing get_supply_popular_product", function(assert){
 	});
 
 });
+
+QUnit.test("Testing get_supply_popular_product", function(assert){
+
+	var product_profits = [
+							{product: "phone", profits: 80},
+							{product: "8.1", profits: 45},
+							{product: "windows", profits:15},
+							{product: "black", profits:5}
+							];
+
+	var purchase_history = [
+							{shop: "Maglasana", stock_item: "8.1", sold_no: 45},
+							{shop: "Nokulunga", stock_item: "black", sold_no:5},		
+							{shop: "Madiba", stock_item: "phone", sold_no: 80},
+							{shop: "Nolitha", stock_item: "windows", sold_no:15}
+							];
+
+	var result = spaza_2.get_supply_profitable_product(product_profits, purchase_history)
+
+	var expected = [
+					{product: "phone", shop: "Madiba"}
+					];
+
+	expected.forEach(function(specs, i){
+		for(var key in expected)
+			assert.equal(result[i][key], specs[key])
+	});
+
+});

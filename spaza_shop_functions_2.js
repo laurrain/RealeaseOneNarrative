@@ -300,6 +300,33 @@ module.exports = {
 
 		return suppliers;
 
+	},
+
+	get_supply_profitable_product:function(product_profits, purchase_history){
+
+
+		var suppliers = [];
+
+		purchase_history.forEach(function(row){
+
+			var count_sup = 0;
+
+			if(row["stock_item"] === product_profits[0]["product"]){
+				suppliers.forEach(function(shop){
+					if(row["shop"] === shop["shop"]){
+						count_sup++;
+					}
+				});
+
+				if(count_sup === 0){
+					suppliers.push({shop: row["shop"], product: row["stock_item"]})
+				}
+			}
+
+		});
+
+		return suppliers;
+
 	}
 
 };
