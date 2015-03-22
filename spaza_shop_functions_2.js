@@ -127,6 +127,51 @@ module.exports = {
 
 		return category_avgs;
 
+	},
+
+	get_avg_sales_per_day:function(sales_history){
+
+		var these_days = [
+							{day: "Sunday", avg: 0},
+							{day: "Monday", avg: 0},
+							{day: "Tuesday", avg: 0},
+							{day: "Wednesday", avg: 0},
+							{day: "Thursday", avg: 0},
+							{day: "Friday", avg: 0},
+							{day: "Saturday", avg: 0}
+							],
+
+			track_date = sales_history[1]["date"];
+
+		these_days.forEach(function(week_day){
+
+			var total = 0,
+				counter = 0;
+				//date = row["date"];
+
+			sales_history.forEach(function(row){
+
+				if(week_day["day"] === row["day"]){
+
+					total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
+
+					if(track_date !== row["date"]){
+						counter++;
+						track_date = row["date"]
+					}
+				}
+
+			});
+
+			if(counter !== 0)
+				week_day["avg"] += Math.round(total/counter);
+			else
+				week_day["avg"] += Math.round(total)
+
+
+		});
+		return these_days;
+
 	}
 
 };
