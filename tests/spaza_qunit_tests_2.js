@@ -99,8 +99,6 @@ QUnit.test("Testing get_avg_profit_per_day", function (assert){
 					];
 
 	var result = spaza_2.get_avg_profit_per_day(sales_history, price_cost);
-	console.log(result)
-	console.log(expected)
 
 	expected.forEach(function(spec, i){
 		for(var profit in spec){
@@ -119,10 +117,10 @@ QUnit.test("Testing get_supply_popular_product", function(assert){
 							];
 
 	var purchase_history = [
-							{shop: "Maglasana", product: "8.1", sold_no: 45},
-							{shop: "Nokulunga", product: "black", sold_no:5},		
-							{shop: "Madiba", product: "phone", sold_no: 80},
-							{shop: "Nolitha", product: "windows", sold_no:15}
+							{shop: "Maglasana", stock_item: "8.1", sold_no: 45},
+							{shop: "Nokulunga", stock_item: "black", sold_no:5},		
+							{shop: "Madiba", stock_item: "phone", sold_no: 80},
+							{shop: "Nolitha", stock_item: "windows", sold_no:15}
 							];
 
 	var result = spaza_2.get_supply_popular_product(popular_products, purchase_history)

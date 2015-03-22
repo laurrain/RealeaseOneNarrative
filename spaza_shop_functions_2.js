@@ -274,6 +274,32 @@ module.exports = {
 				return 1
 		});
 
+	},
+
+	get_supply_popular_product: function(popular_products, purchase_history){
+
+		var suppliers = [];
+
+		purchase_history.forEach(function(row){
+
+			var count_sup = 0;
+
+			if(row["stock_item"] === popular_products[0]["product"]){
+				suppliers.forEach(function(shop){
+					if(row["shop"] === shop["shop"]){
+						count_sup++;
+					}
+				});
+
+				if(count_sup === 0){
+					suppliers.push({shop: row["shop"], product: row["stock_item"]})
+				}
+			}
+
+		});
+
+		return suppliers;
+
 	}
 
 };

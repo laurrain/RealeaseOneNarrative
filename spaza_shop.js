@@ -91,4 +91,9 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	console.log("DAY -- PROFITS\n-------- -- -------")
 	spaza.print(daily_profits)
 
+	console.log("\nSUPPLIER SUPPLYING THE MOST POPULAR PRODUCT\n-------------------------------------")
+	var supplier_pop = spaza_2.get_supply_popular_product(popular_products, purchase_history)
+	console.log("SHOP     ---    PRODUCT\n-------------  -  --------------")
+	spaza.print(supplier_pop)
+
 });
