@@ -172,6 +172,60 @@ module.exports = {
 		});
 		return these_days;
 
+	},
+
+	get_avg_sales_per_week:function(sales_history){
+
+		var these_days = [
+							{day: "Sunday", avg: 0},
+							{day: "Monday", avg: 0},
+							{day: "Tuesday", avg: 0},
+							{day: "Wednesday", avg: 0},
+							{day: "Thursday", avg: 0},
+							{day: "Friday", avg: 0},
+							{day: "Saturday", avg: 0}
+							],
+
+			track_day = sales_history[1]["day"],
+			track_date = sales_history[1]["date"],
+			these_weeks = [];
+
+		//these_days.forEach(function(week_day){
+
+			var total = 0,
+				counter = 1;
+				//date = row["date"];
+
+			sales_history.forEach(function(row){
+
+				if(track_day === row["day"] && track_date !== row["date"]){
+					these_weeks.push({week: "week"+counter, avg: total});
+					counter++;
+					track_date = row["date"]
+					total = 0;
+				}
+
+				total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
+
+
+			});
+
+
+			if(counter === 0){
+				these_weeks.push({week:"week1", avg: total});
+			}
+			else
+				these_weeks.push({week:"week"+counter, avg: total})
+/*
+			if(counter !== 0)
+				week_day["avg"] += Math.round(total/counter);
+			else
+				week_day["avg"] += Math.round(total)
+
+
+		});*/
+		return these_weeks;
+
 	}
 
 };
