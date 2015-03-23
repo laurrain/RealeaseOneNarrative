@@ -111,4 +111,10 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	spaza.print(supplier_pop)
 	spaza_2.write_to_file(supplier_pop, "supplier_pop.csv")
 
+	console.log("\nSUPPLIER SUPPLYING THE MOST PROFITABLE PRODUCT\n-------------------------------------")
+	var supplier_prof = spaza_2.get_supply_profitable_product(product_profits, purchase_history)
+	console.log("SHOP     ---    PRODUCT\n-------------  -  --------------")
+	spaza.print(supplier_prof)
+	spaza_2.write_to_file(supplier_prof, "supplier_profitable.csv")
+
 });

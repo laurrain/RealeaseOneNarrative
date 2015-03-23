@@ -136,7 +136,7 @@ QUnit.test("Testing get_supply_popular_product", function(assert){
 
 });
 
-QUnit.test("Testing get_supply_popular_product", function(assert){
+QUnit.test("Testing get_supply_profitable_product", function(assert){
 
 	var product_profits = [
 							{product: "phone", profits: 80},
