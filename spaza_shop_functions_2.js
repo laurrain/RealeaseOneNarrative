@@ -9,19 +9,17 @@ module.exports = {
 			count_weeks = 1;
 
 		sales_history.forEach(function(row){
+
+			var len = row["sales_price"].length
+
 			if(row["stock_item"] !== "stock item"){
-				total += Number(row["sales_price"].substr(1, row["sales_price"].length)) * Number(row["no_sold_items"]);
+				total += Number(row["sales_price"].substr(1, len)) * Number(row["no_sold_items"]);
 			}
 
 			if(date_tracker !== row["date"] && row["stock_item"] !== "stock item"){
 				date_tracker = row["date"];
 				count_days++;
-				if((count_days/7) > Math.round(count_days/7)){
-					count_weeks = Math.round(count_days/7) + 1;
-				}
-				else{
-					count_weeks = count_days/7;
-				}
+				count_weeks = Math.ceil(count_days/7)
 			}
 		});
 
@@ -29,6 +27,7 @@ module.exports = {
 							{time: "day_avg", avg: Math.round(total/count_days)},
 							{time: "week_avg", avg: Math.round(total/count_weeks)}
 							);
+		
 		return day_week_sales;
 	},
 

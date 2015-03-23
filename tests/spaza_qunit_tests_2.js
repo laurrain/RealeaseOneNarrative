@@ -1,5 +1,65 @@
 var spaza_2 = require("../spaza_shop_functions_2")
 
+QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
+
+	var sales_history = [
+					{day:"Monday", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day:"Monday", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Tuesday", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Tuesday", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
+					{day:"Tuesday", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
+					{day:"Tuesday", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
+					{day:"Wednesday", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
+					{day:"Wednesday", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
+					];	
+
+	var expected = [
+					{time: "day_avg", avg: 587.00},
+					{time: "week_avg", avg: 1760.00}
+					];
+
+	var result = mymodule_2.get_total_avg_day_week_sales(sales_history);
+
+	
+	assert.deepEqual(result, expected, "Match!");
+
+});
+
+QUnit.test("Testing get_product_avg_dayWeek_sales", function(assert){
+
+var expected = [
+				{product: "Item1", day_avg: 100, week_avg: 100},
+				{product: "Item2", day_avg: 80, week_avg: 240},
+				{product: "Item3", day_avg: 20, week_avg: 20},
+				{product: "Item4", day_avg: 600, week_avg: 600},
+				{product: "Item5", day_avg: 800, week_avg: 800}
+				];
+
+	var sales_history = [
+					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
+					{day:"Day1", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
+					{day:"Day2", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
+					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
+					];
+	var selling_items = [
+						{product: "Item1"},
+						{product: "Item2"},
+						{product: "Item3"},
+						{product: "Item4"},
+						{product: "Item5"}
+						]
+
+	var result = mymodule_2.get_product_avg_dayWeek_sales(sales_history, selling_items);
+
+
+	assert.equal(result, expected, "Match!");
+
+});
+
 QUnit.test("Testing get_avg_sales_per_day", function (assert){
 
 	var sales_history = [

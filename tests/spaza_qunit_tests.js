@@ -34,7 +34,7 @@ QUnit.test("Testing get_popular_products function", function(assert){
 					{product: "black", sold_no:5}
 					];
 
-	var result = mymodule.get_popular_products(selling_items, sales_history);
+	var result = mymodule.get_popular_products(sales_history);
 
 	assert.deepEqual(result, expected, "Match")
 });
@@ -42,14 +42,14 @@ QUnit.test("Testing get_popular_products function", function(assert){
 QUnit.test("Testing get_sales_history function", function(assert){
 
 	var expected = [
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
-					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item1", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item3", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item4", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item5", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item6", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item7", no_sold_items: "No sold", sales_price: "Sales Price"},
+					{day:"Day", date:"Date", stock_item: "stock item8", no_sold_items: "No sold", sales_price: "Sales Price"},
 					];
 
 	var result = mymodule.get_sales_history("get_sales_history_test.csv");
@@ -59,6 +59,9 @@ QUnit.test("Testing get_sales_history function", function(assert){
 });
 
 QUnit.test("testing get_selling_items function", function(assert){
+
+	var sales_history = mymodule.get_sales_history("get_sales_history_test.csv");
+	
 	var expected = [
 					{product: "stock item1"},
 					{product: "stock item2"},
@@ -69,7 +72,7 @@ QUnit.test("testing get_selling_items function", function(assert){
 					{product: "stock item7"},
 					{product: "stock item8"}
 					];
-	var result = mymodule.get_selling_items("get_selling_items_test.csv")
+	var result = mymodule.get_selling_items(sales_history)
 
  	assert.deepEqual(result, expected, "Match!");
 
@@ -136,13 +139,6 @@ QUnit.test("Testing get_regular_sales function", function(assert){
 					{day1:"Day", date:"Date", stock_item: "stock item2", no_sold_items: "10", sales_price: "Sales Price"},
 					];
 
-	var selling_items = [
-						{product: "stock item1"},
-						{product: "stock item2"},
-						{product: "stock item3"},
-						{product: "stock item4"},
-						{product: "stock item5"},
-						];
 
 	var expected = [
 					{product: "stock item1", frequency: 5},
@@ -152,7 +148,7 @@ QUnit.test("Testing get_regular_sales function", function(assert){
 					{product: "stock item5", frequency: 1}
 					];
 
-	var result = mymodule.get_regular_sales(sales_history, selling_items);
+	var result = mymodule.get_regular_sales(sales_history);
 
 	assert.deepEqual(result, expected, "Match!");
 
@@ -211,19 +207,8 @@ QUnit.test("Testing get_entire_stock function", function(assert){
 					{shop: "Shop", date: "Date", stock_item: "Item9", quantity: "90", cost: "Cost", total_cost: "Total Cost"}
 					];
 
-	var selling_items = [
-						{product: "Item1"},
-						{product: "Item2"},
-						{product: "Item3"},
-						{product: "Item4"},
-						{product: "Item5"},
-						{product: "Item6"},
-						{product: "Item7"},
-						{product: "Item8"},
-						{product: "Item9"}
-						];
 
-	var result = mymodule.get_entire_stock(selling_items, purchase_history);
+	var result = mymodule.get_entire_stock(purchase_history);
 
 	var expected = [
 						{product: "Item9", quantity: 180},
@@ -237,12 +222,7 @@ QUnit.test("Testing get_entire_stock function", function(assert){
 						{product: "Item1", quantity: 20}
 						];
 
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
 
 });
 
@@ -275,24 +255,18 @@ QUnit.test("Testing get_stock_rates function", function(assert){
 	var result = mymodule.get_stock_rates(entire_stock, popular_products);
 
 	var expected = [
-					{product: "Item1", percent_left: 25.00},
-					{product: "Item2", percent_left: 38.00},
-					{product: "Item3", percent_left: 42.00},
-					{product: "Item4", percent_left: 44.00},
-					{product: "Item5", percent_left: 45.00},
-					{product: "Item6", percent_left: 46.00},
-					{product: "Item7", percent_left: 46.00},
-					{product: "Item8", percent_left: 47.00},
-					{product: "Item9", percent_left: 47.00},
-										
+					{product: "Item1", percent_left: 25},
+					{product: "Item2", percent_left: 38},
+					{product: "Item3", percent_left: 42},
+					{product: "Item4", percent_left: 44},
+					{product: "Item5", percent_left: 45},
+					{product: "Item6", percent_left: 46},
+					{product: "Item7", percent_left: 47},
+					{product: "Item8", percent_left: 47},
+					{product: "Item9", percent_left: 48},
 					];
 
-
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
 });
 
 QUnit.test("Testing get_product_earnings function", function(assert){
@@ -329,19 +303,16 @@ QUnit.test("Testing get_product_earnings function", function(assert){
 
 	var result = mymodule.get_product_earnings(sales_history, popular_products);
 
-	var expected = [
-					{product: "stock item5", earnings: 550},
-					{product: "stock item4", earnings: 450},
-					{product: "stock item3", earnings: 350},
-					{product: "stock item2", earnings: 250},
-					{product: "stock item1", earnings: 150}
-					];
+	var expected = [ 
+					{ product: 'stock item4', earnings: 750 },
+					{ product: 'stock item1', earnings: 650 },
+  					{ product: 'stock item5', earnings: 550 },
+  					{ product: 'stock item3', earnings: 350 },
+  					{ product: 'stock item2', earnings: 250 }
+  					];
 
-	for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
+
 });
 
 QUnit.test("Testing get_category_earnings function", function(assert){
@@ -447,11 +418,7 @@ QUnit.test("Testing get_product_price_and_cost function", function(assert){
 					{product: "Item5", price: 20, cost: 10}
 					];
 
-	for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
 });
 
 QUnit.test("Testing get_product_profits function", function(assert){
@@ -482,77 +449,12 @@ QUnit.test("Testing get_product_profits function", function(assert){
 					{product: "Item1", profits: 150}
 					];
 
-	for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+
+	assert.deepEqual(result, expected, "Match!");
 });
 
-/*QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
 
-	var sales_history = [
-					{day:"Monday", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
-					{day:"Monday", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
-					{day:"Tuesday", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
-					{day:"Tuesday", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
-					{day:"Tuesday", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
-					{day:"Tuesday", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
-					{day:"Wednesday", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
-					{day:"Wednesday", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
-					];	
 
-	var expected = [
-					{time: "day_avg", avg: 587.00},
-					{time: "week_avg", avg: 1760.00}
-					];
-
-	var result = mymodule_2.get_total_avg_day_week_sales(sales_history);
-
-	for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
-});*/
-
-QUnit.test("Testing get_product_avg_dayWeek_sales", function(assert){
-
-var expected = [
-				{product: "Item1", day_avg: 100, week_avg: 100},
-				{product: "Item2", day_avg: 80, week_avg: 240},
-				{product: "Item3", day_avg: 20, week_avg: 20},
-				{product: "Item4", day_avg: 600, week_avg: 600},
-				{product: "Item5", day_avg: 800, week_avg: 800}
-				];
-
-	var sales_history = [
-					{day:"Day1", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
-					{day:"Day1", date:"Date1", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item3", no_sold_items: "1", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item4", no_sold_items: "30", sales_price: "R20.00"},
-					{day:"Day2", date:"Date2", stock_item: "Item5", no_sold_items: "40", sales_price: "R20.00"},
-					{day:"Day3", date:"Date3", stock_item: "Item1", no_sold_items: "0", sales_price: "R20.00"},
-					{day:"Day3", date:"Date3", stock_item: "Item2", no_sold_items: "4", sales_price: "R20.00"}
-					];
-	var selling_items = [
-						{product: "Item1"},
-						{product: "Item2"},
-						{product: "Item3"},
-						{product: "Item4"},
-						{product: "Item5"}
-						]
-
-	var result = mymodule_2.get_product_avg_dayWeek_sales(sales_history, selling_items);
-
-	for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
-
-});
 
 QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 
@@ -586,11 +488,7 @@ QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 
     var result = mymodule_2.get_avg_cat_dayWeek_sales(product_avg_dayWeek_sales);
 
-    for(var i = 0; i < expected.length; i++){
-		for(var key in expected[i]){
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
 
 });
 

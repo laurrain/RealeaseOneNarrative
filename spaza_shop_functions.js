@@ -30,21 +30,28 @@ module.exports = {
 		return array1;
 	},
 
-	get_popular_products: function  (selling_items, sales_history) {
+	get_popular_products: function  (sales_history) {
 		//Answering the question 'How much of each item has been sold?' starts here
-		var inventory_sold = [];
+		var inventory = {},
+			inventory_sold = [];
 
-		selling_items.forEach(function (item) {
-			var sold = 0;
-			sales_history.forEach(function(row){
-				if(item["product"] === row['stock_item']){
-					sold += Number(row['no_sold_items']);
-				}
-			});
+		sales_history.forEach(function(row){
 
-			inventory_sold.push({product: item["product"], sold_no: sold});
+			if(inventory[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				inventory[row["stock_item"]] = Number(row["no_sold_items"]);
+			}
+			else{
+				inventory[row["stock_item"]] += Number(row["no_sold_items"]);
+			}
 
 		});
+
+		inventory_sold = Object.keys(inventory).map(function(key){
+				return {
+					product: key,
+					sold_no: inventory[key]
+				}
+		})
 
 		return inventory_sold.sort(function(b, a){
 			return Number(a["sold_no"]) - Number(b["sold_no"]);
@@ -107,28 +114,24 @@ module.exports = {
 	},
 
 
-	get_selling_items: function (filename) { //This gets the items sold at the spaza shop
+	get_selling_items: function (sales_history) { //This gets the items sold at the spaza shop
 
-		var sales_history = this.get_sales_history(filename);
-
-		var spaza_inventory = [];
+		var spaza_inventory = [],
+			spaza_inv = {};
 
 		sales_history.forEach(function(row){
 
-			var i = 0;
-
-			spaza_inventory.forEach(function(item){
-				if(item["product"] === row['stock_item']){
-					++i;
-				}
-			
-			});
-
-			if(i === 0 && row['stock_item'] !== 'stock item'){
-				spaza_inventory.push({product: row['stock_item']});
+			if(spaza_inv[row["stock_item"]] == undefined){
+				spaza_inv[row["stock_item"]] = 0;
 			}
 
-		});	
+		});
+
+		spaza_inventory = Object.keys(spaza_inv).map(function(key){
+			return {
+				product: key
+			}
+		});
 	
 		return spaza_inventory;
 	},
@@ -195,24 +198,38 @@ module.exports = {
 		return categories;
 	},
 
-	get_regular_sales: function(sales_history_list, selling_items){
+	get_regular_sales: function(sales_history_list){
 
-		var regulariry = [];
-		selling_items.forEach(function(sellin){
+		var regulariry = [],
+			frequency = {};
 
-			var freq = 0;
+		sales_history_list.forEach(function(row){
 
-			sales_history_list.forEach(function(item){
-				if(sellin["product"] === item["stock_item"]){
-					if(Number(item["no_sold_items"]) > 0){
-						freq++;
-					}
+			if(frequency[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				if(Number(row["no_sold_items"]) > 0){
+
+					frequency[row["stock_item"]] = 1
 				}
-			});
+				else{
 
-			regulariry.push({product: sellin["product"], frequency: freq});
+					frequency[row["stock_item"]] = 0
+				}
+			}
+			else{
+				if(Number(row["no_sold_items"]) > 0){
+					++frequency[row["stock_item"]];
+				}
+			}
 
 		});
+
+		regulariry = Object.keys(frequency).map(function(key){
+			return {
+				product: key,
+				frequency: frequency[key]
+			}
+		});
+
 		return regulariry.sort(function(a, b){
 			return b["frequency"] - a["frequency"];
 		});
@@ -242,21 +259,28 @@ module.exports = {
 		return purchase_history;
 	},
 
-	get_entire_stock: function(selling_items, purchase_history){
+	get_entire_stock: function(purchase_history){
 
-		var stock_levels = [];
+		var stock_levels = [],
+			stock = {};
 
-		selling_items.forEach(function (item) {
-			var bought = 0;
-			purchase_history.forEach(function(row){
-				if(item["product"] === row['stock_item']){
-					bought += Number(row['quantity']);
-				}
-			});
-
-			stock_levels.push({product: item["product"], quantity: bought});
+		purchase_history.forEach(function (row) {
+			
+			if(stock[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				stock[row["stock_item"]] = Number(row["quantity"])
+			}
+			else{
+				stock[row["stock_item"]] += Number(row["quantity"])	
+			}
 
 		});
+
+		stock_levels = Object.keys(stock).map(function(key){
+			return {
+				product: key,
+				quantity: stock[key]
+			}
+		})
 
 		return stock_levels.sort(function(a, b){
 			return Number(b["quantity"]) - Number(a["quantity"]);
@@ -265,19 +289,38 @@ module.exports = {
 
 	get_stock_rates: function(entire_stock, popular_products){
 
-		var stock_rates = [];
+		var stock_rates = [],
+			popular = {},
+			ground = {};
 
-		popular_products.forEach(function(item){
-			var inventory_left = 0;
-			var percent = 0;
-			entire_stock.forEach(function(stock_item){
-				if(item["product"] === stock_item["product"]){
-					inventory_left += Number(stock_item["quantity"]) - Number(item["sold_no"]);
-					percent += (inventory_left/Number(stock_item["quantity"]))*100;
-				}
-			});
-			stock_rates.push({product: item["product"], percent_left: Math.round(percent).toFixed(2)});
-		});
+		entire_stock.forEach(function(row){
+			if(ground[row["product"]] === undefined){
+				ground[row["product"]] = row["quantity"]
+			}
+			else{
+				ground[row["product"]] += row["quantity"]
+			}
+		})
+
+		popular_products.forEach(function(row){
+			if(popular[row["product"]] === undefined){
+				popular[row["product"]] = row["sold_no"]
+			}
+			else{
+				popular[row["product"]] += row["sold_no"]
+			}
+		})
+
+		for(var key in ground){
+			ground[key] = Math.ceil(((ground[key] - popular[key])/ground[key])*100)
+		}
+
+		stock_rates = Object.keys(ground).map(function(per){
+			return {
+				product: per,
+				percent_left: ground[per]
+			}
+		})
 
 		return stock_rates.sort(function(a, b){
 			if((a["percent_left"] - b["percent_left"]) < 0)
@@ -289,22 +332,26 @@ module.exports = {
 
 	get_product_earnings: function(sales_history_list, popular_products){
 
-		var product_earnings = [];
+		var product_earnings = [],
+			earns = {};
 
-		popular_products.forEach(function(item){
 
-			var earning = 0;
-			var found = 0;
+		sales_history_list.forEach(function(row){
 
-			sales_history_list.forEach(function(product){
-				if(item["product"] === product["stock_item"]){
-					found++;
-					earning = Number(product["sales_price"].substr(1, product["sales_price"].length))*Number(item["sold_no"]);
-				}
-			});
-			product_earnings.push({product: item["product"], earnings: earning.toFixed(2)});
-
-		});
+			if(earns[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				earns[row["stock_item"]] = Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1))
+			}
+			else{
+				earns[row["stock_item"]] += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1))
+			}
+		})
+		
+		product_earnings = Object.keys(earns).map(function(key){
+			return {
+				product: key,
+				earnings: earns[key]
+			}
+		})
 
 		return product_earnings.sort(function(a, b){
 			if(b["earnings"] - a["earnings"] > 0)
@@ -376,45 +423,57 @@ module.exports = {
 
 	get_product_price_and_cost:function(selling_items, sales_history, purchase_history){
 
-		var price_cost = [];
+		var price_cost = [],
+			product_cost = {}
+			product_price = {};
 
-		selling_items.forEach(function(item){
-			var Price = null;
-			sales_history.forEach(function(product){
-				if(product["stock_item"] === item["product"]){
-					
-					Price = product["sales_price"];
-				}
-			});
+		sales_history.forEach(function(row){
+			if(product_price[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				product_price[row["stock_item"]] = Number(row["sales_price"].substr(1))
+			}
+		})
 
-			var Cost;
+		purchase_history.forEach(function(row){
+			if(product_cost[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				product_cost[row["stock_item"]] = Number(row["cost"].substr(1))
+			}
+		})
 
-			purchase_history.forEach(function(product){
-				if(product["stock_item"] === item["product"]){
-					Cost = product["cost"];
-				}
-			});
-
-			price_cost.push({product: item["product"], price: Price.substr(1,Price.length), cost:Cost.substr(1,Cost.length)});
-
-		});
+		price_cost = Object.keys(product_cost).map(function(key){
+			return {
+				product: key,
+				price: product_price[key],
+				cost: product_cost[key]
+			}
+		})
 
 		return price_cost;
 	},
 
 	get_product_profits: function(price_cost, popular_products){
-		var gains = [];
+		var gains = [],
+			ground_profit_obj = {},
+			popular_products_obj = {};
 
 		popular_products.forEach(function(item){
-			var prof = 0;
-
-			price_cost.forEach(function(product){
-				if(item["product"] === product["product"]){
-					prof = (Number(product["price"]) - Number(product["cost"]))*Number(item["sold_no"]);
-				}
-			});
-			gains.push({product:item["product"], profits: prof.toFixed(2)});
+			if(popular_products_obj[item["product"]] === undefined){
+				popular_products_obj[item["product"]] = item["sold_no"]
+			}
 		});
+
+		price_cost.forEach(function(item){
+			if(ground_profit_obj[item["product"]] === undefined){
+				ground_profit_obj[item["product"]] = item["price"] - item["cost"]
+			}
+		});
+
+		gains = Object.keys(ground_profit_obj).map(function(key){
+			return {
+				product: key,
+				profits: ground_profit_obj[key]*popular_products_obj[key]
+			}
+		})
+
 
 		return gains.sort(function(a, b){
 			return b["profits"] - a["profits"];
