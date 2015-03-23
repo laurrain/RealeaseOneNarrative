@@ -48,7 +48,7 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	var product_earnings = spaza.get_product_earnings(sales_history, popular_products);
 	console.log("PRODUCT -- EARNINGS\n----------  -  ----------")
 	spaza.print(product_earnings);
-	spaza_2.write_to_file(product_earnings, "product_earnings")
+	spaza_2.write_to_file(product_earnings, "product_earnings.csv")
 
 	console.log("\nCATEGORY EARNINGS  IN RANDS(R)\n---------------------------")
 	var category_earnings = spaza.get_category_earnings(product_earnings);
@@ -63,7 +63,7 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	var product_profits = spaza.get_product_profits(price_cost,popular_products);
 	console.log("PRODUCT -- PROFITS\n----------  -  ----------")
 	spaza.print(product_profits);
-	spaza_2.write_to_file(product_earnings, "product_earnings.csv")
+	spaza_2.write_to_file(product_profits, "product_profits.csv")
 
 	console.log("\nCATEGORY PROFITS  IN RANDS(R)\n---------------------------")
 	var cat_profits = spaza.get_category_profits(product_profits);

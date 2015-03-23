@@ -620,31 +620,26 @@ QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 
 QUnit.test("Testing get_categories function", function(assert){
 
-	var expected = [
-						{junk_food: [
+	var expected = {	junk_food: [
 									"Mixed Sweets 5s", 
 									"Top Class Soy Mince", 
 									"Fanta 500ml", 
 									"Cream Soda 500ml", 
 									"Heart Chocolates",
-									"Coke 500ml"]},
-
-						{not_edible: [
+									"Coke 500ml"],
+						not_edible: [
 									"Soap Bar",
 									"Shampoo 1 litre",
 									"Rose (Plastic)",
 									"Valentines Cards"
-									]
-						},
-						{fruit: [
+									],
+						fruit: [
 								"Bananas - loose",
-								"Apples - loose"]
-						},
-						{dairy: [
+								"Apples - loose"],
+						dairy: [
 								"Milk 1l",
 								"Imasi"]
-						}
-					];
+						};
 
 	var selling_items = [
 						{product:"Mixed Sweets 5s"},
@@ -664,7 +659,7 @@ QUnit.test("Testing get_categories function", function(assert){
 				    	{product: "Shampoo 1 litre"},
 				    	{product: "Rose (Plastic)"},
 				    	{product: "Valentines Cards"}
-				    	]
+				    	];
 
 	var result = mymodule_2.get_categories(selling_items);
 

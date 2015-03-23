@@ -1,6 +1,6 @@
 module.exports = {
 
-	get_total_avg_day_week_sales:function(sales_history){
+	total_avg_day_week_sales:function(sales_history){
 
 		var day_week_sales = [],
 			total = 0,
@@ -345,25 +345,34 @@ module.exports = {
 		data.forEach(function(row){
 
 			var property_num = 0;
+			var contents = "";
 
 			for(var key in row){
 				++property_num;
 
 				if(property_num < num_of_properties){
 
-					file_ops.appendFile(filename, row[key] + ";", function(err){
+					contents += row[key].toString() + ";"
+
+					/*file_ops.appendFile(filename, row[key] + ";", function(err){
 						if(err) throw err;
-					});
+					});*/
 				}
 				else{
-					file_ops.appendFile(filename, row[key] + "\n", function(err){
+
+					contents += row[key].toString()
+
+					/*file_ops.appendFile(filename, row[key] + "\n", function(err){
+						if(err) throw err;
+
+					});*/
+				}
+			}
+			file_ops.appendFile(filename, contents + "\n", function(err){
 						if(err) throw err;
 
 					});
-				}
-			}
 		});
-
 	}
 
 };

@@ -184,7 +184,7 @@ QUnit.test("Testing write_to_file function", function(assert){
 					];
 
 	var fs = require('fs');
-	var buff = fs.readFileSync("purchase_history_write_testing.csv")
+	var buff = fs.readFileSync("./purchase_history_write_testing.csv")
 	var str = buff.toString().split("\n")
 
 
