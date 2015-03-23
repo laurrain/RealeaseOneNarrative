@@ -7,9 +7,7 @@ QUnit.test("Testing bubbleSort function", function(assert){
 		expected = [9,8,7,6,5,4,3,2,1,0],
 		result = mymodule.bubbleSort(value);
 
-	for(var i = 0; i < expected.length; i++){
-		assert.deepEqual(result[i], expected[i], "Match");
-	}
+	assert.deepEqual(result, expected, "Match");
 		
 });
 
@@ -38,11 +36,7 @@ QUnit.test("Testing get_popular_products function", function(assert){
 
 	var result = mymodule.get_popular_products(selling_items, sales_history);
 
-	for(var i = 0; i < expected.length; i++){
-		assert.deepEqual(result[i]["product"], expected[i]["product"], "Match")
-		assert.deepEqual(result[i]["sold_no"], expected[i]["sold_no"], "Match")
-
-	}
+	assert.deepEqual(result, expected, "Match")
 });
 
 QUnit.test("Testing get_sales_history function", function(assert){
@@ -58,13 +52,10 @@ QUnit.test("Testing get_sales_history function", function(assert){
 					{day:"Day", date:"Date", stock_item: "stock item", no_sold_items: "No sold", sales_price: "Sales Price"},
 					];
 
-	var result = mymodule.get_sales_history("tests/get_sales_history_test.csv");
+	var result = mymodule.get_sales_history("get_sales_history_test.csv");
 
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-			assert.deepEqual(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
+
 });
 
 QUnit.test("testing get_selling_items function", function(assert){
@@ -78,15 +69,12 @@ QUnit.test("testing get_selling_items function", function(assert){
 					{product: "stock item7"},
 					{product: "stock item8"}
 					];
-	var result = mymodule.get_selling_items("tests/get_selling_items_test.csv")
+	var result = mymodule.get_selling_items("get_selling_items_test.csv")
 
- 	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-			assert.deepEqual(result[i][key], expected[i][key], "Match!");
-		}
-	}
+ 	assert.deepEqual(result, expected, "Match!");
 
 });
+
 QUnit.test("Testing get_popular_category function", function(assert){
 	var expected = [{category: "junk_food", sold_no: 548}, 
 		            {category: "veg_and_carbs", sold_no: 216},
@@ -120,11 +108,7 @@ QUnit.test("Testing get_popular_category function", function(assert){
     result = mymodule.get_popular_category(popular_item);
 
 
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-			assert.deepEqual(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
 });
 
 
@@ -170,11 +154,8 @@ QUnit.test("Testing get_regular_sales function", function(assert){
 
 	var result = mymodule.get_regular_sales(sales_history, selling_items);
 
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-			assert.deepEqual(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
+
 });
 
 QUnit.test("Testing get_purchase_history function", function(assert){
@@ -200,15 +181,10 @@ QUnit.test("Testing get_purchase_history function", function(assert){
 					{shop: "Shop", date: "Date", stock_item: "Item9", quantity: "Quantity", cost: "Cost", total_cost: "Total Cost"}
 					];
 
-	var result = mymodule.get_purchase_history("tests/get_purchase_history_test.csv");
+	var result = mymodule.get_purchase_history("get_purchase_history_test.csv");
 
 
-	for(var i = 0; i < result.length; i++){
-		for(var key in result[i]){
-
-			assert.equal(result[i][key], expected[i][key], "Match!");
-		}
-	}
+	assert.deepEqual(result, expected, "Match!");
 
 });
 
@@ -513,7 +489,7 @@ QUnit.test("Testing get_product_profits function", function(assert){
 	}
 });
 
-QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
+/*QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
 
 	var sales_history = [
 					{day:"Monday", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
@@ -538,7 +514,7 @@ QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
 			assert.equal(result[i][key], expected[i][key], "Match!");
 		}
 	}
-});
+});*/
 
 QUnit.test("Testing get_product_avg_dayWeek_sales", function(assert){
 
@@ -618,7 +594,7 @@ QUnit.test("Testing get_avg_cat_dayWeek_sales", function(assert){
 
 });
 
-QUnit.test("Testing get_categories function", function(assert){
+/*QUnit.test("Testing get_categories function", function(assert){
 
 	var expected = {	junk_food: [
 									"Mixed Sweets 5s", 
@@ -669,4 +645,4 @@ QUnit.test("Testing get_categories function", function(assert){
 		}
 	}
 
-});
+});*/

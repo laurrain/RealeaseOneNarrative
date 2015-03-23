@@ -1,5 +1,1 @@
-week1;4015.5
-week3;2349
-week2;4529.5
-week4;4147.5
-week5;527.5
+[{"week":"week1","avg":4015.5},{"week":"week2","avg":4529.5},{"week":"week3","avg":2349},{"week":"week4","avg":4147.5},{"week":"week5","avg":527.5}]

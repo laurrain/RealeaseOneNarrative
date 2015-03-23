@@ -329,50 +329,11 @@ module.exports = {
 
 	},
 
-	write_to_file: function (data, filename) {
+	write_to_file: function (data, filename, callback) {
 
 		var file_ops = require('fs');
-
-		file_ops.writeFile(filename, "", function(err){
-			if(err) throw err
-		});
-
-		var num_of_properties = 0;
-
-		for(var key in data[0])
-			num_of_properties++;
-
-		data.forEach(function(row){
-
-			var property_num = 0;
-			var contents = "";
-
-			for(var key in row){
-				++property_num;
-
-				if(property_num < num_of_properties){
-
-					contents += row[key].toString() + ";"
-
-					/*file_ops.appendFile(filename, row[key] + ";", function(err){
-						if(err) throw err;
-					});*/
-				}
-				else{
-
-					contents += row[key].toString()
-
-					/*file_ops.appendFile(filename, row[key] + "\n", function(err){
-						if(err) throw err;
-
-					});*/
-				}
-			}
-			file_ops.appendFile(filename, contents + "\n", function(err){
-						if(err) throw err;
-
-					});
-		});
+		
+		file_ops.writeFile(filename, JSON.stringify(data), callback);
 	}
 
 };

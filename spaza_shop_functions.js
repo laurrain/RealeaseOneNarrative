@@ -49,8 +49,6 @@ module.exports = {
 		return inventory_sold.sort(function(b, a){
 			return Number(a["sold_no"]) - Number(b["sold_no"]);
 		});
-		//this.bubbleSort(inventory_sold);
-		//this.write_to_file("Selling Items (Sorted by Number sold).csv", inventory_sold, 2);
 	},
 
 	get_sales_history: function (filename) {
@@ -106,11 +104,6 @@ module.exports = {
 			console.log(sold);
 			sold = 0;
 		});
-
-		//console.log(inventory_sold);
-
-		//bubbleSort(inventory_sold);
-		//write_to_file("Testing.csv", inventory_sold, 2);
 	},
 
 
@@ -135,13 +128,9 @@ module.exports = {
 				spaza_inventory.push({product: row['stock_item']});
 			}
 
-		});	//Getting the inventory ends here
-		//write_to_file("Selling Items.csv", spaza_inventory, 1);
+		});	
 	
 		return spaza_inventory;
-		//this.popular_products(spaza_inventory, sales_history);
-
-		//this.popular_products_over_days(filename, spaza_inventory, "12-Feb", "16-Feb");
 	},
 
 	get_popular_category: function(popular_items_list){
@@ -153,7 +142,6 @@ module.exports = {
 			not_edible = 0;
 
 		popular_items_list.forEach(function(item, i){
-			//console.log(item, " - ", i);
 			switch(item["product"]){
 				case "Mixed Sweets 5s":
 				case "Top Class Soy Mince":

@@ -25,11 +25,8 @@ QUnit.test("Testing get_avg_sales_per_day", function (assert){
 
 	var result = spaza_2.get_avg_sales_per_day(sales_history);
 
-	expected.forEach(function(spec, i){
-		for(var day in spec){
-			assert.equal(result[i][day], spec[day], "The day sales match")
-		}
-	});
+	assert.deepEqual(result, expected, "The day sales match")
+
 });
 
 QUnit.test("Testing get_avg_sales_per_week", function (assert){
@@ -60,11 +57,8 @@ QUnit.test("Testing get_avg_sales_per_week", function (assert){
 
 	var result = spaza_2.get_avg_sales_per_week(sales_history);
 
-	expected.forEach(function(spec, i){
-		for(var day in spec){
-			assert.equal(result[i][day], spec[day], "The day sales match")
-		}
-	});
+	assert.deepEqual(result, expected, "The day sales match")
+
 });
 
 QUnit.test("Testing get_avg_profit_per_day", function (assert){
@@ -100,11 +94,7 @@ QUnit.test("Testing get_avg_profit_per_day", function (assert){
 
 	var result = spaza_2.get_avg_profit_per_day(sales_history, price_cost);
 
-	expected.forEach(function(spec, i){
-		for(var profit in spec){
-			assert.equal(result[i][profit], spec[profit], "The day sales match")
-		}
-	});
+	assert.deepEqual(result, expected, "The day sales match")
 });
 
 QUnit.test("Testing get_supply_popular_product", function(assert){
@@ -129,10 +119,8 @@ QUnit.test("Testing get_supply_popular_product", function(assert){
 					{product: "phone", shop: "Madiba"}
 					];
 
-	expected.forEach(function(specs, i){
-		for(var key in expected)
-			assert.equal(result[i][key], specs[key])
-	});
+	assert.deepEqual(result, expected)
+
 
 });
 
@@ -158,10 +146,7 @@ QUnit.test("Testing get_supply_profitable_product", function(assert){
 					{product: "phone", shop: "Madiba"}
 					];
 
-	expected.forEach(function(specs, i){
-		for(var key in expected)
-			assert.equal(result[i][key], specs[key])
-	});
+	assert.deepEqual(result, expected)
 
 });
 
@@ -173,40 +158,26 @@ QUnit.test("Testing write_to_file function", function(assert){
 							{shop: "Madiba", stock_item: "phone", sold_no: 80},
 							{shop: "Nolitha", stock_item: "windows", sold_no:15}
 							];
+	//async call starting						
+	stop();
 
-	spaza_2.write_to_file(purchase_history, "purchase_history_write_testing.csv");
+	spaza_2.write_to_file(purchase_history, "purchase_history_write_testing.json", function(){
 
-	var expected = [
-					{shop: "Maglasana", stock_item: "8.1", sold_no: 45},
-					{shop: "Nokulunga", stock_item: "black", sold_no:5},		
-					{shop: "Madiba", stock_item: "phone", sold_no: 80},
-					{shop: "Nolitha", stock_item: "windows", sold_no:15}
-					];
+		var expected = [
+						{shop: "Maglasana", stock_item: "8.1", sold_no: 45},
+						{shop: "Nokulunga", stock_item: "black", sold_no:5},		
+						{shop: "Madiba", stock_item: "phone", sold_no: 80},
+						{shop: "Nolitha", stock_item: "windows", sold_no:15}
+						];
 
-	var fs = require('fs');
-	var buff = fs.readFileSync("./purchase_history_write_testing.csv")
-	var str = buff.toString().split("\n")
+		var fs = require('fs');
+		
+		var result = require("./purchase_history_write_testing.json");
+		assert.deepEqual(result, expected);
 
+		//async call ends
+		start();
 
-	var result = str.map(function(row){
-		var field = row.split(";")
-
-		return {
-				shop: field[0],
-				stock_item: field[1],
-				sold_no: field[2]
-				};
-	});
-
-	console.log(result)
-	console.log(expected)
-	console.log(buff)
-	console.log(str)
-
-	expected.forEach(function(specs, i){
-		for(var key in specs){
-			assert.equal(result[i][key], specs[key], "Found it!")
-		}
 	});
 
 });
