@@ -33,6 +33,9 @@ Know that he knows the most regular sales, Xolani realises that he also needs to
 
 Which days are the most profitable?
 
+### Nelisa wants to see her stock info wherever she is
+
+* Story 10: Nelisa wants to see the average sales figures on a web page.
 
 ### Xolani would like to have standard orders to simplify his admin
 Now that we know what we should be ordering, Xolani think it would be great to have standard orders. For this we need to know which supplier we purchase each item from.
@@ -40,8 +43,4 @@ Now that we know what we should be ordering, Xolani think it would be great to h
 * Story 11: Which supplier is supplying the most popular product.
 * Story 12: Which supplier is supplying the most profitable product.
 
-Hint: you will need to add some information to your data
 
-### Nelisa wants to see her stock info wherever she is
-
-* Story 10: Nelisa wants to see the average sales figures on a web page.
