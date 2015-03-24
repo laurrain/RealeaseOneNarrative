@@ -3,16 +3,16 @@ var spaza_2 = require('./spaza_shop_functions_2');
 
 //Print the logo first then execute the rest of the functions
 var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
-
-	//Get selling items and sales history into variables
-	var selling_items = spaza.get_selling_items("Nelisa Sales History.csv");
-	spaza_2.write_to_file(selling_items, "selling_items.csv")
 	
 	var sales_history = spaza.get_sales_history("Nelisa Sales History.csv")
 	//spaza_2.write_to_file(sales_history, "sales_history.csv")
 
+	//Get selling items and sales history into variables
+	var selling_items = spaza.get_selling_items(sales_history);
+	spaza_2.write_to_file(selling_items, "selling_items.csv")
+
 	//Get most popular products, write them to file and print to console as well
-	var popular_products = spaza.get_popular_products(selling_items, sales_history);
+	var popular_products = spaza.get_popular_products(sales_history);
 	console.log("THE MOST POPULAR PRODUCT: " + popular_products[0]["product"] + " - SALES NO.: " + popular_products[0]["sold_no"])
 	spaza_2.write_to_file(popular_products, "popular_products.json");
 
@@ -34,7 +34,7 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	var purchase_history = spaza.get_purchase_history("NelisaPurchases.csv");
 	//spaza.print(purchase_history);
 
-	var entire_stock = spaza.get_entire_stock(selling_items, purchase_history);
+	var entire_stock = spaza.get_entire_stock(purchase_history);
 	spaza_2.write_to_file(entire_stock, "entire_stock.json")
 	//spaza.print(entire_stock)
 
@@ -71,16 +71,18 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	spaza.print(cat_profits);
 	spaza_2.write_to_file(cat_profits, "category_profits.json")
 
-	/*console.log("\nAVERAGE TOTAL SALES PER DAY AND PER WEEK\n----------------------------------------------")
+	console.log("\nTOTAL AVERAGE SALES PER DAY AND PER WEEK\n----------------------------------------------")
 	var sales_per_week_and_day = spaza_2.get_total_avg_day_week_sales(sales_history);
-	spaza.print(sales_per_week_and_day)*/
-	console.log("\nAVERAGE SALES PER WEEK\n----------------------------")
+	spaza.print(sales_per_week_and_day)
+
+
+	console.log("\nSALES PER WEEK\n----------------------------")
 	console.log("WEEK  -- AVERAGE\n-------  - -----")
-	var sales_per_week = spaza_2.get_avg_sales_per_week(sales_history)
+	var sales_per_week = spaza_2.get_sales_per_week(sales_history)
 	spaza.print(sales_per_week)
 	spaza_2.write_to_file(sales_per_week, "sales_per_week")
 
-	console.log("\nAVERAGE TOTAL SALES PER DAY IN RANDS(R)\n----------------------------------------------")
+	console.log("\nAVERAGE SALES PER WEEK DAY\n----------------------------------------------")
 	var sales_per_day = spaza_2.get_avg_sales_per_day(sales_history);
 	console.log("DAY - - - AVG_SALES\n------- ----------")
 	spaza.print(sales_per_day)

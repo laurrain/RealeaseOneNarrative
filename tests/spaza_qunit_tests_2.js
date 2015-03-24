@@ -18,7 +18,7 @@ QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
 					{time: "week_avg", avg: 1760.00}
 					];
 
-	var result = mymodule_2.get_total_avg_day_week_sales(sales_history);
+	var result = spaza_2.get_total_avg_day_week_sales(sales_history);
 
 	
 	assert.deepEqual(result, expected, "Match!");
@@ -28,11 +28,11 @@ QUnit.test("Testing get_total_avg_day_week_sales", function(assert){
 QUnit.test("Testing get_product_avg_dayWeek_sales", function(assert){
 
 var expected = [
-				{product: "Item1", day_avg: 100, week_avg: 100},
-				{product: "Item2", day_avg: 80, week_avg: 240},
-				{product: "Item3", day_avg: 20, week_avg: 20},
-				{product: "Item4", day_avg: 600, week_avg: 600},
-				{product: "Item5", day_avg: 800, week_avg: 800}
+				{product: "Item1", day_avg: 5, week_avg: 5},
+				{product: "Item2", day_avg: 4, week_avg: 12},
+				{product: "Item3", day_avg: 1, week_avg: 1},
+				{product: "Item4", day_avg: 30, week_avg: 30},
+				{product: "Item5", day_avg: 40, week_avg: 40}
 				];
 
 	var sales_history = [
@@ -53,10 +53,10 @@ var expected = [
 						{product: "Item5"}
 						]
 
-	var result = mymodule_2.get_product_avg_dayWeek_sales(sales_history, selling_items);
+	var result = spaza_2.get_product_avg_dayWeek_sales(sales_history, selling_items);
 
 
-	assert.equal(result, expected, "Match!");
+	assert.deepEqual(result, expected, "Match!");
 
 });
 
@@ -74,13 +74,9 @@ QUnit.test("Testing get_avg_sales_per_day", function (assert){
 					];
 
 	var expected = [
-					{day: "Sunday", avg: 0},
-					{day: "Monday", avg: 180},
-					{day: "Tuesday", avg: 1500},
-					{day: "Wednesday", avg: 80},
-					{day: "Thursday", avg: 0},
-					{day: "Friday", avg: 0},
-					{day: "Saturday", avg: 0}
+					{day: "Monday", avg: 9},
+					{day: "Tuesday", avg: 75},
+					{day: "Wednesday", avg: 4},
 					];
 
 	var result = spaza_2.get_avg_sales_per_day(sales_history);
@@ -89,7 +85,7 @@ QUnit.test("Testing get_avg_sales_per_day", function (assert){
 
 });
 
-QUnit.test("Testing get_avg_sales_per_week", function (assert){
+QUnit.test("Testing get_sales_per_week", function (assert){
 
 	var sales_history = [
 					{day:"Monday", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
@@ -111,11 +107,11 @@ QUnit.test("Testing get_avg_sales_per_week", function (assert){
 					];
 
 	var expected = [
-					{week: "week1", avg: 1760},
-					{week: "week2", avg: 1960}
+					{week: "week1", avg: 88},
+					{week: "week2", avg: 98}
 					];
 
-	var result = spaza_2.get_avg_sales_per_week(sales_history);
+	var result = spaza_2.get_sales_per_week(sales_history);
 
 	assert.deepEqual(result, expected, "The day sales match")
 

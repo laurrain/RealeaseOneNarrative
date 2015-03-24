@@ -40,7 +40,7 @@ module.exports = {
 			if(inventory[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
 				inventory[row["stock_item"]] = Number(row["no_sold_items"]);
 			}
-			else{
+			else if(row["stock_item"] !== "stock item"){
 				inventory[row["stock_item"]] += Number(row["no_sold_items"]);
 			}
 
@@ -121,7 +121,7 @@ module.exports = {
 
 		sales_history.forEach(function(row){
 
-			if(spaza_inv[row["stock_item"]] == undefined){
+			if(spaza_inv[row["stock_item"]] == undefined && row["stock_item"] !== "stock item"){
 				spaza_inv[row["stock_item"]] = 0;
 			}
 
@@ -266,7 +266,7 @@ module.exports = {
 
 		purchase_history.forEach(function (row) {
 			
-			if(stock[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+			if(stock[row["stock_item"]] === undefined && row["stock_item"] !== "Item"){
 				stock[row["stock_item"]] = Number(row["quantity"])
 			}
 			else{
@@ -341,7 +341,7 @@ module.exports = {
 			if(earns[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
 				earns[row["stock_item"]] = Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1))
 			}
-			else{
+			else if(row["stock_item"] !== "stock item"){
 				earns[row["stock_item"]] += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1))
 			}
 		})
@@ -434,17 +434,17 @@ module.exports = {
 		})
 
 		purchase_history.forEach(function(row){
-			if(product_cost[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+			if(product_cost[row["stock_item"]] === undefined && row["stock_item"] !== "Item"){
 				product_cost[row["stock_item"]] = Number(row["cost"].substr(1))
 			}
 		})
 
 		price_cost = Object.keys(product_cost).map(function(key){
-			return {
-				product: key,
-				price: product_price[key],
-				cost: product_cost[key]
-			}
+				return {
+					product: key,
+					price: product_price[key],
+					cost: product_cost[key]
+				}
 		})
 
 		return price_cost;

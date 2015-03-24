@@ -1,6 +1,6 @@
 module.exports = {
 
-	total_avg_day_week_sales:function(sales_history){
+	get_total_avg_day_week_sales:function(sales_history){
 
 		var day_week_sales = [],
 			total = 0,
@@ -33,32 +33,46 @@ module.exports = {
 
 	get_product_avg_dayWeek_sales:function(sales_history, selling_items){
 
-		var the_product_avgs = [];
+		var the_product_avgs = [],
+			product_no_sales = {},
+			product_selling_days = {},
+			product_selling_weeks = {};
 
-		selling_items.forEach(function(item){
+		sales_history.forEach(function(row){
 
-			var date_tracker = sales_history[1]["date"],
-				count_days = 0,
-				count_weeks = 1,
-				sales = 0;
+			if(product_no_sales[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				product_no_sales[row["stock_item"]] = Number(row["no_sold_items"])
+			}
+			else if(row["stock_item"] !== "stock item"){
+				product_no_sales[row["stock_item"]] += Number(row["no_sold_items"])
+			}
 
-			sales_history.forEach(function(row){
-				if(row["stock_item"] === item["product"] && row["stock_item"] !== "stock item" && Number(row["no_sold_items"]) > 0){
-						sales += Number(row["sales_price"].substr(1, row["sales_price"].length)) * Number(row["no_sold_items"]);
-						count_days++;
-
-					if((count_days/7) > Math.round(count_days/7)){
-						count_weeks = Math.round(count_days/7) + 1;
-					}
-					else{
-						count_weeks = count_days/7;
-					}	
+			if(product_selling_days[row["stock_item"]] === undefined && row["stock_item"] !== "stock item"){
+				product_selling_days[row["stock_item"]] = Number(row["no_sold_items"]) > 0 ? 1: 0
+			}
+			else if(row["stock_item"] !== "stock item"){
+				if(Number(row["no_sold_items"]) > 0){
+					++product_selling_days[row["stock_item"]]
 				}
-			});
+			}
 
-			the_product_avgs.push({product: item["product"], day_avg: Math.round(sales/count_days), week_avg: Math.round(sales/count_weeks)});
+		})
+		
+		for(var key in product_selling_days){
+			product_selling_weeks[key] = Math.ceil(product_selling_days[key]/7)
+		}
 
-		});
+		//console.log(product_selling_days, product_selling_weeks)
+
+
+		the_product_avgs = Object.keys(product_no_sales).map(function(key){
+			return {
+				product: key,
+				day_avg: Math.round(product_no_sales[key]/product_selling_days[key]),
+				week_avg: Math.round((product_no_sales[key]/product_selling_weeks[key]))
+			}
+		})
+
 		return the_product_avgs;
 
 	},
@@ -130,62 +144,49 @@ module.exports = {
 
 	get_avg_sales_per_day:function(sales_history){
 
-		var these_days = [
-							{day: "Sunday", avg: 0},
-							{day: "Monday", avg: 0},
-							{day: "Tuesday", avg: 0},
-							{day: "Wednesday", avg: 0},
-							{day: "Thursday", avg: 0},
-							{day: "Friday", avg: 0},
-							{day: "Saturday", avg: 0}
-							],
+		var days_sales_obj = {},
+			count_days = {},
+			track_date = {},
+			these_days = [];
 
-			track_date = sales_history[1]["date"];
+		sales_history.forEach(function(row){
 
-		these_days.forEach(function(week_day){
+			if(row["stock_item"] !== "stock item"){
 
-			var total = 0,
-				counter = 0;
-				//date = row["date"];
+				if(days_sales_obj[row["day"]] === undefined){
+					days_sales_obj[row["day"]] = Number(row["no_sold_items"])
+					track_date[row["day"]] = row["date"];
+					count_days[row["day"]] = Number(row["no_sold_items"]) > 0? 1 : 0;
+				}
+				else{
 
-			sales_history.forEach(function(row){
+					days_sales_obj[row["day"]] += Number(row["no_sold_items"])
 
-				if(week_day["day"] === row["day"]){
+					if(track_date[row["day"]] !== row["date"] || count_days[row["day"]] === 0 ){
 
-					total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
-
-					if(track_date !== row["date"]){
-						counter++;
-						track_date = row["date"]
+						Number(row["no_sold_items"]) > 0? ++count_days[row["day"]]: count_days[row["day"]];
+						track_date[row["day"]] = row["date"];
 					}
 				}
 
-			});
+			}
 
-			if(counter !== 0)
-				week_day["avg"] += Math.round(total/counter);
-			else
-				week_day["avg"] += Math.round(total)
+		})
 
+		these_days = Object.keys(days_sales_obj).map(function(key){
+			return {
+				day: key,
+				avg: days_sales_obj[key]/count_days[key]
+			}
+		})
 
-		});
 		return these_days;
 
 	},
 
-	get_avg_sales_per_week:function(sales_history){
+	get_sales_per_week:function(sales_history){
 
-		var these_days = [
-							{day: "Sunday", avg: 0},
-							{day: "Monday", avg: 0},
-							{day: "Tuesday", avg: 0},
-							{day: "Wednesday", avg: 0},
-							{day: "Thursday", avg: 0},
-							{day: "Friday", avg: 0},
-							{day: "Saturday", avg: 0}
-							],
-
-			track_day = sales_history[1]["day"],
+		var wtrack_day = sales_history[1]["day"],
 			track_date = sales_history[1]["date"],
 			these_weeks = [];
 
@@ -203,7 +204,7 @@ module.exports = {
 					total = 0;
 				}
 
-				total += Number(row["no_sold_items"]) * Number(row["sales_price"].substr(1, row["sales_price"].length))
+				total += Number(row["no_sold_items"])
 			}
 
 		});
