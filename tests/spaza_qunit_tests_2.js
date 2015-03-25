@@ -117,7 +117,7 @@ QUnit.test("Testing get_sales_per_week", function (assert){
 
 });
 
-QUnit.test("Testing get_avg_profit_per_day", function (assert){
+QUnit.test("Testing get_avg_profit_per_weekday", function (assert){
 
 	var sales_history = [
 					{day:"Monday", date:"Date1", stock_item: "Item1", no_sold_items: "5", sales_price: "R20.00"},
@@ -148,7 +148,7 @@ QUnit.test("Testing get_avg_profit_per_day", function (assert){
 					{day: "Saturday", profit: 0}
 					];
 
-	var result = spaza_2.get_avg_profit_per_day(sales_history, price_cost);
+	var result = spaza_2.get_avg_profit_per_weekday(sales_history, price_cost);
 
 	assert.deepEqual(result, expected, "The day sales match")
 });

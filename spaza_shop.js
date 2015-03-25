@@ -101,8 +101,8 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 	spaza.print(category_per_day_per_week)
 	spaza_2.write_to_file(category_per_day_per_week, "category_per_day_per_week.json")
 
-	console.log("\nMOST PROFITABLE DAYS\n------------------------")
-	var daily_profits = spaza_2.get_avg_profit_per_day(sales_history, price_cost)
+	console.log("\nAVERAGE DAY OF WEEK PROFITS\n------------------------")
+	var daily_profits = spaza_2.get_avg_profit_per_weekday(sales_history, price_cost)
 	console.log("DAY -- PROFITS\n-------- -- -------")
 	spaza.print(daily_profits)
 	spaza_2.write_to_file(daily_profits, "daily_profits.json")

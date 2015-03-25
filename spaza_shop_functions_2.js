@@ -186,7 +186,7 @@ module.exports = {
 
 	get_sales_per_week:function(sales_history){
 
-		var wtrack_day = sales_history[1]["day"],
+		var track_day = sales_history[1]["day"],
 			track_date = sales_history[1]["date"],
 			these_weeks = [];
 
@@ -219,7 +219,41 @@ module.exports = {
 		return these_weeks;
 	},
 
-	get_avg_profit_per_day:function(sales_history, price_cost){
+	get_avg_profit_per_weekday:function(sales_history, price_cost){
+
+		/*var day_profits = {},
+			price_and_cost = {},
+			sales_history_map = {},
+			these_days = [],
+			count_days = {};
+
+		price_cost.forEach(function(row){
+			if(price_and_cost[row["product"]] === undefined){
+				price_and_cost[row["product"]] = [Number(row["price"]), Number(row["cost"])];
+			}
+		})
+
+		sales_history.forEach(function(row){
+
+			if(day_profits[row["day"]] === undefined && row["stock_item"] !== "stock item"){
+				
+				console.log((row["no_sold_items"]))
+				day_profits[row["day"]] = Number(row["no_sold_items"])*(price_and_cost[row["product"]][0] - price_and_cost[row["product"]][1])	
+				count_days[row["day"]] = day_profits[row["day"]] > 0 ? 1: 0
+				
+			}
+			else if(row["stock_item"] !== "stock item"){
+				day_profits[row["day"]] += Number(row["no_sold_items"])*(price_and_cost[row["product"]][0] - price_and_cost[row["product"]][1])
+				Number(row["no_sold_items"]) > 0? ++count_days[row["day"]]: count_days[row["day"]]
+			}
+		})
+
+		these_days = Object.keys(day_profits).map(function(key){
+			return {
+				day: key,
+				profit: count_days > 0 ? day_profits[key]/count_days[key]:day_profits[key]
+			}
+		})*/
 
 		var these_days = [
 							{day: "Sunday", profit: 0},
@@ -267,6 +301,7 @@ module.exports = {
 
 
 		});
+
 		return these_days.sort(function(a, b){
 			if(b["profit"] - a["profit"] < 0)
 				return -1
