@@ -364,11 +364,11 @@ module.exports = {
 
 	},
 
-	write_to_file: function (data, filename, callback) {
+	write_to_file: function (data, filename) {
 
 		var file_ops = require('fs');
 		
-		file_ops.writeFile(filename, JSON.stringify(data), callback);
+		file_ops.writeFile(filename, JSON.stringify(data));
 	}
 
 };

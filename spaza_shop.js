@@ -9,7 +9,7 @@ var logo = spaza.print_logo("Nelisa's Spaza Shop", function(){
 
 	//Get selling items and sales history into variables
 	var selling_items = spaza.get_selling_items(sales_history);
-	spaza_2.write_to_file(selling_items, "selling_items.csv")
+	spaza_2.write_to_file(selling_items, "selling_items.json")
 
 	//Get most popular products, write them to file and print to console as well
 	var popular_products = spaza.get_popular_products(sales_history);

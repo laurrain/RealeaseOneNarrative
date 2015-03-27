@@ -1,0 +1,8 @@
+.travis.yml:
+
+install:
+	- npm install -g qunit
+
+node_js:
+	- "0.10"
+	- "0.12"
