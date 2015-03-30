@@ -1,0 +1,23 @@
+{
+  "name": "Lists",
+  "version": "0.0.0",
+  "description": "##Required tutorials to be completed:",
+  "main": "list.js",
+  "scripts": {
+    "test": "qunit -c ../spaza_shop_functions.js -t spaza_qunit_tests.js",
+    "test": "qunit -c ../spaza_shop_functions_2.js -t spaza_qunit_tests_2.js"
+  },
+  "author": "Laurrain && Emanuel",
+  "license": "ISC",
+  "devDependencies": {
+    "qunit": "~0.7.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emanuel281/List_Api"
+  },
+  "bugs": {
+    "url": "https://github.com/avermeulen/codeX_ProgrammingExercises/issues"
+  },
+  "homepage": "https://github.com/emanuel281/List_Api"
+}
