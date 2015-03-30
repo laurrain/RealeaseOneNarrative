@@ -269,7 +269,7 @@ module.exports = {
 			if(stock[row["stock_item"]] === undefined && row["stock_item"] !== "Item"){
 				stock[row["stock_item"]] = Number(row["quantity"])
 			}
-			else{
+			else if(row["stock_item"] !== "Item"){
 				stock[row["stock_item"]] += Number(row["quantity"])	
 			}
 

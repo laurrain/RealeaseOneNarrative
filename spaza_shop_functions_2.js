@@ -319,7 +319,7 @@ module.exports = {
 
 			var count_sup = 0;
 
-			if(row["stock_item"] === popular_products[0]["product"]){
+			if(row["stock_item"] === popular_products[0]["product"] && row["stock_item"] !== "Item"){
 				suppliers.forEach(function(shop){
 					if(row["shop"] === shop["shop"]){
 						count_sup++;
@@ -346,7 +346,7 @@ module.exports = {
 
 			var count_sup = 0;
 
-			if(row["stock_item"] === product_profits[0]["product"]){
+			if(row["stock_item"] !== "Item" &&row["stock_item"] === product_profits[0]["product"]){
 				suppliers.forEach(function(shop){
 					if(row["shop"] === shop["shop"]){
 						count_sup++;
