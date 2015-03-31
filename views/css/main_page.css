@@ -1,0 +1,35 @@
+table, div {
+	clear: both;
+}
+
+a {
+	text-decoration: none;
+	clear: none;
+	margin: 0 auto
+}
+
+a:hover {
+	text-decoration: none
+}
+
+h1 {
+	text-align: center;
+	font: sans-serif 1px
+}
+
+h3 {
+	margin: 25px 0 0 0 
+}
+
+h2 {
+	text-align: center;
+	font-size: 50px
+}
+
+.shifter {
+	margin-top: 80px
+}
+
+.main-container {
+	padding-top: 120px
+}
