@@ -2,23 +2,14 @@ table, div {
 	clear: both;
 }
 
-html {
-	background-image: url("../images/images.jpeg") no-repeat center center fixed;
-	background-size: cover;
-}
-
 a {
 	text-decoration: none;
 	clear: none;
 	margin: 0 auto
-	padding: 0 auto;
-	width: 600px
 }
 
 a:hover {
 	text-decoration: none
-	margin: 0 auto;
-	color: rgb(0,0,255);
 }
 
 h1 {
@@ -28,6 +19,15 @@ h1 {
 
 h3 {
 	margin: 25px 0 0 0 
+}
+
+h2 {
+	text-align: center;
+	font-size: 50px
+}
+
+.shifter {
+	margin-top: 80px
 }
 
 .main-container {
