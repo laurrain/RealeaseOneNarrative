@@ -14,11 +14,12 @@ a:hover {
 
 h1 {
 	text-align: center;
-	font: sans-serif 1px
+	font: 4em "Oswald" sans-serif
 }
 
 h3 {
-	margin: 25px 0 0 0 
+	text-align: center;
+	padding-top: 150px 
 }
 
 h2 {
@@ -27,9 +28,17 @@ h2 {
 }
 
 .shifter {
+	padding: 0 150px;
 	margin-top: 80px
 }
 
 .main-container {
-	padding-top: 120px
+	padding-top: 120px;
+
+}
+
+
+.padded-div {
+	padding: 0 150px;
+	width: 100%
 }
