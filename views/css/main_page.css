@@ -1,11 +1,8 @@
-table, div {
-	clear: both;
-}
-
 a {
 	text-decoration: none;
 	clear: none;
-	margin: 0 auto
+	margin: 0;
+	padding: 0;
 }
 
 a:hover {
@@ -20,7 +17,7 @@ h1 {
 
 h3 {
 	text-align: center;
-	padding-top: 10em 
+	padding-top: 5em 
 }
 
 h2 {
@@ -28,32 +25,32 @@ h2 {
 	font-size: 5em
 }
 
-.shifter {
-	padding: 0 10em;
-	margin-top: 8em;
-	background-color: white;
-}
-
 .main-container {
-	padding-top: 10em;
-
-}
-
-
-.padded-div {
-	padding: 0 10em;
-	width: 100%
-}
-
-button {
-	text-align: center;
-	width: 20em;
+	padding-top: 9em;
 }
 
 body {
 	background-color: rgb(150,200,255);
 }
 
-table:first-child {
-	background-color: white;
+.btn-container {
+}
+
+table {
+	background-color: white
+}
+
+.row > button {
+	margin: 0.5em 0em auto 0em;
+	text-align: center;
+	height: 4em;
+}
+
+.row {
+	margin: 0 auto;
+}
+
+.col-md-2 > a {
+	color: white;
+	font-weight: bolder;
 }
