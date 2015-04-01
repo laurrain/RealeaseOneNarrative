@@ -14,31 +14,46 @@ a:hover {
 
 h1 {
 	text-align: center;
-	font: 4em "Oswald" sans-serif
+	font: 4em Courier, "Comic Sans MS", Georgia, sans-serif;
+	font-weight: bolder;
 }
 
 h3 {
 	text-align: center;
-	padding-top: 150px 
+	padding-top: 10em 
 }
 
 h2 {
 	text-align: center;
-	font-size: 50px
+	font-size: 5em
 }
 
 .shifter {
-	padding: 0 150px;
-	margin-top: 80px
+	padding: 0 10em;
+	margin-top: 8em;
+	background-color: white;
 }
 
 .main-container {
-	padding-top: 120px;
+	padding-top: 10em;
 
 }
 
 
 .padded-div {
-	padding: 0 150px;
+	padding: 0 10em;
 	width: 100%
+}
+
+button {
+	text-align: center;
+	width: 20em;
+}
+
+body {
+	background-color: rgb(150,200,255);
+}
+
+table:first-child {
+	background-color: white;
 }
