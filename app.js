@@ -109,6 +109,10 @@ app.get("/supplier_profitable_product", function(req, res){
 	res.render("supplier_profitable_product", {data:data})
 })
 
+app.get("/*", function(req, res){
+	res.render("home")
+})
+
 var server = app.listen(3000, function(){
 
 	console.log("server is running on " + server.address().address + ":" +server.address().port)

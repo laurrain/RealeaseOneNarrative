@@ -27,6 +27,7 @@ h2 {
 
 .main-container {
 	padding-top: 9em;
+	padding-bottom: 5em;
 }
 
 body {
@@ -37,7 +38,7 @@ body {
 }
 
 table {
-	background-color: white
+	background-color: white;
 }
 
 .row > button {
@@ -53,4 +54,30 @@ table {
 .col-md-2 > a {
 	color: white;
 	font-weight: bolder;
+}
+
+footer {
+	text-align: center;
+	margin: 0 0 20em 0;
+	color: white;
+	font-weight: bolder;
+	background-color: rgba(100, 10, 10, 200);
+	border: 2px solid black;
+
+}
+
+.footer-right > div {
+	float: right;
+	margin: 0;
+	padding: 0;
+}
+
+.footer-left > div {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+tr > td {
+	width: 33%;
 }
