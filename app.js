@@ -110,7 +110,7 @@ app.get("/*", function(req, res){
 	res.render("home")
 })
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 
 var server = app.listen(port, function(){
 
