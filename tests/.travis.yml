@@ -1,0 +1,14 @@
+.travis.yml:
+
+language: node_js
+
+before_script:
+	- npm install -g qunit
+
+node_js:
+	- "0.10"
+	- "0.12"
+
+script:
+	- "qunit -c ../spaza_shop_functions.js -t spaza_qunit_tests.js"
+	- "qunit -c ../spaza_shop_functions_2.js -t spaza_qunit_tests_2.js"

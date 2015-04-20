@@ -1,0 +1,14 @@
+{
+  "name": "nelisa_web_page",
+  "version": "0.0.0",
+  "description": "Nelisa web app",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Laurrain and Emanuel",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.12.3"
+  }
+}

@@ -1,0 +1,17 @@
+<div class="cols-xs-10 shifter">
+	<h2>Product Profits</h2>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Product</th> <th>Profits</th>
+			</tr>
+		</thead>
+	
+		{{#data}}
+			<tr>
+				<td>{{stock_item}}</td><td>R{{profits}}</td>
+			</tr>
+		{{/data}}
+
+	</table>
+</div>
