@@ -1,3 +1,58 @@
+exports.show = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from sales_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'product', {
+    			products : results
+    		});
+      	});
+	});	
+};
+exports.show_cat = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from categories', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'category', {
+    			categories : results
+    		});
+      	});
+	});	
+};
+
+exports.show_purchase_hist = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from purchase_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'purchase_hist', {
+    			purchase_history : results
+    		});
+      	});
+	});	
+};
+
+exports.show_sup = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from suppliers', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'supplier', {
+    			suppliers : results
+    		});
+      	});
+	});	
+};
+
 exports.show_popular_products = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
