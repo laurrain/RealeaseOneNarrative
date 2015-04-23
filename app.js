@@ -1,8 +1,5 @@
 'use strict';
 
-
-var app = express()
-
 var express = require('express'),
     exphbs  = require('express-handlebars'),
     mysql = require('mysql'), 
