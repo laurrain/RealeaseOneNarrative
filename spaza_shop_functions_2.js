@@ -90,7 +90,6 @@ module.exports = {
 		the_product_avgs.forEach(function(item){
 			switch(item["product"]){
 				case "Mixed Sweets 5s":
-				case "Top Class Soy Mince":
 				case "Fanta 500ml":
 				case "Cream Soda 500ml":
 				case "Heart Chocolates":
@@ -101,6 +100,7 @@ module.exports = {
 
 				case "Chakalaka Can":
 				case "Gold Dish Vegetable Curry Can":
+				case "Top Class Soy Mince":
 				case "Iwisa Pap 5kg":
 				case "Bread":
 					veg_and_carbs["day_avg"] += Number(item["day_avg"]);
