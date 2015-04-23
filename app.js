@@ -46,29 +46,13 @@ app.get("/category_sales_per_day_per_week", function(req, res){
 	res.render("category_sales_per_day_per_week", {data:data})
 })
 
-app.get("/category_profits", function(req, res){
-	var data = require("./category_profits.json")
+app.get("/category_profits", spaza_shop.show_category_profits)
 
-	res.render("category_profits", {data:data})
-})
+app.get("/daily_profits", spaza_shop.show_daily_profits)
 
-app.get("/daily_profits", function(req, res){
-	var data = require("./daily_profits.json")
+app.get("/entire_stock", spaza_shop.show_entire_stock)
 
-	res.render("daily_profits", {data:data})
-})
-
-app.get("/entire_stock", function(req, res){
-	var data = require("./entire_stock.json")
-
-	res.render("entire_stock", {data:data})
-})
-
-app.get("/regular_sales", function(req, res){
-	var data = require("./most_regular_sales.json")
-
-	res.render("regular_sales", {data:data})
-})
+app.get("/regular_sales", spaza_shop.show_regular_sales);
 
 app.get("/popular_categories", spaza_shop.show_popular_category);
 
@@ -86,17 +70,9 @@ app.get("/products_per_day_per_week", function(req, res){
 
 app.get("/product_profits", spaza_shop.show_product_profits);
 
-app.get("/sales_per_day", function(req, res){
-	var data = require("./sales_per_day.json")
+app.get("/sales_per_day", spaza_shop.show_sales_per_day)
 
-	res.render("sales_per_day", {data:data})
-})
-
-app.get("/stock_rates", function(req, res){
-	var data = require("./stock_rates.json")
-
-	res.render("stock_rates", {data:data})
-})
+app.get("/stock_rates", spaza_shop.show_stock_rates)
 
 app.get("/supplier_popular_product", spaza_shop.show_supplier_popular_product)
 
