@@ -83,15 +83,14 @@ exports.show_supplier_popular_product = function (req, res, next) {
 };
 
 
-//Still need to fix this...!!!
 exports.show_supplier_profitable_product = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT stock_item, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2))-CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)))*product_sold.no_sold AS profits FROM sales_history INNER JOIN purchase_history ON stock_item=item INNER JOIN product_sold ON product_name=item GROUP BY stock_item', [], function(err, results) {
+		connection.query('SELECT MAX(profits), shop, stock_item FROM (SELECT shop, stock_item, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2))-CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)))*product_sold.no_sold AS profits FROM sales_history INNER JOIN purchase_history ON stock_item=item INNER JOIN product_sold ON product_name=item GROUP BY sales_history.stock_item ORDER BY profits DESC) AS prod_profits', [], function(err, results) {
         	if (err) return next(err);
 
-    		res.render( 'to_be_supplier_profitable_product', {
+    		res.render( 'supplier_profitable_product', {
     			data : results
     		});
       });
@@ -176,6 +175,48 @@ exports.show_category_profits = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_profits', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_category_sales_per_day_per_week = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT cat_name, CASE WHEN (SUM(no_sold)/SUM(1)) < ROUND(SUM(no_sold)/SUM(1), 0) THEN ROUND(SUM(no_sold)/SUM(1), 0) ELSE ROUND(SUM(no_sold)/SUM(1),0)+1 END AS per_day, CASE WHEN (SUM(no_sold)/7) < ROUND((SUM(no_sold)/SUM(1))/7, 0) THEN ROUND(SUM(no_sold)/7, 0) ELSE ROUND(SUM(no_sold)/7,0)+1 END AS per_week FROM (SELECT date, cat_id, cat_name, SUM(no_sold) AS no_sold FROM sales_history INNER JOIN categories ON categories.id=cat_id GROUP BY date, cat_name) AS cat_sales GROUP BY cat_name ORDER BY per_day, per_week', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'category_sales_per_day_per_week', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_category_earnings = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT cat_name, SUM(cast(substring(sales_price,2) as decimal(53,2))*no_sold) AS earnings FROM sales_history INNER JOIN categories ON categories.id=cat_id GROUP BY cat_id ORDER BY earnings DESC', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'category_earnings', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_products_per_day_per_week = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT stock_item, CASE WHEN (SUM(no_sold)/SUM(1)) < ROUND(SUM(no_sold)/SUM(1), 0) THEN ROUND(SUM(no_sold)/SUM(1), 0) ELSE ROUND(SUM(no_sold)/SUM(1),0)+1 END AS per_day, CASE WHEN (SUM(no_sold)/7) < ROUND((SUM(no_sold)/SUM(1))/7, 0) THEN ROUND(SUM(no_sold)/7, 0) ELSE ROUND(SUM(no_sold)/7,0)+1 END AS per_week FROM (SELECT date, stock_item, SUM(no_sold) AS no_sold FROM sales_history GROUP BY date, stock_item) AS prod_sales GROUP BY stock_item ORDER BY per_day DESC, per_week DESC', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'products_per_day_per_week', {
     			data : results
     		});
       });
