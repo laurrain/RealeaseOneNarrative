@@ -44,7 +44,7 @@ exports.show_product_earnings = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT stock_item, SUM(cast(substring(sales_price,2) as decimal(53,8))*no_sold) AS earnings FROM sales_history GROUP BY stock_item', [], function(err, results) {
+		connection.query('SELECT stock_item, SUM(cast(substring(sales_price,2) as decimal(53,8))*no_sold) AS earnings FROM sales_history GROUP BY stock_item ORDER BY earnings DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'product_earnings', {
@@ -58,7 +58,7 @@ exports.show_product_profits = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT stock_item, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2))-CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)))*product_sold.no_sold AS profits FROM sales_history INNER JOIN purchase_history ON stock_item=item INNER JOIN product_sold ON product_name=item GROUP BY stock_item ORDER BY profits DESC', [], function(err, results) {
+		connection.query('SELECT stock_item, avg_profit*no_sold AS profits FROM (SELECT stock_item, ROUND(SUM(profit)/SUM(1), 2) as avg_profit FROM (SELECT * FROM (SELECT stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price,CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)) AS cost, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) - CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2))) AS profit FROM sales_history INNER JOIN purchase_history ON stock_item=item GROUP BY stock_item, price, cost) AS single_profits) AS single_profits GROUP BY stock_item) AS avg_prod_profits INNER JOIN product_sold ON product_name=stock_item ORDER BY profits DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'product_profits', {
@@ -171,7 +171,7 @@ exports.show_category_profits = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT cat_name, SUM((CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2))-CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)))*product_sold.no_sold) AS profits FROM sales_history INNER JOIN product_sold ON stock_item=product_name INNER JOIN purchase_history ON item=stock_item INNER JOIN categories ON categories.id=cat_id GROUP BY cat_name ORDER BY profits DESC', [], function(err, results) {
+		connection.query('SELECT cat_name, SUM(avg_profit*product_sold.no_sold) AS profits FROM (SELECT cat_id,stock_item, ROUND(SUM(profit)/SUM(1), 2) as avg_profit FROM (SELECT * FROM (SELECT cat_id, stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price,CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)) AS cost, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) - CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2) )) AS profit FROM sales_history INNER JOIN purchase_history ON stock_item=item GROUP BY stock_item, price, cost) AS single_profits) AS single_profits GROUP BY stock_item)AS avg_prod_profits INNER JOIN product_sold ON product_name=stock_item INNER JOIN categories ON categories.id=cat_id GROUP BY cat_name ORDER BY profits DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'category_profits', {
@@ -199,7 +199,7 @@ exports.show_category_earnings = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT cat_name, SUM(cast(substring(sales_price,2) as decimal(53,2))*no_sold) AS earnings FROM sales_history INNER JOIN categories ON categories.id=cat_id GROUP BY cat_id ORDER BY earnings DESC', [], function(err, results) {
+		connection.query('SELECT cat_name, SUM(earnings) AS earnings FROM (SELECT cat_name, no_sold*ROUND(AVG(price), 2) AS earnings FROM (SELECT cat_name, stock_item, price, SUM(no_sold) AS no_sold  FROM (SELECT cat_id, stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price, no_sold FROM sales_history) AS prod_price INNER JOIN categories ON cat_id=categories.id GROUP BY stock_item, price) AS product_price GROUP BY stock_item, price) AS cat_earnings GROUP BY cat_name ORDER BY earnings DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'category_earnings', {
