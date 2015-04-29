@@ -227,7 +227,7 @@ exports.show_all_suppliers = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT DISTINCT shop FROM purchase_history', [], function(err, results) {
+		connection.query('SELECT shop FROM suppliers', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'all_suppliers', {
@@ -241,13 +241,24 @@ exports.show_sales_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT * FROM sales_history', [], function(err, results) {
-        	if (err) return next(err);
+		connection.query('SELECT * FROM sales_history', [], function(err, sales_history) {
+        	if (err) 
+                return next(err);
+            
+            connection.query('SELECT ID, cat_name FROM categories', [], function(err, categories) {
+                if (err) return next(err);
 
-    		res.render( 'sales_history', {
-    			data : results
-    		});
-      });
+                connection.query('SELECT DISTINCT day FROM days', [], function(err, days) {
+                    if (err) return next(err);
+
+                    res.render( 'sales_history', {
+                        sales_history : sales_history,
+                        categories : categories,
+                        days : days
+                    });
+                });
+            });
+        });
 	});
 };
 
@@ -413,7 +424,7 @@ exports.add_sales_history = function (req, res, next) {
                     date : input.date,
                     stock_item : input.stock_item,
                     no_sold : input.no_sold,
-                    sales_price : input.sales_price
+                    sales_price : "R"+input.sales_price
             };
         connection.query('insert into sales_history set ?', data, function(err, results) {
                 if (err)
@@ -436,8 +447,8 @@ exports.add_purchase_history = function (req, res, next) {
                     date : input.date,
                     item : input.item,
                     quantity : input.quantity,
-                    cost : input.cost,
-                    total_cost: input.total_cost
+                    cost : "R"+input.cost,
+                    total_cost: "R"+input.cost*input.quantity
             };
         connection.query('insert into purchase_history set ?', data, function(err, results) {
                 if (err)
@@ -477,7 +488,7 @@ exports.add_categories = function (req, res, next) {
         var input = JSON.parse(JSON.stringify(req.body));
         var data = {
                     cat_name : input.cat_name,
-            };
+                };
         connection.query('insert into categories set ?', data, function(err, results) {
                 if (err)
                         console.log("Error inserting : %s ",err );
@@ -531,6 +542,63 @@ exports.delete_purchase_history = function(req, res, next){
                     console.log("Error Selecting : %s ",err );
             }
             res.redirect('/purchase_history');
+        });
+    });
+};
+
+exports.add_all_suppliers = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    shop : input.shop,
+                };
+        connection.query('insert into suppliers set ?', data, function(err, results) {
+                if (err)
+                        console.log("Error inserting : %s ",err );
+         
+                res.redirect('/all_suppliers');
+            });
+    });
+};
+
+exports.get_all_suppliers = function(req, res, next){
+    var shop = req.params.shop;
+    req.getConnection(function(err, connection){
+        connection.query('SELECT * FROM suppliers WHERE shop = ?', [shop], function(err,rows){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.render('edit_all_suppliers',{page_title:"Edit Suppliers", data : rows[0]});      
+        }); 
+    });
+};
+
+exports.update_all_suppliers = function(req, res, next){
+
+    var data = JSON.parse(JSON.stringify(req.body));
+        var supplier = req.params.shop;
+        req.getConnection(function(err, connection){
+            connection.query('UPDATE suppliers SET ? WHERE shop = ?', [data, supplier], function(err, rows){
+                if (err){
+                        console.log("Error Updating : %s ",err );
+                }
+                res.redirect('/all_suppliers');
+            });
+    });
+};
+
+exports.delete_all_suppliers = function(req, res, next){
+    var shop = req.params.shop;
+    req.getConnection(function(err, connection){
+        connection.query('DELETE FROM suppliers WHERE shop = ?', [shop], function(err,rows){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.redirect('/all_suppliers');
         });
     });
 };

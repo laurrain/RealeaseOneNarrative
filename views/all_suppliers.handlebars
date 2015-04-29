@@ -25,10 +25,14 @@
 					<th>Supplier Name</th>
 				</tr>
 			</thead>
-		
+				<form action="all_suppliers/add_all_suppliers" method="POST">
+					<td><input type="text" name="shop"></td>
+					<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
+				</form>
+			</tr>
 			{{#data}}
 				<tr>
-					<td>{{shop}}</td>
+					<td>{{shop}}</td><td><a href="all_suppliers/edit_all_suppliers/{{shop}}">edit</a></td><td><a href="all_suppliers/delete_all_suppliers/{{shop}}">delete</a></td>
 				</tr>
 			{{/data}}
 
