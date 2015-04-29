@@ -20,21 +20,40 @@
 		</div>
 	</div>
 
-<div class="cols-xs-10 shifter">
+<div class="cols-xs-1 shifter">
 		
 		<h2>Sales History</h2>
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
-					<th>Day</th><th>Date</th><th>stock item</th><th>No sold</th><th>Sales Price</th><th>Cat ID</th>
+					<th>Day</th><th>Date</th><th>stock item</th><th>No sold</th><th>Sales Price</th><th>Category</th>
 				</tr>
 			</thead>
-		
-			{{#data}}
+			<tbody>
 				<tr>
-					<td>{{day}}</td><td>{{date}}</td><td>{{stock_item}}</td><td>{{no_sold}}</td><td>{{sales_price}}</td><td>{{cat_id}}</td><td><a href="sales_history/edit_sales_history/{{id}}">edit</a></td><td><a href="sales_history/delete_sales_history/{{id}}">delete</a></td>
+					<form action="sales_history/add_sales_history" method="POST">
+						<td><input class="col-xs-12" type="text" name="day"></td>
+						<td><input type="text" name="date"></td>
+						<td><input class="col-xs-12" type="text" name="stock_item"></td>	
+						<td><input type="number" name="no_sold"></td>
+						<td><input type="text" name="sales_price"></td>	
+						<td>
+							<select name="{{category_name}}">
+								{{#data}}
+									<option value="{{category_name}}">{{category_name}}</option>
+								{{/data}}
+							</select>
+						</td>
+						<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
+					</form>
 				</tr>
-			{{/data}}
+
+				{{#data}}
+					<tr>
+						<td>{{day}}</td><td>{{date}}</td><td>{{stock_item}}</td><td>{{no_sold}}</td><td>{{sales_price}}</td><td>{{category_name}}</td><td><a href="sales_history/edit_sales_history/{{id}}">edit</a></td><td><a href="sales_history/delete_sales_history/{{id}}">delete</a></td>
+					</tr>
+				{{/data}}
+			</tbody>
 		</table>
 	</div>
 </div>

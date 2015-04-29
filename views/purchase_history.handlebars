@@ -29,13 +29,24 @@
 					<th>Shop</th><th>Date</th><th>Item</th><th>Quantity</th><th>Cost</th><th>Total Cost</th>
 				</tr>
 			</thead>
-		
-			{{#data}}
+			<tbody>
 				<tr>
-					<td>{{shop}}</td><td>{{date}}</td><td>{{item}}</td><td>{{quantity}}</td><td>{{cost}}</td><td>{{total_cost}}</td><td><a href="purchase_history/edit_purchase_history/{{id}}">edit</a></td><td><a href="purchase_history/delete_purchase_history/{{id}}">delete</a></td>
+					<form action="purchase_history/add_purchase_history" method="POST">
+						<td><input class="col-xs-12" type="text" name="shop"></td>
+						<td><input type="text" name="date"></td>
+						<td><input class="col-xs-12" type="text" name="item"></td>	
+						<td><input type="number" name="quantity"></td>
+						<td><input type="text" name="cost"></td>	
+						<td><input type="text" name="total_cost"></td>
+						<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
+					</form>
 				</tr>
-			{{/data}}
-
+				{{#data}}
+					<tr>
+						<td>{{shop}}</td><td>{{date}}</td><td>{{item}}</td><td>{{quantity}}</td><td>{{cost}}</td><td>{{total_cost}}</td><td><a href="purchase_history/edit_purchase_history/{{id}}">edit</a></td><td><a href="purchase_history/delete_purchase_history/{{id}}">delete</a></td>
+					</tr>
+				{{/data}}
+			</tbody>
 		</table>
 	</div>
 </div>

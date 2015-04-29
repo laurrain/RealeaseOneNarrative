@@ -16,7 +16,7 @@ exports.show_popular_category = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT cat_name, SUM(no_sold) AS no_sold FROM sales_history INNER JOIN categories ON cat_id=categories.id GROUP BY cat_name ORDER BY no_sold DESC', [], function(err, results) {
+		connection.query('SELECT cat_name, SUM(no_sold) AS no_sold FROM sales_history INNER JOIN categories ON category_name=categories.cat_name GROUP BY cat_name ORDER BY no_sold DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'popular_categories', {
@@ -171,7 +171,7 @@ exports.show_category_profits = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT cat_name, SUM(avg_profit*product_sold.no_sold) AS profits FROM (SELECT cat_id,stock_item, ROUND(SUM(profit)/SUM(1), 2) as avg_profit FROM (SELECT * FROM (SELECT cat_id, stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price,CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)) AS cost, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) - CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2) )) AS profit FROM sales_history INNER JOIN purchase_history ON stock_item=item GROUP BY stock_item, price, cost) AS single_profits) AS single_profits GROUP BY stock_item)AS avg_prod_profits INNER JOIN product_sold ON product_name=stock_item INNER JOIN categories ON categories.id=cat_id GROUP BY cat_name ORDER BY profits DESC', [], function(err, results) {
+		connection.query('SELECT cat_name, SUM(avg_profit*product_sold.no_sold) AS profits FROM (SELECT category_name,stock_item, ROUND(SUM(profit)/SUM(1), 2) as avg_profit FROM (SELECT * FROM (SELECT category_name, stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price,CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)) AS cost, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) - CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2) )) AS profit FROM sales_history INNER JOIN purchase_history ON stock_item=item GROUP BY stock_item, price, cost) AS single_profits) AS single_profits GROUP BY stock_item)AS avg_prod_profits INNER JOIN product_sold ON product_name=stock_item INNER JOIN categories ON categories.cat_name=category_name GROUP BY cat_name ORDER BY profits DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'category_profits', {
@@ -185,7 +185,7 @@ exports.show_category_sales_per_day_per_week = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT cat_name, CASE WHEN (SUM(no_sold)/SUM(1)) < ROUND(SUM(no_sold)/SUM(1), 0) THEN ROUND(SUM(no_sold)/SUM(1), 0) ELSE ROUND(SUM(no_sold)/SUM(1),0)+1 END AS per_day, CASE WHEN (SUM(no_sold)/7) < ROUND((SUM(no_sold)/SUM(1))/7, 0) THEN ROUND(SUM(no_sold)/7, 0) ELSE ROUND(SUM(no_sold)/7,0)+1 END AS per_week FROM (SELECT date, cat_id, cat_name, SUM(no_sold) AS no_sold FROM sales_history INNER JOIN categories ON categories.id=cat_id GROUP BY date, cat_name) AS cat_sales GROUP BY cat_name ORDER BY per_day, per_week', [], function(err, results) {
+		connection.query('SELECT cat_name, CASE WHEN (SUM(no_sold)/SUM(1)) < ROUND(SUM(no_sold)/SUM(1), 0) THEN ROUND(SUM(no_sold)/SUM(1), 0) ELSE ROUND(SUM(no_sold)/SUM(1),0)+1 END AS per_day, CASE WHEN (SUM(no_sold)/7) < ROUND((SUM(no_sold)/SUM(1))/7, 0) THEN ROUND(SUM(no_sold)/7, 0) ELSE ROUND(SUM(no_sold)/7,0)+1 END AS per_week FROM (SELECT date, category_name, cat_name, SUM(no_sold) AS no_sold FROM sales_history INNER JOIN categories ON categories.cat_name=category_name GROUP BY date, cat_name) AS cat_sales GROUP BY cat_name ORDER BY per_day, per_week', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'category_sales_per_day_per_week', {
@@ -199,7 +199,7 @@ exports.show_category_earnings = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT cat_name, SUM(earnings) AS earnings FROM (SELECT cat_name, no_sold*ROUND(AVG(price), 2) AS earnings FROM (SELECT cat_name, stock_item, price, SUM(no_sold) AS no_sold  FROM (SELECT cat_id, stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price, no_sold FROM sales_history) AS prod_price INNER JOIN categories ON cat_id=categories.id GROUP BY stock_item, price) AS product_price GROUP BY stock_item, price) AS cat_earnings GROUP BY cat_name ORDER BY earnings DESC', [], function(err, results) {
+		connection.query('SELECT cat_name, SUM(earnings) AS earnings FROM (SELECT cat_name, no_sold*ROUND(AVG(price), 2) AS earnings FROM (SELECT cat_name, stock_item, price, SUM(no_sold) AS no_sold  FROM (SELECT category_name, stock_item, CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2)) AS price, no_sold FROM sales_history) AS prod_price INNER JOIN categories ON category_name=categories.cat_name GROUP BY stock_item, price) AS product_price GROUP BY stock_item, price) AS cat_earnings GROUP BY cat_name ORDER BY earnings DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'category_earnings', {
@@ -421,5 +421,116 @@ exports.add_sales_history = function (req, res, next) {
          
                 res.redirect('/sales_history');
             });
+    });
+};
+
+exports.add_purchase_history = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    shop : input.shop,
+                    date : input.date,
+                    item : input.item,
+                    quantity : input.quantity,
+                    cost : input.cost,
+                    total_cost: input.total_cost
+            };
+        connection.query('insert into purchase_history set ?', data, function(err, results) {
+                if (err)
+                        console.log("Error inserting : %s ",err );
+         
+                res.redirect('/purchase_history');
+            });
+    });
+};
+
+exports.add_product_sold = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    product_name : input.product_name,
+                    no_sold : input.no_sold,
+            };
+        connection.query('insert into product_sold set ?', data, function(err, results) {
+                if (err)
+                        console.log("Error inserting : %s ",err );
+         
+                res.redirect('/product_sold');
+            });
+    });
+};
+
+exports.add_categories = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    cat_name : input.cat_name,
+            };
+        connection.query('insert into categories set ?', data, function(err, results) {
+                if (err)
+                        console.log("Error inserting : %s ",err );
+         
+                res.redirect('/categories');
+            });
+    });
+};
+
+exports.delete_sales_history = function(req, res, next){
+    var id = req.params.id;
+    req.getConnection(function(err, connection){
+        connection.query('DELETE FROM sales_history WHERE id = ?', [id], function(err,rows){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.redirect('/sales_history');
+        });
+    });
+};
+
+exports.delete_categories = function(req, res, next){
+    var id = req.params.id;
+    req.getConnection(function(err, connection){
+        connection.query('DELETE FROM categories WHERE id = ?', [id], function(err,rows){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.redirect('/categories');
+        });
+    });
+};
+
+exports.delete_product_sold = function(req, res, next){
+    var id = req.params.id;
+    req.getConnection(function(err, connection){
+        connection.query('DELETE FROM product_sold WHERE id = ?', [id], function(err,rows){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.redirect('/product_sold');
+        });
+    });
+};
+
+exports.delete_purchase_history = function(req, res, next){
+    var id = req.params.id;
+    req.getConnection(function(err, connection){
+        connection.query('DELETE FROM purchase_history WHERE id = ?', [id], function(err,rows){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.redirect('/purchase_history');
+        });
     });
 };

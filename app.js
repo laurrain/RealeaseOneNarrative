@@ -95,18 +95,22 @@ app.get("/supplier_information", function(req, res){
 app.post('/sales_history/add_sales_history', spaza_shop.add_sales_history);
 app.get('/sales_history/edit_sales_history/:id', spaza_shop.get_sales_history);
 app.post('/sales_history/update_sales_history/:id', spaza_shop.update_sales_history);
+app.get('/sales_history/delete_sales_history/:id', spaza_shop.delete_sales_history);
 
-//app.post('/categories/add_categories', spaza_shop.add_categories);
+app.post('/categories/add_categories', spaza_shop.add_categories);
 app.get('/categories/edit_categories/:id', spaza_shop.get_categories);
 app.post('/categories/update_categories/:id', spaza_shop.update_categories);
+app.get('/categories/delete_categories/:id', spaza_shop.delete_categories);
 
-//app.post('/product_sold/add_product_sold', spaza_shop.add_product_sold);
+app.post('/product_sold/add_product_sold', spaza_shop.add_product_sold);
 app.get('/product_sold/edit_product_sold/:id', spaza_shop.get_product_sold);
 app.post('/product_sold/update_product_sold/:id', spaza_shop.update_product_sold);
+app.get('/product_sold/delete_product_sold/:id', spaza_shop.delete_product_sold);
 
-//app.post('/purchase_history/add_purchase_history', spaza_shop.add_purchase_history);
+app.post('/purchase_history/add_purchase_history', spaza_shop.add_purchase_history);
 app.get('/purchase_history/edit_purchase_history/:id', spaza_shop.get_purchase_history);
 app.post('/purchase_history/update_purchase_history/:id', spaza_shop.update_purchase_history);
+app.get('/purchase_history/delete_purchase_history/:id', spaza_shop.delete_purchase_history);
 
 app.get("/*", function(req, res){
 	res.render("home")
