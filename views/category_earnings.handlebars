@@ -1,19 +1,38 @@
-<div class="cols-xs-10 shifter">
+<div class="container col-xs-12">
+		<!-- button starts-->
+	<div class="navbar container btn-container col-xs-12">
+		<div class="row col-xs-12">
+			<button onclick="location.href='category_earnings'" class="col-xs-4">
+				Category Earnings
+			</button>
 
-	<h2>Category Earnings</h2>
+			<button onclick="location.href='product_earnings'" class="col-xs-4">
+				Product Earnings
+			</button>
 
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr>
-				<th>Category</th> <th>Earnings</th>
-			</tr>
-		</thead>
-	
-		{{#data}}
-			<tr>
-				<td>{{cat_name}}</td><td>R{{earnings}}</td>
-			</tr>
-		{{/data}}
+			<button onclick="location.href='products_price_cost'" class="col-xs-4">
+				Products Price and Cost
+			</button>
+		</div>
 
-	</table>
+	</div>
+	<div class="cols-xs-10 shifter">
+
+		<h2>Category Earnings</h2>
+
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Category</th> <th>Earnings</th>
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{cat_name}}</td><td>R{{earnings}}</td>
+				</tr>
+			{{/data}}
+
+		</table>
+	</div>
 </div>

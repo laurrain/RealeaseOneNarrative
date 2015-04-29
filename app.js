@@ -64,7 +64,49 @@ app.get("/stock_rates", spaza_shop.show_stock_rates)
 
 app.get("/supplier_popular_product", spaza_shop.show_supplier_popular_product)
 
-app.get("/supplier_profitable_product", spaza_shop.show_supplier_profitable_product)
+app.get("/supplier_profitable_product", spaza_shop.show_supplier_profitable_product);
+
+app.get("/all_suppliers", spaza_shop.show_all_suppliers);
+
+app.get("/sales_history", spaza_shop.show_sales_history);
+
+app.get("/purchase_history", spaza_shop.show_purchase_history);
+
+app.get("/categories", spaza_shop.show_categories);
+
+app.get("/product_sold", spaza_shop.show_product_sold);
+
+app.get("/sales", function(req, res){
+  res.render("sales")
+});
+
+app.get("/earnings", function(req, res){
+  res.render("earnings")
+});
+
+app.get("/profits", function(req, res){
+  res.render("profits")
+});
+
+app.get("/supplier_information", function(req, res){
+  res.render("supplier_information")
+});
+
+app.post('/sales_history/add_sales_history', spaza_shop.add_sales_history);
+app.get('/sales_history/edit_sales_history/:id', spaza_shop.get_sales_history);
+app.post('/sales_history/update_sales_history/:id', spaza_shop.update_sales_history);
+
+//app.post('/categories/add_categories', spaza_shop.add_categories);
+app.get('/categories/edit_categories/:id', spaza_shop.get_categories);
+app.post('/categories/update_categories/:id', spaza_shop.update_categories);
+
+//app.post('/product_sold/add_product_sold', spaza_shop.add_product_sold);
+app.get('/product_sold/edit_product_sold/:id', spaza_shop.get_product_sold);
+app.post('/product_sold/update_product_sold/:id', spaza_shop.update_product_sold);
+
+//app.post('/purchase_history/add_purchase_history', spaza_shop.add_purchase_history);
+app.get('/purchase_history/edit_purchase_history/:id', spaza_shop.get_purchase_history);
+app.post('/purchase_history/update_purchase_history/:id', spaza_shop.update_purchase_history);
 
 app.get("/*", function(req, res){
 	res.render("home")

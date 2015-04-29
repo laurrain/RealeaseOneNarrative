@@ -143,7 +143,7 @@ exports.show_entire_stock = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query(' SELECT item, SUM(quantity) as quantity FROM purchase_history GROUP BY item ORDER BY quantity DESC', [], function(err, results) {
+		connection.query('SELECT item, SUM(quantity) as quantity FROM purchase_history GROUP BY item ORDER BY quantity DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'entire_stock', {
@@ -221,4 +221,205 @@ exports.show_products_per_day_per_week = function(req, res, next){
     		});
       });
 	});
+};
+
+exports.show_all_suppliers = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT DISTINCT shop FROM purchase_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'all_suppliers', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_sales_history = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * FROM sales_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'sales_history', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_purchase_history = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * FROM purchase_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'purchase_history', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_product_sold = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * FROM product_sold', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'product_sold', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.show_categories = function(req, res, next){
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * FROM categories', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'categories', {
+    			data : results
+    		});
+      });
+	});
+};
+
+exports.get_sales_history = function(req, res, next){
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('SELECT * FROM sales_history WHERE id = ?', [id], function(err,rows){
+			if(err){
+    				console.log("Error Selecting : %s ",err );
+			}
+			res.render('edit_sales_history',{page_title:"Edit Product", data : rows[0]});      
+		}); 
+	});
+};
+
+exports.update_sales_history = function(req, res, next){
+
+	var data = JSON.parse(JSON.stringify(req.body));
+    	var id = req.params.id;
+    	req.getConnection(function(err, connection){
+    		connection.query('UPDATE sales_history SET ? WHERE id = ?', [data, id], function(err, rows){
+    			if (err){
+              			console.log("Error Updating : %s ",err );
+    			}
+          		res.redirect('/sales_history');
+    		});
+    		
+    });
+};
+
+exports.get_categories = function(req, res, next){
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('SELECT * FROM categories WHERE id = ?', [id], function(err,rows){
+			if(err){
+    				console.log("Error Selecting : %s ",err );
+			}
+			res.render('edit_categories',{page_title:"Edit Categories", data : rows[0]});      
+		}); 
+	});
+};
+
+exports.update_categories = function(req, res, next){
+
+	var data = JSON.parse(JSON.stringify(req.body));
+    	var id = req.params.id;
+    	req.getConnection(function(err, connection){
+    		connection.query('UPDATE categories SET ? WHERE id = ?', [data, id], function(err, rows){
+    			if (err){
+              			console.log("Error Updating : %s ",err );
+    			}
+          		res.redirect('/categories');
+    		});
+    		
+    });
+};
+
+exports.get_product_sold = function(req, res, next){
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('SELECT * FROM product_sold WHERE id = ?', [id], function(err,rows){
+			if(err){
+    				console.log("Error Selecting : %s ",err );
+			}
+			res.render('edit_product_sold',{page_title:"Edit Product Sold", data : rows[0]});      
+		}); 
+	});
+};
+
+exports.update_product_sold = function(req, res, next){
+
+	var data = JSON.parse(JSON.stringify(req.body));
+    	var id = req.params.id;
+    	req.getConnection(function(err, connection){
+    		connection.query('UPDATE product_sold SET ? WHERE id = ?', [data, id], function(err, rows){
+    			if (err){
+              			console.log("Error Updating : %s ",err );
+    			}
+          		res.redirect('/product_sold');
+    		});
+    		
+    });
+};
+
+exports.get_purchase_history = function(req, res, next){
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('SELECT * FROM purchase_history WHERE id = ?', [id], function(err,rows){
+			if(err){
+    				console.log("Error Selecting : %s ",err );
+			}
+			res.render('edit_purchase_history',{page_title:"Edit Purchase History", data : rows[0]});      
+		}); 
+	});
+};
+
+exports.update_purchase_history = function(req, res, next){
+
+	var data = JSON.parse(JSON.stringify(req.body));
+    	var id = req.params.id;
+    	req.getConnection(function(err, connection){
+    		connection.query('UPDATE purchase_history SET ? WHERE id = ?', [data, id], function(err, rows){
+    			if (err){
+              			console.log("Error Updating : %s ",err );
+    			}
+          		res.redirect('/purchase_history');
+    		});
+    		
+    });
+};
+
+exports.add_sales_history = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    day : input.day,
+                    date : input.date,
+                    stock_item : input.stock_item,
+                    no_sold : input.no_sold,
+                    sales_price : input.sales_price
+            };
+        connection.query('insert into sales_history set ?', data, function(err, results) {
+                if (err)
+                        console.log("Error inserting : %s ",err );
+         
+                res.redirect('/sales_history');
+            });
+    });
 };

@@ -4,7 +4,7 @@
 	<title>Nelisa Spaza</title>
 	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="static/css/main_page.css">
-	<!--link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'-->
+	<link href='static/css/simplesidebar.css' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<div class="nav navbar navbar-default navbar-fixed-top">
@@ -13,83 +13,39 @@
 	
 	<!--main-container div encases the buton and the tables that appear below-->
 	<div class="main-container container">
-			<!-- button starts-->
-		<div class="navbar container btn-container col-xs-12">
-			<div class="row col-xs-12">
-				<button onclick="location.href='category_earnings'" class="col-xs-3">
-					Category Earnings
-				</button>
 	
-				<button onclick="location.href='category_sales_per_day_per_week'" class="col-xs-3">
-					Category Sales: (Day/Week)
-				</button>
-	
-				<button onclick="location.href='category_profits'" class="col-xs-3">
-					Category Profits
-				</button>
+		<!-- End of button container-->
+		<div id="wrapper">
 
-				<button onclick="location.href='daily_profits'" class="col-xs-3">
-					Average Daily Profits
-				</button>
-			</div>
-
-			<div class="row col-xs-12">
-
-				<button onclick="location.href='entire_stock'" class="col-xs-3">
-					Entire Stock
-				</button>
-
-				<button onclick="location.href='regular_sales'" class="col-xs-3">
-					Most Regular Sales
-				</button>
-
-				<button onclick="location.href='popular_categories'" class="col-xs-3">
-					Popular Categories
-				</button>
-
-				<button onclick="location.href='popular_products'" class="col-xs-3">
-					Popular Products
-				</button>
-			</div>
-
-			<div class="row col-xs-12">
-
-				<button onclick="location.href='products_price_cost'" class="col-xs-3">
-					Products Price and Cost
-				</button>
-
-				<button onclick="location.href='product_earnings'" class="col-xs-3">
-					Product Earnings
-				</button>
-
-				<button onclick="location.href='products_per_day_per_week'" class="col-xs-3">
-					Product Sales: (Day/Week)
-				</button>
-
-				<button onclick="location.href='product_profits'" class="col-xs-3">
-					Product Profits
-				</button>
-			</div>
-
-			<div class="row col-xs-12">
-				<button onclick="location.href='sales_per_day'" class="col-xs-3">
-					Sales Per Day
-				</button>
-	
-				<button onclick="location.href='stock_rates'" class="col-xs-3">
-					Stock Rates
-				</button>
-	
-				<button onclick="location.href='supplier_popular_product'" class="col-xs-3">
-					Supplier of Most Popular Product
-				</button>
-	
-				<button onclick="location.href='supplier_profitable_product'" class="col-xs-3">
-					Most Profitable Product Supplier
-				</button>
+        <!-- Sidebar -->
+	        <div id="sidebar-wrapper">
+	            <ul class="sidebar-nav">
+	                <li class="sidebar-brand">
+	                    <a href="/">
+	                        Menu
+	                    </a>
+	                </li>
+	                <li>
+	                    <a href="/">Home</a>
+	                </li>
+	                <li>
+	                    <a href="earnings">Earnings</a>
+	                </li>
+	                <li>
+	                    <a href="sales">Sales</a>
+	                </li>
+	                <li>
+	                    <a href="profits">Profits</a>
+	                </li>
+	                <li>
+	                    <a href="supplier_information">Supplier Information</a>
+	                </li>
+	            </ul>
+	        </div>
+	        <div class="page-content-wrapper">
+				{{{body}}}
 			</div>
 		</div>
-		{{{body}}}
 	</div>
 	<!-- main-container ends here -->
 

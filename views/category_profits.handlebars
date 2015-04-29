@@ -1,17 +1,35 @@
-<div class="cols-xs-10 shifter">
-	<h2>Category Profits</h2>
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr>
-				<th>Category</th> <th>Profit</th>
-			</tr>
-		</thead>
-	
-		{{#data}}
-			<tr>
-				<td>{{cat_name}}</td><td>R{{profits}}</td>
-			</tr>
-		{{/data}}
+<div class="container col-xs-12">
+	<div class="navbar container btn-container col-xs-12">
+		<div class="row col-xs-12">
 
-	</table>
+			<button onclick="location.href='category_profits'" class="col-xs-4">
+				Category Profits
+			</button>
+
+			<button onclick="location.href='daily_profits'" class="col-xs-4">
+				Average Daily Profits
+			</button>
+
+			<button onclick="location.href='product_profits'" class="col-xs-4">
+				Product Profits
+			</button>
+		</div>
+
+	</div>
+	<div class="cols-xs-10 shifter">
+		<h2>Category Profits</h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Category</th> <th>Profit</th>
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{cat_name}}</td><td>R{{profits}}</td>
+				</tr>
+			{{/data}}
+		</table>
+	</div>
 </div>

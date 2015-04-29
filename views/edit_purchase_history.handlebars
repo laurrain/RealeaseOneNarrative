@@ -1,0 +1,14 @@
+<h1>Edit</h1>
+
+{{#data}}
+<form action="/purchase_history/update_purchase_history/{{id}}" method="POST">
+	Supplier Name: <input type="text" name="shop" value="{{shop}}">	
+	Date of Purchase: <input type="text" name="date" value="{{date}}">
+	Stock Item: <input type="text" name="item" value="{{item}}">
+	Quantity: <input type="text" name="quantity" value="{{quantity}}">
+	Cost of One: <input type="text" name="cost" value="{{cost}}">
+	Total Cost: <input type="text" name="total_cost" value="{{total_cost}}">	
+
+	<input type="submit">
+</form>
+{{/data}}

@@ -1,17 +1,37 @@
-<div class="cols-xs-10 shifter">
-	<h2>Price and Cost of Each Product</h2>
-	<table class="table table-striped table-bordered">
-		<thead>
-			<tr>
-				<th>Product</th> <th>Price of Item (in Rands(R))</th><th>Cost of Item (in Rands(R))</th>
-			</tr>
-		</thead>
-	
-		{{#data}}
-			<tr>
-				<td>{{stock_item}}</td><td>{{sales_price}}</td><td>{{cost}}</td>
-			</tr>
-		{{/data}}
+<div class="container col-xs-12">
+		<!-- button starts-->
+		<div class="navbar container btn-container col-xs-12">
+			<div class="row col-xs-12">
+				<button onclick="location.href='category_earnings'" class="col-xs-4">
+					Category Earnings
+				</button>
 
-	</table>
+				<button onclick="location.href='product_earnings'" class="col-xs-4">
+					Product Earnings
+				</button>
+
+				<button onclick="location.href='products_price_cost'" class="col-xs-4">
+					Products Price and Cost
+				</button>
+			</div>
+
+		</div>
+	<div class="cols-xs-10 shifter">
+
+		<h2>Price and Cost of Each Product</h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Product</th> <th>Price of Item (in Rands(R))</th><th>Cost of Item (in Rands(R))</th>
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{stock_item}}</td><td>{{sales_price}}</td><td>{{cost}}</td>
+				</tr>
+			{{/data}}
+
+		</table>
+	</div>
 </div>
