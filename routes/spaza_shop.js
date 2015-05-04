@@ -230,7 +230,7 @@ exports.show_all_suppliers = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT shop FROM suppliers', [], function(err, results) {
+		connection.query('SELECT * FROM suppliers', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'all_suppliers', {
@@ -589,9 +589,9 @@ exports.add_all_suppliers = function (req, res, next) {
 };
 
 exports.get_all_suppliers = function(req, res, next){
-    var shop = req.params.shop;
+    var id = req.params.id;
     req.getConnection(function(err, connection){
-        connection.query('SELECT * FROM suppliers WHERE shop = ?', [shop], function(err,rows){
+        connection.query('SELECT * FROM suppliers WHERE id = ?', [id], function(err,rows){
             if(err){
                     console.log("Error Selecting : %s ",err );
             }
@@ -621,9 +621,9 @@ exports.update_all_suppliers = function(req, res, next){
 };
 
 exports.delete_all_suppliers = function(req, res, next){
-    var shop = req.params.shop;
+    var id = req.params.id;
     req.getConnection(function(err, connection){
-        connection.query('DELETE FROM suppliers WHERE shop = ?', [shop], function(err,rows){
+        connection.query('DELETE FROM suppliers WHERE id = ?', [id], function(err,rows){
             if(err){
                     console.log("Error Selecting : %s ",err );
             }

@@ -113,9 +113,9 @@ app.post('/purchase_history/update_purchase_history/:id', spaza_shop.update_purc
 app.get('/purchase_history/delete_purchase_history/:id', spaza_shop.delete_purchase_history);
 
 app.post('/all_suppliers/add_all_suppliers', spaza_shop.add_all_suppliers);
-app.get('/all_suppliers/edit_all_suppliers/:shop', spaza_shop.get_all_suppliers);
-app.post('/all_suppliers/update_all_suppliers/:shop', spaza_shop.update_all_suppliers);
-app.get('/all_suppliers/delete_all_suppliers/:shop', spaza_shop.delete_all_suppliers);
+app.get('/all_suppliers/edit_all_suppliers/:id', spaza_shop.get_all_suppliers);
+app.post('/all_suppliers/update_all_suppliers/:id', spaza_shop.update_all_suppliers);
+app.get('/all_suppliers/delete_all_suppliers/:id', spaza_shop.delete_all_suppliers);
 
 app.get("/*", function(req, res){
 	res.render("home")
