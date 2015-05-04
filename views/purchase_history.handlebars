@@ -32,7 +32,13 @@
 			<tbody>
 				<tr>
 					<form action="purchase_history/add_purchase_history" method="POST">
-						<td><input class="col-xs-12" type="text" name="shop"></td>
+						<td>
+							<select name="shop">
+								{{#shops}}
+								<option name="{{shop}}">{{shop}}</option>
+								{{/shops}}
+							</select>
+						</td>
 						<td><input type="text" name="date"></td>
 						<td><input class="col-xs-12" type="text" name="item"></td>	
 						<td><input type="number" name="quantity"></td>

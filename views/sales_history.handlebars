@@ -1,5 +1,5 @@
 <div class="container col-xs-12">
-	<div class="navbar container btn-container col-xs-12">
+	<div class="navbar container btn-container container">
 		<div class="row col-xs-12">
 		
 			<button onclick="location.href='sales_history'" class="col-xs-3">
@@ -37,9 +37,16 @@
 
 									<option value="{{day}}">{{day}}</option>
 								{{/days}}
-							</select></td>
+							</select>
+						</td>
 						<td><input type="text" name="date"></td>
-						<td><input class="col-xs-12" type="text" name="stock_item"></td>	
+						<td>
+							<select name="stock_item">
+								{{#products}}
+									<option value="{{product_name}}">{{product_name}}</option>
+								{{/products}}
+							</select>
+						</td>	
 						<td><input type="number" name="no_sold"></td>
 						<td><input type="number" name="sales_price"></td>	
 						<td>
@@ -50,7 +57,7 @@
 								{{/categories}}
 							</select>
 						</td>
-						<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
+						<td colspan="2"><input value="Save" type="submit"></td>
 					</form>
 				</tr>
 

@@ -30,7 +30,7 @@ exports.show_products_price_cost = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT stock_item, sales_price, cost FROM sales_history INNER JOIN purchase_history ON stock_item=purchase_history.item GROUP BY stock_item', [], function(err, results) {
+		connection.query('SELECT stock_item, sales_price, cost FROM sales_history INNER JOIN purchase_history ON stock_item=purchase_history.item GROUP BY stock_item, sales_price, cost', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'products_price_cost', {
@@ -44,7 +44,7 @@ exports.show_product_earnings = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT stock_item, SUM(cast(substring(sales_price,2) as decimal(53,8))*no_sold) AS earnings FROM sales_history GROUP BY stock_item ORDER BY earnings DESC', [], function(err, results) {
+		connection.query('SELECT stock_item, SUM(earnings) AS earnings FROM (SELECT stock_item ,SUM(no_sold) AS no_sold, sales_price, SUM(no_sold)*CAST(SUBSTRING(sales_price, 2) AS DECIMAL(53, 2)) AS earnings  FROM sales_history GROUP BY sales_price, stock_item ORDER BY stock_item) AS sold_price_earn GROUP BY stock_item ORDER BY earnings DESC', [], function(err, results) {
         	if (err) return next(err);
 
     		res.render( 'product_earnings', {
@@ -53,6 +53,9 @@ exports.show_product_earnings = function (req, res, next) {
       });
 	});
 };
+
+//Total number of WEEDAYS
+//SELECT day, SUM(1) as freq FROM (SELECT DISTINCT date, day FROM (SELECT date,day, stock_item, SUM(no_sold) AS no_sold, CAST(SUBSTR(sales_price, 2) AS DECIMAL(53,2)) AS sales_price FROM sales_history GROUP BY day, stock_item, date) AS stuff GROUP BY date, day) AS date_days GROUP BY day
 
 exports.show_product_profits = function (req, res, next) {
 	req.getConnection(function(err, connection){
@@ -250,11 +253,15 @@ exports.show_sales_history = function(req, res, next){
 
                 connection.query('SELECT DISTINCT day FROM days', [], function(err, days) {
                     if (err) return next(err);
+                    connection.query('SELECT DISTINCT product_name FROM product_sold', [], function(err, products) {
+                        if (err) return next(err);
 
-                    res.render( 'sales_history', {
-                        sales_history : sales_history,
-                        categories : categories,
-                        days : days
+                        res.render( 'sales_history', {
+                            sales_history : sales_history,
+                            categories : categories,
+                            days : days,
+                            products: products
+                        });
                     });
                 });
             });
@@ -269,10 +276,14 @@ exports.show_purchase_history = function(req, res, next){
 		connection.query('SELECT * FROM purchase_history', [], function(err, results) {
         	if (err) return next(err);
 
-    		res.render( 'purchase_history', {
-    			data : results
-    		});
-      });
+                connection.query('SELECT shop FROM suppliers', [], function(err, supplier_names) {
+                if (err) return next(err);
+            		res.render( 'purchase_history', {
+            			data : results,
+                        shops: supplier_names
+            		});
+            });
+        });
 	});
 };
 
@@ -352,7 +363,12 @@ exports.update_categories = function(req, res, next){
     			if (err){
               			console.log("Error Updating : %s ",err );
     			}
-          		res.redirect('/categories');
+          		connection.query('UPDATE sales_history SET category_name=? WHERE cat_id = (SELECT ID FROM categories WHERE cat_name=?)', [data.cat_name, data.cat_name], function(err, rows){
+                if (err){
+                        console.log("Error Updating : %s ",err );
+                }
+                    res.redirect('/categories');
+                });
     		});
     		
     });
@@ -424,14 +440,20 @@ exports.add_sales_history = function (req, res, next) {
                     date : input.date,
                     stock_item : input.stock_item,
                     no_sold : input.no_sold,
-                    sales_price : "R"+input.sales_price
+                    sales_price : "R"+input.sales_price,
+                    category_name : input.category_name
             };
-        connection.query('insert into sales_history set ?', data, function(err, results) {
+        connection.query('INSERT INTO sales_history SET ?, cat_id=(SELECT ID FROM categories WHERE cat_name=?)', [data, input.category_name], function(err, results) {
+            if (err)
+                console.log("Error inserting : %s ",err );
+
+            connection.query('UPDATE product_sold SET no_sold=no_sold+? WHERE product_name=?', [input.no_sold, input.stock_item], function(err, results) {
                 if (err)
                         console.log("Error inserting : %s ",err );
-         
+                
                 res.redirect('/sales_history');
             });
+        });
     });
 };
 
@@ -450,7 +472,7 @@ exports.add_purchase_history = function (req, res, next) {
                     cost : "R"+input.cost,
                     total_cost: "R"+input.cost*input.quantity
             };
-        connection.query('insert into purchase_history set ?', data, function(err, results) {
+        connection.query('insert into purchase_history set ?, supplier_id=(SELECT id FROM suppliers WHERE shop=?)', [data, input.shop], function(err, results) {
                 if (err)
                         console.log("Error inserting : %s ",err );
          
@@ -489,7 +511,7 @@ exports.add_categories = function (req, res, next) {
         var data = {
                     cat_name : input.cat_name,
                 };
-        connection.query('insert into categories set ?', data, function(err, results) {
+        connection.query('INSERT INTO categories (SELECT MAX(ID)+1, ?  FROM categories)', input.cat_name, function(err, results) {
                 if (err)
                         console.log("Error inserting : %s ",err );
          
@@ -553,8 +575,9 @@ exports.add_all_suppliers = function (req, res, next) {
         }
         
         var input = JSON.parse(JSON.stringify(req.body));
+
         var data = {
-                    shop : input.shop,
+                    shop : input.shop
                 };
         connection.query('insert into suppliers set ?', data, function(err, results) {
                 if (err)
@@ -586,7 +609,13 @@ exports.update_all_suppliers = function(req, res, next){
                 if (err){
                         console.log("Error Updating : %s ",err );
                 }
-                res.redirect('/all_suppliers');
+                connection.query('UPDATE purchase_history SET ? WHERE shop = ?', [data, supplier], function(err, rows){
+                    if (err){
+                            console.log("Error Updating : %s ",err );
+                    }
+
+                    res.redirect('/all_suppliers');
+                });
             });
     });
 };
