@@ -2,6 +2,7 @@ a {
 	text-decoration: none;
 	margin: 0;
 	padding: 0;
+	color: rgb(133,0,0);
 }
 
 a:hover {
@@ -25,26 +26,25 @@ h2 {
 	font-size: 2.5em
 }
 
+.navbar-fixed-top {
+	position: relative;
+	padding: 0;
+	margin: 0;
+
+}
+
+
 .main-container {
-	padding-top: 7em;
-	padding-bottom: 5em;
+	padding:0 0 5em 0;
+	margin: 0 auto;
 }
 
 body {
 	background-color: rgb(150,200,255);
 }
 
-.btn-container {
-}
-
 table {
 	background-color: white;
-}
-
-.row > button {
-	margin: 0.5em 0em auto 0em;
-	text-align: center;
-	height: 4em;
 }
 
 .row {
