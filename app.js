@@ -5,7 +5,8 @@ var express = require('express'),
     mysql = require('mysql'), 
     myConnection = require('express-myconnection'),
     bodyParser = require('body-parser'),
-    spaza_shop = require('./routes/spaza_shop');
+    spaza_shop = require('./routes/spaza_shop'),
+    session = require('express-session');
 
 var app = express();
 
@@ -30,51 +31,77 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get("/", function(req, res){
+app.use(session({secret: "yada yada", saveUninitialized : true, resave: true, cookie : {maxAge : 60000}}));
+
+var checkUser = function(req, res, next){
+  if (req.session.user){
+    return next();
+  }
+  // the user is not logged in redirect him to the login page
+  res.redirect('login');
+};
+
+app.get("/", checkUser, function(req, res){  
+
 	res.render("home")
 })
 
-app.get("/category_earnings", spaza_shop.show_category_earnings)
+app.get("/login", function(req, res){
+  res.render("login");
+})
 
-app.get("/category_sales_per_day_per_week", spaza_shop.show_category_sales_per_day_per_week);
+app.post("/login", function(req, res){
 
-app.get("/category_profits", spaza_shop.show_category_profits)
+  var userData = JSON.parse(JSON.stringify(req.body)),
+      user = req.session.user = userData.user,
+      password = req.session.password = userData.password;
 
-app.get("/daily_profits", spaza_shop.show_daily_profits)
+  if(user === "username" && password === "12345"){
+    res.redirect("/")
+  }
+})
 
-app.get("/entire_stock", spaza_shop.show_entire_stock)
+app.get("/category_earnings", checkUser, spaza_shop.show_category_earnings)
 
-app.get("/regular_sales", spaza_shop.show_regular_sales);
+app.get("/category_sales_per_day_per_week", checkUser, spaza_shop.show_category_sales_per_day_per_week);
 
-app.get("/popular_categories", spaza_shop.show_popular_category);
+app.get("/category_profits", checkUser, spaza_shop.show_category_profits)
 
-app.get("/popular_products", spaza_shop.show_popular_products);
+app.get("/daily_profits", checkUser, spaza_shop.show_daily_profits)
 
-app.get("/products_price_cost", spaza_shop.show_products_price_cost);
+app.get("/entire_stock", checkUser, spaza_shop.show_entire_stock)
 
-app.get("/product_earnings", spaza_shop.show_product_earnings);
+app.get("/regular_sales", checkUser, spaza_shop.show_regular_sales);
 
-app.get("/products_per_day_per_week", spaza_shop.show_products_per_day_per_week)
+app.get("/popular_categories", checkUser, spaza_shop.show_popular_category);
 
-app.get("/product_profits", spaza_shop.show_product_profits);
+app.get("/popular_products", checkUser, spaza_shop.show_popular_products);
 
-app.get("/sales_per_day", spaza_shop.show_sales_per_day)
+app.get("/products_price_cost", checkUser, spaza_shop.show_products_price_cost);
 
-app.get("/stock_rates", spaza_shop.show_stock_rates)
+app.get("/product_earnings", checkUser, spaza_shop.show_product_earnings);
 
-app.get("/supplier_popular_product", spaza_shop.show_supplier_popular_product)
+app.get("/products_per_day_per_week", checkUser, spaza_shop.show_products_per_day_per_week)
 
-app.get("/supplier_profitable_product", spaza_shop.show_supplier_profitable_product);
+app.get("/product_profits", checkUser, spaza_shop.show_product_profits);
 
-app.get("/all_suppliers", spaza_shop.show_all_suppliers);
+app.get("/sales_per_day", checkUser, spaza_shop.show_sales_per_day)
 
-app.get("/sales_history", spaza_shop.show_sales_history);
+app.get("/stock_rates", checkUser, spaza_shop.show_stock_rates)
 
-app.get("/purchase_history", spaza_shop.show_purchase_history);
+app.get("/supplier_popular_product", checkUser, spaza_shop.show_supplier_popular_product)
 
-app.get("/categories", spaza_shop.show_categories);
+app.get("/supplier_profitable_product", checkUser, spaza_shop.show_supplier_profitable_product);
 
-app.get("/product_sold", spaza_shop.show_product_sold);
+app.get("/all_suppliers", checkUser, spaza_shop.show_all_suppliers);
+
+app.get("/sales_history", checkUser, spaza_shop.show_sales_history);
+
+app.get("/purchase_history", checkUser, spaza_shop.show_purchase_history);
+
+app.get("/categories", checkUser, spaza_shop.show_categories);
+
+app.get("/product_sold", checkUser, spaza_shop.show_product_sold);
 
 app.get("/sales", function(req, res){
   res.render("sales")

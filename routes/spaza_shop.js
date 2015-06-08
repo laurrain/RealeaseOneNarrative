@@ -244,7 +244,7 @@ exports.show_sales_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
 			return next(err);
-		connection.query('SELECT * FROM sales_history', [], function(err, sales_history) {
+		connection.query('SELECT * FROM sales_history ORDER BY id DESC', [], function(err, sales_history) {
         	if (err) 
                 return next(err);
             
