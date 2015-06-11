@@ -33,11 +33,13 @@ app.use(bodyParser.json())
 
 app.use(session({secret: "yada yada", saveUninitialized : true, resave: true, cookie : {maxAge : 60000}}));
 
+
 var checkUser = function(req, res, next){
   if (req.session.user){
     return next();
   }
-  // the user is not logged in redirect him to the login page
+
+  // the user is not logged in redirect him to the login page-
   res.redirect('login');
 };
 
@@ -47,18 +49,36 @@ app.get("/", checkUser, function(req, res){
 })
 
 app.get("/login", function(req, res){
-  res.render("login");
+  res.render("login", {layout : false});
 })
 
-app.post("/login", function(req, res){
+
+app.post("/login",function(req, res){
 
   var userData = JSON.parse(JSON.stringify(req.body)),
       user = req.session.user = userData.user,
-      password = req.session.password = userData.password;
+      password = userData.password;
 
   if(user === "username" && password === "12345"){
-    res.redirect("/")
+    res.redirect("/");
   }
+  else {
+    res.redirect("login")
+  }
+})
+
+app.get("/logout", function(req, res, next){
+  if (req.session.user){
+    delete req.session.user;
+    res.redirect("login")
+  }
+  // the user is not logged in redirect him to the login page-
+
+  res.redirect('login');
+}, function(req, res){
+  
+  res.redirect("login");
+
 })
 
 app.get("/category_earnings", checkUser, spaza_shop.show_category_earnings)

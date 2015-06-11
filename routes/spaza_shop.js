@@ -330,14 +330,14 @@ exports.get_sales_history = function(req, res, next){
 exports.update_sales_history = function(req, res, next){
 
 	var data = JSON.parse(JSON.stringify(req.body));
-    	var id = req.params.id;
-    	req.getConnection(function(err, connection){
-    		connection.query('UPDATE sales_history SET ? WHERE id = ?', [data, id], function(err, rows){
-    			if (err){
-              			console.log("Error Updating : %s ",err );
-    			}
-          		res.redirect('/sales_history');
-    		});
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('UPDATE sales_history SET ? WHERE id = ?', [data, id], function(err, rows){
+			if (err){
+          			console.log("Error Updating : %s ",err );
+			}
+      		res.redirect('/sales_history');
+		});
     		
     });
 };
@@ -357,20 +357,19 @@ exports.get_categories = function(req, res, next){
 exports.update_categories = function(req, res, next){
 
 	var data = JSON.parse(JSON.stringify(req.body));
-    	var id = req.params.id;
-    	req.getConnection(function(err, connection){
-    		connection.query('UPDATE categories SET ? WHERE id = ?', [data, id], function(err, rows){
-    			if (err){
-              			console.log("Error Updating : %s ",err );
-    			}
-          		connection.query('UPDATE sales_history SET category_name=? WHERE cat_id = (SELECT ID FROM categories WHERE cat_name=?)', [data.cat_name, data.cat_name], function(err, rows){
-                if (err){
-                        console.log("Error Updating : %s ",err );
-                }
-                    res.redirect('/categories');
-                });
-    		});
-    		
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('UPDATE categories SET ? WHERE id = ?', [data, id], function(err, rows){
+			if (err){
+          			console.log("Error Updating : %s ",err );
+			}
+      		connection.query('UPDATE sales_history SET category_name=? WHERE cat_id = (SELECT ID FROM categories WHERE cat_name=?)', [data.cat_name, data.cat_name], function(err, rows){
+            if (err){
+                    console.log("Error Updating : %s ",err );
+            }
+                res.redirect('/categories');
+            });
+		});	
     });
 };
 
@@ -389,15 +388,14 @@ exports.get_product_sold = function(req, res, next){
 exports.update_product_sold = function(req, res, next){
 
 	var data = JSON.parse(JSON.stringify(req.body));
-    	var id = req.params.id;
-    	req.getConnection(function(err, connection){
-    		connection.query('UPDATE product_sold SET ? WHERE id = ?', [data, id], function(err, rows){
-    			if (err){
-              			console.log("Error Updating : %s ",err );
-    			}
-          		res.redirect('/product_sold');
-    		});
-    		
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('UPDATE product_sold SET ? WHERE id = ?', [data, id], function(err, rows){
+			if (err){
+          			console.log("Error Updating : %s ",err );
+			}
+      		res.redirect('/product_sold');
+		});
     });
 };
 
@@ -416,15 +414,14 @@ exports.get_purchase_history = function(req, res, next){
 exports.update_purchase_history = function(req, res, next){
 
 	var data = JSON.parse(JSON.stringify(req.body));
-    	var id = req.params.id;
-    	req.getConnection(function(err, connection){
-    		connection.query('UPDATE purchase_history SET ? WHERE id = ?', [data, id], function(err, rows){
-    			if (err){
-              			console.log("Error Updating : %s ",err );
-    			}
-          		res.redirect('/purchase_history');
-    		});
-    		
+	var id = req.params.id;
+	req.getConnection(function(err, connection){
+		connection.query('UPDATE purchase_history SET ? WHERE id = ?', [data, id], function(err, rows){
+			if (err){
+          			console.log("Error Updating : %s ",err );
+			}
+      		res.redirect('/purchase_history');
+		});
     });
 };
 
