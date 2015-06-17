@@ -1,120 +1,117 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Nelisa Spaza</title>
-	<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="static/css/main_page.css">
-	<link href='static/css/simplesidebar.css' rel='stylesheet' type='text/css'>
-	<script src="static/js/jquery.min.js"></script>
-	<script src="static/js/bootstrap.min.js"></script>
-	<script src="static/js/handlebars.js"></script>
-</head>
-<body>
-	<div class="nav navbar navbar-default navbar-fixed-top">
-		<a href="/"><h1>Nelisa Spaza Shop</h1></a>
-	</div>
-	
-	<!--main-container div encases the buton and the tables that appear below-->
-	<div class="main-container container">
-	
-		<!-- End of button container-->
-	    <nav id="myNavbar" class="navbar navbar-default" role="navigation">
-	        <!-- Brand and toggle get grouped for better mobile display -->
-	        <div class="container">
-	            <div class="navbar-header">
-	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#shop-menu-dropdown">
-	                    <span class="sr-only">Toggle Menu</span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                </button>
-	                <a class="navbar-brand" href="/">Home</a>
-	            </div>
-	            <!-- Collect the nav links, forms, and other content for toggling -->
-	            <div class="collapse navbar-collapse" id="shop-menu-dropdown">
-	                <ul class="nav navbar-nav">
-	                    <li class="dropdown">
-	                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Sales<b class="caret"></b></a>
-	                        <ul class="dropdown-menu">
-	                            <li><a href="category_sales_per_day_per_week">Category Sales (per Day/Week)</a></li>
-	                            <li><a href="regular_sales">Most Regular Sales</a></li>
-	                            <li><a href="popular_products">Popular Products</a></li>
-	                            <li><a href="products_per_day_per_week">Product Sold (per Day/Week)</a></li>
-	                            <li><a href="sales_per_day">Average Weekday Sales</a></li>
-	                            <li><a href="stock_rates">Stock Rates</a></li>
-	                            <li class="divider"></li>
-	                            <li><a href="entire_stock">Entire Stock</a></li>
-	                            <li><a href="products_price_cost">Products Price and Cost</a></li>
-	                        </ul>
-	                    </li>
-	                    <li class="dropdown">
-	                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Earnings<b class="caret"></b></a>
-	                        <ul class="dropdown-menu">
-	                            <li><a href="category_earnings">Category Earnings</a></li>
-	                            <li><a href="product_earnings">Product Earnings</a></li>
-	                            <li class="divider"></li>
-	                            <li><a href="products_price_cost">Products Price and Cost</a></li>
-	                        </ul>
-	                    </li>
-	                    <li class="dropdown">
-	                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Profits<b class="caret"></b></a>
-	                        <ul class="dropdown-menu">
-	                            <li><a href="category_profits">Category Profits</a></li>
-	                            <li><a href="daily_profits">Average Daily Profits</a></li>
-	                            <li><a href="product_profits">Product Profits</a></li>
-	                            <li class="divider"></li>
-	                        </ul>
-	                    </li>
-	                    <li class="dropdown">
-	                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Supplier Information<b class="caret"></b></a>
-	                        <ul class="dropdown-menu">
-	                            <li><a href="supplier_popular_product">Supplier of Most Popular Product</a></li>
-	                            <li><a href="supplier_profitable_product">Supplier of Most Profitable Product</a></li>
-	                            <li class="divider"></li>
-	                            <li><a href="all_suppliers">Past Suppliers</a></li>
-	                        </ul>
-	                    </li>
-	                </ul>
-	                <ul class="nav navbar-nav navbar-right">
-	                    <li class="dropdown">
-	                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Tables &amp Settings<b class="caret"></b></a>
-	                        <ul class="dropdown-menu">
-	                            <li><a href="sales_history">Sales History</a></li>
-	                            <li><a href="purchase_history">Purchase History</a></li>
-	                            <li><a href="product_sold">Products Sold</a></li>
-	                            <li><a href="categories">Categories</a></li>
-	                            <li><a href="all_suppliers">Past Suppliers</a></li>
-	                            <li class="divider"></li>
-	                            <li><a href="logout" class="btn-danger">Logout</a></li>
-	                        </ul>
-	                    </li>
-	                </ul>
-	            </div><!-- /.navbar-collapse -->
-	        </div>
-	    </nav>
-
-		{{{body}}}
+	<head>
+		<title>Nelisa Spaza</title>
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="static/css/main_page.css">
+		<link href='static/css/simplesidebar.css' rel='stylesheet' type='text/css'>
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="nav navbar navbar-default navbar-fixed-top">
+			<a href="/"><h1>Nelisa Spaza Shop</h1></a>
+		</div>
 		
-	</div>
-	<!-- main-container ends here -->
+		<!--main-container div encases the buton and the tables that appear below-->
+		<div class="main-container container">
+		
+			<!-- End of button container-->
+		    <nav id="myNavbar" class="navbar navbar-default" role="navigation">
+		        <!-- Brand and toggle get grouped for better mobile display -->
+		        <div class="container">
+		            <div class="navbar-header">
+		                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#shop-menu-dropdown">
+		                    <span class="sr-only">Toggle Menu</span>
+		                    <span class="icon-bar"></span>
+		                    <span class="icon-bar"></span>
+		                    <span class="icon-bar"></span>
+		                </button>
+		                <a class="navbar-brand" href="/">Home</a>
+		            </div>
+		            <!-- Collect the nav links, forms, and other content for toggling -->
+		            <div class="collapse navbar-collapse" id="shop-menu-dropdown">
+		                <ul class="nav navbar-nav">
+		                    <li class="dropdown">
+		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Sales<b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="category_sales_per_day_per_week">Category Sales (per Day/Week)</a></li>
+		                            <li><a href="regular_sales">Most Regular Sales</a></li>
+		                            <li><a href="popular_products">Popular Products</a></li>
+		                            <li><a href="products_per_day_per_week">Product Sold (per Day/Week)</a></li>
+		                            <li><a href="sales_per_day">Average Weekday Sales</a></li>
+		                            <li><a href="stock_rates">Stock Rates</a></li>
+		                            <li class="divider"></li>
+		                            <li><a href="entire_stock">Entire Stock</a></li>
+		                            <li><a href="products_price_cost">Products Price and Cost</a></li>
+		                        </ul>
+		                    </li>
+		                    <li class="dropdown">
+		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Earnings<b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="category_earnings">Category Earnings</a></li>
+		                            <li><a href="product_earnings">Product Earnings</a></li>
+		                            <li class="divider"></li>
+		                            <li><a href="products_price_cost">Products Price and Cost</a></li>
+		                        </ul>
+		                    </li>
+		                    <li class="dropdown">
+		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Profits<b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="category_profits">Category Profits</a></li>
+		                            <li><a href="daily_profits">Average Daily Profits</a></li>
+		                            <li><a href="product_profits">Product Profits</a></li>
+		                            <li class="divider"></li>
+		                        </ul>
+		                    </li>
+		                    <li class="dropdown">
+		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Supplier Information<b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="supplier_popular_product">Supplier of Most Popular Product</a></li>
+		                            <li><a href="supplier_profitable_product">Supplier of Most Profitable Product</a></li>
+		                            <li class="divider"></li>
+		                            <li><a href="all_suppliers">Past Suppliers</a></li>
+		                        </ul>
+		                    </li>
+		                </ul>
+		                <ul class="nav navbar-nav navbar-right">
+		                    <li class="dropdown">
+		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Tables &amp Settings<b class="caret"></b></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="sales_history">Sales History</a></li>
+		                            <li><a href="purchase_history">Purchase History</a></li>
+		                            <li><a href="product_sold">Products Sold</a></li>
+		                            <li><a href="categories">Categories</a></li>
+		                            <li><a href="all_suppliers">Past Suppliers</a></li>
+		                            <li class="divider"></li>
+		                            <li><a href="settings"><strong>Settings</strong></a></li>
+		                            <li class="divider"></li>
+		                            <li><a href="logout" class="btn-danger"><strong>Log Out</strong></a></li>
+		                        </ul>
+		                    </li>
+		                </ul>
+		            </div><!-- /.navbar-collapse -->
+		        </div>
+		    </nav>
 
-
-	<footer class="navbar-fixed-bottom">
-		<div class="footer-right">
-			<div class="col-xs-1 developers"><a href="/#">developers</a></div>
-			<div class="col-xs-1 copyright"><a href="/#">copyright</a></div>
-			<div class="col-xs-1 disclaimer"><a href="/#">disclaimer</a></div>
+			{{{body}}}
+			
 		</div>
-
-		<div class="footer-left">
-			<div class="col-xs-2">Powered by <a href="http://www.projectcodex.co">CodeX</a></div>
-		</div>
-	</footer>
-
-	<script src="static/js/handlebars.js"></script>
-
-</body>
+		<!-- main-container ends here -->
 
 
+		<footer class="navbar-fixed-bottom">
+			<div class="footer-right">
+				<div class="col-xs-1 developers"><a href="/#">developers</a></div>
+				<div class="col-xs-1 copyright"><a href="/#">copyright</a></div>
+				<div class="col-xs-1 disclaimer"><a href="/#">disclaimer</a></div>
+			</div>
 
+			<div class="footer-left">
+				<div class="col-xs-2">Powered by <a href="http://www.projectcodex.co">CodeX</a></div>
+			</div>
+		</footer>
+
+		<script src="static/js/handlebars.js"></script>
+	</body>
 </html>

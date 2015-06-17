@@ -322,7 +322,7 @@ exports.get_sales_history = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_sales_history',{page_title:"Edit Product", data : rows[0]});      
+			res.render('edit_sales_history',{page_title:"Edit Product", data : rows[0], layout : false});      
 		}); 
 	});
 };
@@ -349,7 +349,7 @@ exports.get_categories = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_categories',{page_title:"Edit Categories", data : rows[0]});      
+			res.render('edit_categories',{page_title:"Edit Categories", data : rows[0], layout : false});      
 		}); 
 	});
 };
@@ -380,7 +380,7 @@ exports.get_product_sold = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_product_sold',{page_title:"Edit Product Sold", data : rows[0]});      
+			res.render('edit_product_sold',{page_title:"Edit Product Sold", data : rows[0], layout : false});      
 		}); 
 	});
 };
@@ -406,7 +406,7 @@ exports.get_purchase_history = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_purchase_history',{page_title:"Edit Purchase History", data : rows[0]});      
+			res.render('edit_purchase_history',{page_title:"Edit Purchase History", data : rows[0], layout : false});      
 		}); 
 	});
 };
@@ -592,7 +592,7 @@ exports.get_all_suppliers = function(req, res, next){
             if(err){
                     console.log("Error Selecting : %s ",err );
             }
-            res.render('edit_all_suppliers',{page_title:"Edit Suppliers", data : rows[0]});      
+            res.render('edit_all_suppliers',{page_title:"Edit Suppliers", data : rows[0], layout : false});      
         }); 
     });
 };
@@ -600,17 +600,16 @@ exports.get_all_suppliers = function(req, res, next){
 exports.update_all_suppliers = function(req, res, next){
 
     var data = JSON.parse(JSON.stringify(req.body));
-        var supplier = req.params.shop;
+        var id = req.params.id;
         req.getConnection(function(err, connection){
-            connection.query('UPDATE suppliers SET ? WHERE shop = ?', [data, supplier], function(err, rows){
+            connection.query('UPDATE purchase_history SET ? WHERE shop = (SELECT shop FROM suppliers WHERE id = ?)', [data, id], function(err, rows){
                 if (err){
                         console.log("Error Updating : %s ",err );
                 }
-                connection.query('UPDATE purchase_history SET ? WHERE shop = ?', [data, supplier], function(err, rows){
+                connection.query('UPDATE suppliers SET ? WHERE id = ?', [data, id], function(err, rows){
                     if (err){
                             console.log("Error Updating : %s ",err );
                     }
-
                     res.redirect('/all_suppliers');
                 });
             });

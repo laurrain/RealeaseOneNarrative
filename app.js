@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(session({secret: "yada yada", saveUninitialized : true, resave: true, cookie : {maxAge : 60000}}));
+app.use(session({secret: "yada yada", saveUninitialized : true, resave: true, cookie : {maxAge : 5*60000}}));
 
 
 var checkUser = function(req, res, next){
