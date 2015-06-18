@@ -1,0 +1,8 @@
+<h1>Edit</h1>
+
+{{#data}}
+<form action="/categories/update_categories/{{ID}}" method="POST">
+	Cat Name: <input type="text" name="cat_name" value="{{cat_name}}">	
+	<input type="submit">
+</form>
+{{/data}}

@@ -1,0 +1,26 @@
+<div class="container col-xs-12">
+	<div class="cols-xs-10 shifter">
+		
+		<h2>Product Sold</h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Stock Item</th><th>No Sold</th>
+				</tr>
+			</thead>
+				<tr>
+					<form action="product_sold/add_product_sold" method="POST">
+						<td><input class="col-xs-12" type="text" name="product_name"></td>
+						<td><input type="text" name="no_sold"></td>
+						<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
+					</form>
+				</tr>
+			{{#data}}
+				<tr>
+					<td>{{product_name}}</td><td>{{no_sold}}</td><td><a href="product_sold/edit_product_sold/{{id}}">edit</a></td><td><a href="product_sold/delete_product_sold/{{id}}">delete</a></td>
+				</tr>
+			{{/data}}
+
+		</table>
+	</div>
+</div>
