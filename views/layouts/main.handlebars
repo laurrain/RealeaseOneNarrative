@@ -37,40 +37,46 @@
 		                        <ul class="dropdown-menu">
 		                            <li><a href="category_sales_per_day_per_week">Category Sales (per Day/Week)</a></li>
 		                            <li><a href="regular_sales">Most Regular Sales</a></li>
-		                            <li><a href="popular_products">Popular Products</a></li>
-		                            <li><a href="products_per_day_per_week">Product Sold (per Day/Week)</a></li>
-		                            <li><a href="sales_per_day">Average Weekday Sales</a></li>
+									{{#if administrator}}
+		                            	<li><a href="popular_products">Popular Products</a></li>
+		                            	<li><a href="products_per_day_per_week">Product Sold (per Day/Week)	</a></li>
+		                            	<li><a href="sales_per_day">Average Weekday Sales</a></li>
+									{{/if}}
 		                            <li><a href="stock_rates">Stock Rates</a></li>
 		                            <li class="divider"></li>
 		                            <li><a href="entire_stock">Entire Stock</a></li>
 		                            <li><a href="products_price_cost">Products Price and Cost</a></li>
 		                        </ul>
 		                    </li>
-		                    <li class="dropdown">
-		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Earnings<b class="caret"></b></a>
-		                        <ul class="dropdown-menu">
-		                            <li><a href="category_earnings">Category Earnings</a></li>
-		                            <li><a href="product_earnings">Product Earnings</a></li>
-		                            <li class="divider"></li>
-		                            <li><a href="products_price_cost">Products Price and Cost</a></li>
-		                        </ul>
-		                    </li>
-		                    <li class="dropdown">
-		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Profits<b class="caret"></b></a>
-		                        <ul class="dropdown-menu">
-		                            <li><a href="category_profits">Category Profits</a></li>
-		                            <li><a href="daily_profits">Average Daily Profits</a></li>
-		                            <li><a href="product_profits">Product Profits</a></li>
-		                            <li class="divider"></li>
-		                        </ul>
-		                    </li>
+		                    {{#if administrator}}
+			                    <li class="dropdown">
+			                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Earnings<b class="caret"></b></a>
+			                        <ul class="dropdown-menu">
+			                            <li><a href="category_earnings">Category Earnings</a></li>
+			                            <li><a href="product_earnings">Product Earnings</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="products_price_cost">Products Price and Cost</a></li>
+			                        </ul>
+			                    </li>
+			                    <li class="dropdown">
+			                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Profits<b class="caret"></b></a>
+			                        <ul class="dropdown-menu">
+			                            <li><a href="category_profits">Category Profits</a></li>
+			                            <li><a href="daily_profits">Average Daily Profits</a></li>
+			                            <li><a href="product_profits">Product Profits</a></li>
+			                            <li class="divider"></li>
+			                        </ul>
+			                    </li>
+			                {{/if}}
 		                    <li class="dropdown">
 		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Supplier Information<b class="caret"></b></a>
 		                        <ul class="dropdown-menu">
 		                            <li><a href="supplier_popular_product">Supplier of Most Popular Product</a></li>
 		                            <li><a href="supplier_profitable_product">Supplier of Most Profitable Product</a></li>
 		                            <li class="divider"></li>
-		                            <li><a href="all_suppliers">Past Suppliers</a></li>
+		                            {{#if administrator}}
+			                            <li><a href="all_suppliers">Past Suppliers</a></li>
+		                            {{/if}}
 		                        </ul>
 		                    </li>
 		                </ul>
@@ -79,12 +85,14 @@
 		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Tables &amp Settings<b class="caret"></b></a>
 		                        <ul class="dropdown-menu">
 		                            <li><a href="sales_history">Sales History</a></li>
-		                            <li><a href="purchase_history">Purchase History</a></li>
-		                            <li><a href="product_sold">Products Sold</a></li>
-		                            <li><a href="categories">Categories</a></li>
-		                            <li><a href="all_suppliers">Past Suppliers</a></li>
-		                            <li class="divider"></li>
-		                            <li><a href="settings"><strong>Settings</strong></a></li>
+		                            {{#if administrator}}
+			                            <li><a href="purchase_history">Purchase History</a></li>
+			                            <li><a href="product_sold">Products Sold</a></li>
+			                            <li><a href="categories">Categories</a></li>
+			                            <li><a href="all_suppliers">Past Suppliers</a></li>
+			                            <li class="divider"></li>
+			                            <li><a href="settings"><strong>Settings</strong></a></li>
+			                        {{/if}}
 		                            <li class="divider"></li>
 		                            <li><a href="logout" class="btn-danger"><strong>Log Out</strong></a></li>
 		                        </ul>

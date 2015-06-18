@@ -30,7 +30,6 @@
 						<td>
 							<select name="category_name">
 								{{#categories}}
-
 									<option value="{{cat_name}}">{{cat_name}}</option>
 								{{/categories}}
 							</select>
@@ -38,10 +37,11 @@
 						<td colspan="2"><input value="Save" type="submit"></td>
 					</form>
 				</tr>
-
 				{{#sales_history}}
 					<tr>
-						<td>{{day}}</td><td>{{date}}</td><td>{{stock_item}}</td><td>{{no_sold}}</td><td>{{sales_price}}</td><td>{{category_name}}</td><td><a href="sales_history/edit_sales_history/{{id}}">edit</a></td><td><a href="sales_history/delete_sales_history/{{id}}">delete</a></td>
+						<td>{{day}}</td><td>{{date}}</td><td>{{stock_item}}</td><td>{{no_sold}}</td><td>{{sales_price}}</td><td>{{category_name}}</td>
+						<td><a href="sales_history/edit_sales_history/{{id}}">edit</a></td>
+						<td><a href="sales_history/delete_sales_history/{{id}}">delete</a></td>
 					</tr>
 				{{/sales_history}}
 			</tbody>

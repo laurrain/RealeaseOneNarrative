@@ -1,3 +1,43 @@
+past_pages = [],
+administrator = false,
+last_page = "";
+
+admin = {
+              username : "admin",
+              password : "@dmin123",
+              role : true
+            },
+viewer = {
+              username : "viewer",
+              password : "Viewer123",
+              role : false
+            };
+
+exports.checkUser = function(req, res, next){
+
+  if (req.session.user){
+    past_pages.push(req._parsedOriginalUrl.path)
+    
+    if (req.session.user == admin.username) {
+      administrator = admin.role
+    }
+    else if (req.session.user == viewer.username){
+      administrator = viewer.role
+    }
+    
+    if (req._parsedOriginalUrl.path.match(/profit/gi) ) {
+      past_pages.splice(-1)
+      last_page = past_pages[past_pages.length-1];
+      res.redirect(last_page)
+    }else {
+    	return next();
+	}
+  }else if (!req.session.user){
+    // the user is not logged in redirect him to the login page-
+    res.redirect('/login');
+  }
+};
+
 exports.show_popular_products = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -6,7 +46,8 @@ exports.show_popular_products = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'popular_products', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -20,7 +61,8 @@ exports.show_popular_category = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'popular_categories', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -34,7 +76,8 @@ exports.show_products_price_cost = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'products_price_cost', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -48,7 +91,8 @@ exports.show_product_earnings = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'product_earnings', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -65,7 +109,8 @@ exports.show_product_profits = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'product_profits', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -79,7 +124,8 @@ exports.show_supplier_popular_product = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'supplier_popular_product', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -94,7 +140,8 @@ exports.show_supplier_profitable_product = function (req, res, next) {
         	if (err) return next(err);
 
     		res.render( 'supplier_profitable_product', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -108,7 +155,8 @@ exports.show_sales_per_day = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'sales_per_day', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -122,7 +170,8 @@ exports.show_stock_rates = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'stock_rates', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -136,7 +185,8 @@ exports.show_regular_sales = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'regular_sales', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -150,7 +200,8 @@ exports.show_entire_stock = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'entire_stock', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -164,7 +215,8 @@ exports.show_daily_profits = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'daily_profits', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -178,7 +230,8 @@ exports.show_category_profits = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_profits', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -192,7 +245,8 @@ exports.show_category_sales_per_day_per_week = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_sales_per_day_per_week', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -206,7 +260,8 @@ exports.show_category_earnings = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_earnings', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -220,7 +275,8 @@ exports.show_products_per_day_per_week = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'products_per_day_per_week', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -234,7 +290,8 @@ exports.show_all_suppliers = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'all_suppliers', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -257,10 +314,10 @@ exports.show_sales_history = function(req, res, next){
                         if (err) return next(err);
 
                         res.render( 'sales_history', {
-                            sales_history : sales_history,
+                            sales_history : { sales_history : sales_history, administrator : administrator },
                             categories : categories,
                             days : days,
-                            products: products
+                            products: products,
                         });
                     });
                 });
@@ -280,7 +337,9 @@ exports.show_purchase_history = function(req, res, next){
                 if (err) return next(err);
             		res.render( 'purchase_history', {
             			data : results,
-                        shops: supplier_names
+            			administrator : administrator,
+                        shops: supplier_names,
+                        administrator : administrator
             		});
             });
         });
@@ -295,7 +354,8 @@ exports.show_product_sold = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'product_sold', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -309,7 +369,8 @@ exports.show_categories = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'categories', {
-    			data : results
+    			data : results,
+    			administrator : administrator
     		});
       });
 	});
@@ -322,7 +383,11 @@ exports.get_sales_history = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_sales_history',{page_title:"Edit Product", data : rows[0], layout : false});      
+			res.render('edit_sales_history',{page_title:"Edit Product",
+							data : rows[0],
+							layout : false,
+                            administrator : administrator
+            });      
 		}); 
 	});
 };
@@ -349,7 +414,11 @@ exports.get_categories = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_categories',{page_title:"Edit Categories", data : rows[0], layout : false});      
+			res.render('edit_categories',{page_title:"Edit Categories",
+				data : rows[0],
+				layout : false,
+                administrator : administrator
+            });      
 		}); 
 	});
 };
@@ -380,7 +449,11 @@ exports.get_product_sold = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_product_sold',{page_title:"Edit Product Sold", data : rows[0], layout : false});      
+			res.render('edit_product_sold',{page_title:"Edit Product Sold",
+				data : rows[0],
+				layout : false,
+	            administrator : administrator
+	        });      
 		}); 
 	});
 };
@@ -406,7 +479,11 @@ exports.get_purchase_history = function(req, res, next){
 			if(err){
     				console.log("Error Selecting : %s ",err );
 			}
-			res.render('edit_purchase_history',{page_title:"Edit Purchase History", data : rows[0], layout : false});      
+			res.render('edit_purchase_history',{page_title:"Edit Purchase History",
+				data : rows[0],
+				layout : false,
+                administrator : administrator
+            });      
 		}); 
 	});
 };
@@ -592,7 +669,11 @@ exports.get_all_suppliers = function(req, res, next){
             if(err){
                     console.log("Error Selecting : %s ",err );
             }
-            res.render('edit_all_suppliers',{page_title:"Edit Suppliers", data : rows[0], layout : false});      
+            res.render('edit_all_suppliers',{page_title:"Edit Suppliers",
+            	data : rows[0],
+            	layout : false,
+                administrator : administrator
+            });      
         }); 
     });
 };
