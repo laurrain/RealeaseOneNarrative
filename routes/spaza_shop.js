@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 exports.checkUser = function(req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err)
@@ -239,12 +240,78 @@ exports.show_category_profits = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_profits', {
+=======
+exports.show = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from sales_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'product', {
+    			products : results
+    		});
+      	});
+	});	
+};
+exports.show_cat = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from categories', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'category', {
+    			categories : results
+    		});
+      	});
+	});	
+};
+
+exports.show_purchase_hist = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from purchase_history', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'purchase_hist', {
+    			purchase_history : results
+    		});
+      	});
+	});	
+};
+
+exports.show_sup = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT * from suppliers', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'supplier', {
+    			suppliers : results
+    		});
+      	});
+	});	
+};
+
+exports.show_popular_products = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT stock_item, SUM(no_sold) AS no_sold FROM sales_history GROUP BY stock_item ORDER BY no_sold DESC', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'popular_products', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
 };
 
+<<<<<<< HEAD
 exports.show_category_sales_per_day_per_week = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -253,12 +320,23 @@ exports.show_category_sales_per_day_per_week = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_sales_per_day_per_week', {
+=======
+exports.show_popular_category = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT cat_name, SUM(no_sold) AS no_sold FROM sales_history INNER JOIN categories ON cat_id=categories.id GROUP BY cat_name ORDER BY no_sold DESC', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'popular_categories', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
 };
 
+<<<<<<< HEAD
 exports.show_category_earnings = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -267,12 +345,23 @@ exports.show_category_earnings = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'category_earnings', {
+=======
+exports.show_products_price_cost = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT stock_item, sales_price, cost FROM sales_history INNER JOIN purchase_history ON stock_item=purchase_history.item GROUP BY stock_item', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'products_price_cost', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
 };
 
+<<<<<<< HEAD
 exports.show_products_per_day_per_week = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -281,12 +370,23 @@ exports.show_products_per_day_per_week = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'products_per_day_per_week', {
+=======
+exports.show_product_earnings = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT stock_item, SUM(cast(substring(sales_price,2) as decimal(53,8))*no_sold) AS earnings FROM sales_history GROUP BY stock_item', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'product_earnings', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
 };
 
+<<<<<<< HEAD
 exports.show_all_suppliers = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -295,12 +395,23 @@ exports.show_all_suppliers = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'all_suppliers', {
+=======
+exports.show_product_profits = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT stock_item, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2))-CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)))*product_sold.no_sold AS profits FROM sales_history INNER JOIN purchase_history ON stock_item=item INNER JOIN product_sold ON product_name=item GROUP BY stock_item', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'product_profits', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
 };
 
+<<<<<<< HEAD
 exports.show_sales_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -356,12 +467,23 @@ exports.show_product_sold = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'product_sold', {
+=======
+exports.show_supplier_popular_product = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT product_name, shop from product_sold INNER JOIN purchase_history ON item=product_name WHERE no_sold=(SELECT MAX(no_sold) FROM product_sold) GROUP BY product_name', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'supplier_popular_product', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
 };
 
+<<<<<<< HEAD
 exports.show_categories = function(req, res, next){
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -370,10 +492,21 @@ exports.show_categories = function(req, res, next){
         	if (err) return next(err);
 
     		res.render( 'categories', {
+=======
+exports.show_supplier_profitable_product = function (req, res, next) {
+	req.getConnection(function(err, connection){
+		if (err) 
+			return next(err);
+		connection.query('SELECT stock_item, (CAST(SUBSTRING(sales_price,2) AS DECIMAL(53,2))-CAST(SUBSTRING(cost, 2) AS DECIMAL(53,2)))*product_sold.no_sold AS profits FROM sales_history INNER JOIN purchase_history ON stock_item=item INNER JOIN product_sold ON product_name=item GROUP BY stock_item', [], function(err, results) {
+        	if (err) return next(err);
+
+    		res.render( 'to_be_supplier_profitable_product', {
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
     			data : results
     		});
       });
 	});
+<<<<<<< HEAD
 };
 
 exports.get_sales_history = function(req, res, next){
@@ -708,4 +841,6 @@ exports.delete_all_suppliers = function(req, res, next){
             res.redirect('/all_suppliers');
         });
     });
+=======
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
 };

@@ -43,6 +43,7 @@ Now that we know what we should be ordering, Xolani think it would be great to h
 * Story 11: Which supplier is supplying the most popular product.
 * Story 12: Which supplier is supplying the most profitable product.
 
+<<<<<<< HEAD
 ### Nelisa wants to adds data
 
 * Story x1 : Add support for adding products and product categories
@@ -83,4 +84,6 @@ Nelisa went to a networking event and spoke to others running a spaza shop syste
 
 
 
+=======
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
 

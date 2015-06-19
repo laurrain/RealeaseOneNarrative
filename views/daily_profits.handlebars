@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
 		
@@ -16,4 +17,22 @@
 			{{/data}}
 		</table>
 	</div>
+=======
+<div class="cols-xs-10 shifter">
+	<h2>Daily Profits</h2>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Day</th> <th>Average Profits</th>
+			</tr>
+		</thead>
+	
+		{{#each data}}
+			<tr>
+				<td>{{day}}</td><td>R{{profit}}</td>
+			</tr>
+		{{/each}}
+
+	</table>
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
 </div>

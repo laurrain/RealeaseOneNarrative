@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
 		
@@ -17,4 +18,22 @@
 
 		</table>
 	</div>
+=======
+<div class="cols-xs-10 shifter">
+	<h2>Weekly and Daily Sales Averages of Products</h2>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Product</th> <th>Daily Average Sales</th><th>Weekly Average Sales</th>
+			</tr>
+		</thead>
+	
+		{{#each data}}
+			<tr>
+				<td>{{product}}</td><td>{{day_avg}}</td><td>{{week_avg}}</td>
+			</tr>
+		{{/each}}
+
+	</table>
+>>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
 </div>
