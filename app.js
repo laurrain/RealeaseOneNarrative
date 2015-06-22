@@ -86,7 +86,7 @@ app.get("/stock_rates", spaza_shop.checkUser, spaza_shop.show_stock_rates)
 
 app.get("/supplier_popular_product", spaza_shop.checkUser, spaza_shop.show_supplier_popular_product)
 
-app.get("/supplier_profitable_product", spaza_shop.checkUser, spaza_shop.show_supplier_profitable_product);
+app.get("/supplier_prof_product", spaza_shop.checkUser, spaza_shop.show_supplier_profitable_product);
 
 app.get("/all_suppliers", spaza_shop.checkUser, spaza_shop.show_all_suppliers);
 

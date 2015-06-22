@@ -35,7 +35,10 @@ exports.authUser = function(req, res, next){
                 res.redirect("/");
             }
             else{
-                res.render("login", {message : "Username or password incorrect!"})
+                res.render("login", {
+                    message : "Username or password incorrect!",
+                    layout : false
+                })
             }
          });
     });
@@ -64,16 +67,22 @@ exports.addUser = function(req, res, next){
                                     console.log("Error inserting : %s ",err );
                      
                             req.session.user = input.username;
-                            res.redirect('/home');
+                            res.redirect('/');
                     });
                 }
                 else{
-                    res.render("sign_up", {message : "Username alredy exists!"})
+                    res.render("sign_up", {
+                                            message : "Username alredy exists!",
+                                            layout : false
+                                            })
                 }
             });
         }
         else{
-            res.render("sign_up", {message : "Passwords don't match!"})
+            res.render("sign_up", {
+                message : "Passwords don't match!",
+                layout : false
+            })
         }
     });
 }
@@ -83,7 +92,7 @@ exports.checkUser = function(req, res, next){
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
-    if (req._parsedOriginalUrl.path.match(/profit/gi) && req.session.user != 'admin' ) {
+    if (req._parsedOriginalUrl.path.match(/profit/gi) && !administrator ) {
       past_pages.splice(-1)
       last_page = past_pages[past_pages.length-1];
       res.redirect(last_page)
