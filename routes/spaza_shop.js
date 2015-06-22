@@ -2,16 +2,16 @@ past_pages = [],
 administrator = false,
 last_page = "";
 
-admin = {
-              username : "admin",
-              password : "@dmin123",
-              role : true
-            },
-viewer = {
-              username : "viewer",
-              password : "Viewer123",
-              role : false
-            };
+// admin = {
+//               username : "admin",
+//               password : "@dmin123",
+//               role : true
+//             },
+// viewer = {
+//               username : "viewer",
+//               password : "Viewer123",
+//               role : false
+//             };
 
 exports.authUser = function(req, res, next){
 
@@ -88,7 +88,9 @@ exports.addUser = function(req, res, next){
 }
 
 exports.checkUser = function(req, res, next){
-
+    console.log(past_pages)
+    console.log("-------------------")
+    console.log(res)
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
@@ -99,7 +101,7 @@ exports.checkUser = function(req, res, next){
     }else {
     	return next();
 	}
-  }else if (!req.session.user){
+  }else{
     // the user is not logged in redirect him to the login page-
     res.redirect('/login');
   }
