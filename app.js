@@ -43,24 +43,7 @@ app.get("/login", function(req, res){
 })
 
 
-app.post("/login",function(req, res){
-
-  past_pages = [];
-
-  var userData = JSON.parse(JSON.stringify(req.body)),
-      user = req.session.user = userData.user,
-      password = userData.password;
-
-  if((user === admin.username && password === admin.password) || (user === viewer.username && password === viewer.password)){
-    if (req.session.user == admin.username) {
-      administrator = admin.role
-    };
-    res.redirect("/");
-  }
-  else {
-    res.redirect("/login")
-  }
-})
+app.post("/login", spaza_shop.authUser)
 
 app.get("/logout", function(req, res, next){
 
@@ -156,8 +139,13 @@ app.get('/all_suppliers/edit_all_suppliers/:id', spaza_shop.checkUser, spaza_sho
 app.post('/all_suppliers/update_all_suppliers/:id', spaza_shop.checkUser, spaza_shop.update_all_suppliers);
 app.get('/all_suppliers/delete_all_suppliers/:id', spaza_shop.checkUser, spaza_shop.delete_all_suppliers);
 
+app.get('/sign_up', function(req, res){
+  res.render("sign_up", {layout : false});
+})
+
+app.post("/sign_up", spaza_shop.addUser)
+
 app.get("/*", spaza_shop.checkUser, function(req, res){
-	console.log(last_page)
   res.redirect("/login");
 })
 

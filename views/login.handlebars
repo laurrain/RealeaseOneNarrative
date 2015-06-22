@@ -27,8 +27,14 @@
 				<div class="row">
 					<label class="col-lg-3" for="password">Password</label>
 					<input class="col-lg-4" type="password" placeholder="password" name="password" id="password">
+					{{#if message}}
+						<p>{{message}}</p>
+					{{/if}}
 				</div>
 				<input class="btn" type="submit" id="LogIn" value="Log In">
+			</form>
+			<form action="/sign_up" method="GET">
+				<input type="submit" value="Register" class="btn">
 			</form>
 		</div>
 	</body>

@@ -13,19 +13,77 @@ viewer = {
               role : false
             };
 
+exports.authUser = function(req, res, next){
+
+    past_pages = [];
+
+    var userData = JSON.parse(JSON.stringify(req.body)),
+      user = req.session.user = userData.user,
+      password = userData.password;
+
+    req.getConnection(function(err, connection){
+        if (err) 
+            return next(err);
+        connection.query('SELECT * FROM users WHERE username = ?  AND password = ?', [user, password], function(err, results) {
+            if (err) return next(err);
+
+            if(results.length > 0){
+                req.session.user = results[0].username
+
+                administrator = results[0].admin
+
+                res.redirect("/");
+            }
+            else{
+                res.render("login", {message : "Username or password incorrect!"})
+            }
+         });
+    });
+}
+
+exports.addUser = function(req, res, next){
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    username : input.username,
+                    password : input.password
+            };
+
+        if (input.password_confirm == input.password){
+            connection.query('SELECT * FROM users WHERE username = ?', input.username, function(err, results1) {
+                    if (err)
+                            console.log("Error inserting : %s ",err );
+
+                if (results1.length == 0){
+                    connection.query('insert into users set ?', data, function(err, results) {
+                            if (err)
+                                    console.log("Error inserting : %s ",err );
+                     
+                            req.session.user = input.username;
+                            res.redirect('/home');
+                    });
+                }
+                else{
+                    res.render("sign_up", {message : "Username alredy exists!"})
+                }
+            });
+        }
+        else{
+            res.render("sign_up", {message : "Passwords don't match!"})
+        }
+    });
+}
+
 exports.checkUser = function(req, res, next){
 
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
-    if (req.session.user == admin.username) {
-      administrator = admin.role
-    }
-    else if (req.session.user == viewer.username){
-      administrator = viewer.role
-    }
-    
-    if (req._parsedOriginalUrl.path.match(/profit/gi) ) {
+    if (req._parsedOriginalUrl.path.match(/profit/gi) && req.session.user != 'admin' ) {
       past_pages.splice(-1)
       last_page = past_pages[past_pages.length-1];
       res.redirect(last_page)
@@ -314,10 +372,10 @@ exports.show_sales_history = function(req, res, next){
                         if (err) return next(err);
 
                         res.render( 'sales_history', {
-                            sales_history : { sales_history : sales_history, administrator : administrator },
+                            sales_history : sales_history,
                             categories : categories,
                             days : days,
-                            products: products,
+                            products: products
                         });
                     });
                 });
