@@ -24,7 +24,6 @@
 		    <nav id="myNavbar" class="navbar navbar-default" role="navigation">
 		        <!-- Brand and toggle get grouped for better mobile display -->
 		        <div class="container">
-		        	{{#if username}}
 		            <div class="navbar-header">
 		                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#shop-menu-dropdown">
 		                    <span class="sr-only">Toggle Menu</span>
@@ -34,7 +33,6 @@
 		                </button>
 		                <a class="navbar-brand" href="/">Home</a>
 		            </div>
-		            {{/if}}
 		            <!-- Collect the nav links, forms, and other content for toggling -->
 		            <div class="collapse navbar-collapse" id="shop-menu-dropdown">
 		                <ul class="nav navbar-nav">
@@ -55,23 +53,21 @@
 		                    <li class="dropdown">
 		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Earnings<b class="caret"></b></a>
 		                        <ul class="dropdown-menu">
-		                        	{{#if viewer}}
 		                            <li><a href="category_earnings">Category Earnings</a></li>
 		                            <li><a href="product_earnings">Product Earnings</a></li>
 		                            <li class="divider"></li>
 		                            <li><a href="products_price_cost">Products Price and Cost</a></li>
-		                            {{/if}}
+		                            
 		                        </ul>
 		                    </li>
-		                    {{#if role}}
+		                    
 		                    <li class="dropdown">
 		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Profits<b class="caret"></b></a>
 		                        <ul class="dropdown-menu">
-		                        	{{#if admin}}
+		                        	
 		                            <li><a href="category_profits">Category Profits</a></li>
 		                            <li><a href="daily_profits">Average Daily Profits</a></li>
 		                            <li><a href="product_profits">Product Profits</a></li>
-		                            {{/if}}
 		                            <li class="divider"></li>
 		                        </ul>
 		                    </li>
@@ -80,14 +76,12 @@
 		                        <ul class="dropdown-menu">
 		                            <li><a href="supplier_popular_product">Supplier of Most Popular Product</a></li>
 		                            <li><a href="supplier_profitable_product">Supplier of Most Profitable Product</a></li>
-		                    {{/if}}
 		                            <li class="divider"></li>
 		                            <li><a href="all_suppliers">Past Suppliers</a></li>
 		                        </ul>
 		                    </li>
 		                </ul>
 		                <ul class="nav navbar-nav navbar-right">
-		                	{{#if viewer}}
 		                    <li class="dropdown">
 		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Tables &amp Settings<b class="caret"></b></a>
 		                        <ul class="dropdown-menu">
@@ -98,7 +92,6 @@
 		                            <li><a href="all_suppliers">Past Suppliers</a></li>
 		                            <li class="divider"></li>
 		                            <li><a href="settings"><strong>Settings</strong></a></li>
-		                    {{/if}}
 		                            <li class="divider"></li>
 		                            <li><a href="logout" class="btn-danger"><strong>Log Out</strong></a></li>
 		                        </ul>

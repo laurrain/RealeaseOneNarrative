@@ -48,16 +48,16 @@ var checkUser = function(req, res, next){
 
     }
 
-app.get("/",checkUser, function(req, res){  
+app.get("/",spaza_shop.checkUser, function(req, res){  
 
-	res.render("home")
+	res.render("home",{administrator : administrator});
 })
 
 app.get("/login", function(req, res){
   res.render("login", {layout : false});
 })
 
-app.post('/login',spaza_shop.checkUser)
+app.post('/login',spaza_shop.authUser)
 
 app.get("/logout", function(req, res, next){
   if (req.session.user){
@@ -76,89 +76,89 @@ app.get("/logout", function(req, res, next){
 app.get("/signup", function(req,res){
   res.render('signup', {data:spaza_shop, layout: false})
 })
-app.post('UserData/signup', spaza_shop.signup)
+app.post('/signup', spaza_shop.signup)
 
 app.post('/UserData/signup', spaza_shop.userData)
 
-app.get("/category_earnings",spaza_shop.show_category_earnings)
+app.get("/category_earnings",spaza_shop.checkUser,spaza_shop.show_category_earnings)
 
-app.get("/category_sales_per_day_per_week", spaza_shop.show_category_sales_per_day_per_week);
+app.get("/category_sales_per_day_per_week", spaza_shop.checkUser,spaza_shop.show_category_sales_per_day_per_week);
 
-app.get("/category_profits", spaza_shop.show_category_profits)
+app.get("/category_profits", spaza_shop.checkUser,spaza_shop.show_category_profits)
 
-app.get("/daily_profits", spaza_shop.show_daily_profits)
+app.get("/daily_profits", spaza_shop.checkUser,spaza_shop.show_daily_profits)
 
-app.get("/entire_stock", spaza_shop.show_entire_stock)
+app.get("/entire_stock", spaza_shop.checkUser,spaza_shop.show_entire_stock)
 
-app.get("/regular_sales", spaza_shop.show_regular_sales);
+app.get("/regular_sales", spaza_shop.checkUser,spaza_shop.show_regular_sales);
 
-app.get("/popular_categories", spaza_shop.show_popular_category);
+app.get("/popular_categories", spaza_shop.checkUser,spaza_shop.show_popular_category);
 
-app.get("/popular_products", spaza_shop.show_popular_products);
+app.get("/popular_products", spaza_shop.checkUser,spaza_shop.show_popular_products);
 
-app.get("/products_price_cost", spaza_shop.show_products_price_cost);
+app.get("/products_price_cost", spaza_shop.checkUser, spaza_shop.show_products_price_cost);
 
-app.get("/product_earnings", spaza_shop.show_product_earnings);
+app.get("/product_earnings", spaza_shop.checkUser,spaza_shop.show_product_earnings);
 
-app.get("/products_per_day_per_week", spaza_shop.show_products_per_day_per_week)
+app.get("/products_per_day_per_week", spaza_shop.checkUser,spaza_shop.show_products_per_day_per_week)
 
-app.get("/product_profits", spaza_shop.show_product_profits);
+app.get("/product_profits", spaza_shop.checkUser,spaza_shop.show_product_profits);
 
-app.get("/sales_per_day", spaza_shop.show_sales_per_day)
+app.get("/sales_per_day", spaza_shop.checkUser,spaza_shop.show_sales_per_day)
 
-app.get("/stock_rates", spaza_shop.show_stock_rates)
+app.get("/stock_rates", spaza_shop.checkUser,spaza_shop.show_stock_rates)
 
-app.get("/supplier_popular_product", spaza_shop.show_supplier_popular_product)
+app.get("/supplier_popular_product", spaza_shop.checkUser,spaza_shop.checkUser,spaza_shop.show_supplier_popular_product)
 
-app.get("/supplier_profitable_product", spaza_shop.show_supplier_profitable_product);
+app.get("/supplier_profitable_product", spaza_shop.checkUser,spaza_shop.show_supplier_profitable_product);
 
-app.get("/all_suppliers",spaza_shop.show_all_suppliers);
+app.get("/all_suppliers",spaza_shop.checkUser,spaza_shop.show_all_suppliers);
 
-app.get("/sales_history", spaza_shop.show_sales_history);
+app.get("/sales_history", spaza_shop.checkUser,spaza_shop.checkUser,spaza_shop.show_sales_history);
 
-app.get("/purchase_history", spaza_shop.show_purchase_history);
+app.get("/purchase_history", spaza_shop.checkUser,spaza_shop.show_purchase_history);
 
-app.get("/categories", spaza_shop.show_categories);
+app.get("/categories", spaza_shop.checkUser,spaza_shop.show_categories);
 
-app.get("/product_sold", spaza_shop.show_product_sold);
+app.get("/product_sold", spaza_shop.checkUser,spaza_shop.show_product_sold);
 
-app.get("/sales", function(req, res){
+app.get("/sales", spaza_shop.checkUser,function(req, res){
   res.render("sales")
 });
 
-app.get("/earnings", function(req, res){
+app.get("/earnings", spaza_shop.checkUser,function(req, res){
   res.render("earnings")
 });
 
-app.get("/profits", function(req, res){
+app.get("/profits", spaza_shop.checkUser,function(req, res){
   res.render("profits")
 });
 
-app.get("/supplier_information",function(req, res){
+app.get("/supplier_information",spaza_shop.checkUser,function(req, res){
   res.render("supplier_information")
 });
 
-app.post('/sales_history/add_sales_history', spaza_shop.add_sales_history);
+app.post('/sales_history/add_sales_history', spaza_shop.checkUser,spaza_shop.add_sales_history);
 app.get('/sales_history/edit_sales_history/:id', spaza_shop.get_sales_history);
 app.post('/sales_history/update_sales_history/:id', spaza_shop.update_sales_history);
 app.get('/sales_history/delete_sales_history/:id', spaza_shop.delete_sales_history);
 
-app.post('/categories/add_categories', spaza_shop.add_categories);
+app.post('/categories/add_categories', spaza_shop.checkUser,spaza_shop.add_categories);
 app.get('/categories/edit_categories/:id', spaza_shop.get_categories);
 app.post('/categories/update_categories/:id', spaza_shop.update_categories);
 app.get('/categories/delete_categories/:id', spaza_shop.delete_categories);
 
-app.post('/product_sold/add_product_sold', spaza_shop.add_product_sold);
+app.post('/product_sold/add_product_sold', spaza_shop.checkUser,spaza_shop.add_product_sold);
 app.get('/product_sold/edit_product_sold/:id', spaza_shop.get_product_sold);
 app.post('/product_sold/update_product_sold/:id', spaza_shop.update_product_sold);
 app.get('/product_sold/delete_product_sold/:id', spaza_shop.delete_product_sold);
 
-app.post('/purchase_history/add_purchase_history', spaza_shop.add_purchase_history);
+app.post('/purchase_history/add_purchase_history', spaza_shop.checkUser,spaza_shop.add_purchase_history);
 app.get('/purchase_history/edit_purchase_history/:id', spaza_shop.get_purchase_history);
 app.post('/purchase_history/update_purchase_history/:id', spaza_shop.update_purchase_history);
 app.get('/purchase_history/delete_purchase_history/:id', spaza_shop.delete_purchase_history);
 
-app.post('/all_suppliers/add_all_suppliers', spaza_shop.add_all_suppliers);
+app.post('/all_suppliers/add_all_suppliers', spaza_shop.checkUser,spaza_shop.add_all_suppliers);
 app.get('/all_suppliers/edit_all_suppliers/:id', spaza_shop.get_all_suppliers);
 app.post('/all_suppliers/update_all_suppliers/:id', spaza_shop.update_all_suppliers);
 app.get('/all_suppliers/delete_all_suppliers/:id', spaza_shop.delete_all_suppliers);

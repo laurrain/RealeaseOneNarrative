@@ -23,18 +23,18 @@
     <h1><span class="fa fa-sign-in"></span>SIGNUP</h1>
         {{#data}}
     <!--LOGIN FORM -->
-    <form action="/UserData/signup" name="signup" method="POST">
+    <form action="/signup" name="signup" method="POST">
         <h2>Register</h2>
        <div class="form-group">
             <label>username</label>
             <input type="text" class="form-control"  name="username" value="{{username}}">
             <label>Password</label>
-            <input type="text" class="form-control" name="password" value="{{password}}"><br>
-             <select name="role" class="input" readOnly>
-                <option value="admin">Administrator</option>
-                <option value="viewer">Viewer</option>
-                <option value="readOnly">Read Only</option>
-            </select>
+            <input type="password" class="form-control" name="password" value="{{password}}">
+            <label>Cofirm_passord</label>
+            <input type="password" class="form-control" name="confirm_password" value="{{confirm_password}}"><br>
+            {{#if message}}
+            <p>{{message}}</p>
+            {{/if}}
   
         </div>
 

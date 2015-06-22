@@ -1,67 +1,85 @@
-var admin, viewer;
-exports.checkUser = function(req, res, next) {
-	var user = JSON.parse(JSON.stringify(req.body))
+past_pages = [],
+administrator = false,
+last_page = "";
+exports.authUser = function(req, res, next){
+	past_pages = [];
+	var userData = JSON.parse(JSON.stringify(req.body)),
+	user = req.session.user = userData.username,
+	password = userData.password;
+
 	req.getConnection(function(err, connection){
-		if (err)
-			return next(err);
-	var input = JSON.parse(JSON.stringify(req.body));
-	var data = {
-		 username: input.username,
-		 password: input.password,
-		 role: input.role
-	};
-	connection.query('SELECT password, role FROM UserData WHERE username = ? AND password= ?', [data.username, data.password], function(err, results){
-            if (err) return next(err);
+		if(err) return next(err);
+		connection.query("SELECT * FROM UserData WHERE username = ? AND password = ?", [user,password], function(err, results){
+			if (err) return next(err);
+
+			if (results.length > 0){
+				req.session.user = results[0].username
+				administrator = results[0].admin
+				res.redirect('/');
+			}else{
+				res.render('login', {message:"user or password incorrect", 
+				layout : false})
+			}
+		})
+	})
+}
+exports.checkUser = function(req, res, next){
+
+  if (req.session.user){
+    past_pages.push(req._parsedOriginalUrl.path)
+    
+    if (req._parsedOriginalUrl.path.match(/profit/gi) && !administrator ) {
+      past_pages.splice(-1)
+      last_page = past_pages[past_pages.length-1];
+      res.redirect(last_page)
+    }else {
+    	return next();
+	}
+  }else if (!req.session.user){
+    // the user is not logged in redirect him to the login page-
+    res.redirect('/login');
+  }
+};
 
 
-            if(results.length == 1){
-            		var user = results[0];
-                req.session.user = {username: data.username, password: data.password, role: user.role};
-                if(user.role == "admin" || user.role == "viewer"){
-                    admin = true;
-                    viewer =true;
-                }else{
-                	admin =false;
-                	viewer=false;
-                }
-            	 res.render('home', {
-                        username: req.session.user,
-                        password: req.session.user,
-                        admin:admin,
-                        viewer:viewer
-                    });
-             	
-            }else{
-            
-            	res.redirect('/login')
-            	           	
+exports.signup = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        
+        var input = JSON.parse(JSON.stringify(req.body));
+        var data = {
+                    username : input.username,
+                    password : input.password
             };
-
-        });
+            if(input.confirm_password == input.password){
+        		connection.query('insert into UserData set ?', [data], function(err, results1) {
+                if (results1.length == 0){
+                    connection.query('insert into UserData set ?', data, function(err, results) {
+                            if (err)
+                                    console.log("Error inserting : %s ",err );
+                     
+                            req.session.user = input.username;
+                            res.redirect('/');
+                    });
+                }
+                else{
+                    res.render("signup", {
+                                            message : "Username alredy exists!",
+                                            layout : false
+                                            })
+                }
+            });
+        }
+        else{
+            res.render("signup", {
+                message : "Passwords don't match!",
+                layout : false
+            })
+        }
     });
-};
-
-
-exports.signup = function(req, res, next){
-	req.getConnection(function(err, connection){
-		if (err){
-			return next(err);
-		}
-		var input = JSON.stringify(req.body)
-	    var data = {
-	    	username: input.username,
-	    	password: input.password,
-	    	role: input.role
-	    };
-	    if(data.username.trim() === "" || data.password.trim() ==""){
-	    	res.render('signup', {msg: "Fields can not be blank"});
-	    	return;
-	    }
-		connection.query('INSERT INTO UserData SET ?', [data], function(err, results){
-		if(err) res.render('home', {msg: "successfully signed up"});
-		});
-	});
-};
+}
 exports.show_popular_products = function (req, res, next) {
 	req.getConnection(function(err, connection){
 		if (err) 
@@ -527,17 +545,35 @@ exports.userData = function (req, res, next) {
         var input = JSON.parse(JSON.stringify(req.body));
         var data = {
                     username : input.username,
-                    password : input.password,
-                    role: input.role
+                    password : input.password
             };
-        connection.query('insert into UserData set ?', [data], function(err, results) {
-                if (err)
-                        console.log("Error inserting : %s ",err );
-         
-                res.redirect('/UserData');
+            if(input.confirm_password == input.password){
+        		connection.query('insert into UserData set ?', [data], function(err, results) {
+                if (results1.length == 0){
+                    connection.query('insert into UserData set ?', data, function(err, results) {
+                            if (err)
+                                    console.log("Error inserting : %s ",err );
+                     
+                            req.session.user = input.username;
+                            res.redirect('/');
+                    });
+                }
+                else{
+                    res.render("signup", {
+                                            message : "Username alredy exists!",
+                                            layout : false
+                                            })
+                }
             });
+        }
+        else{
+            res.render("signup", {
+                message : "Passwords don't match!",
+                layout : false
+            })
+        }
     });
-};
+}
 
 exports.add_purchase_history = function (req, res, next) {
     req.getConnection(function(err, connection){
