@@ -17,7 +17,9 @@
 <div class="container">
 
 <div class="col-sm-6 col-sm-offset-3">
-
+<div class="nav navbar navbar-default navbar-fixed-top">
+    <a href="/"><h1>Welcom To Nelisa Spaza Shop</h1></a>
+</div>
     <h1><span class="fa fa-sign-in"></span>SIGNUP</h1>
         {{#data}}
     <!--LOGIN FORM -->
@@ -28,9 +30,10 @@
             <input type="text" class="form-control"  name="username" value="{{username}}">
             <label>Password</label>
             <input type="text" class="form-control" name="password" value="{{password}}"><br>
-             <select name="role" readOnly>
+             <select name="role" class="input" readOnly>
                 <option value="admin">Administrator</option>
                 <option value="viewer">Viewer</option>
+                <option value="readOnly">Read Only</option>
             </select>
   
         </div>

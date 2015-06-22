@@ -1,38 +1,40 @@
+var admin, viewer;
 exports.checkUser = function(req, res, next) {
-	//var admin, viewer;
+	var user = JSON.parse(JSON.stringify(req.body))
 	req.getConnection(function(err, connection){
 		if (err)
 			return next(err);
-		var input = JSON.stringify(req.body);
+	var input = JSON.parse(JSON.stringify(req.body));
 	var data = {
-		username: input.username,
-		password: input.password,
-		role: input.role
+		 username: input.username,
+		 password: input.password,
+		 role: input.role
 	};
 	connection.query('SELECT password, role FROM UserData WHERE username = ? AND password= ?', [data.username, data.password], function(err, results){
             if (err) return next(err);
+
+
             if(results.length == 1){
-                var user = results[0];
-                req.session.user = {username: data.username,
-                                     role: user.role};
-                if(user.role == "admin" || user.role ==="viewer"){
+            		var user = results[0];
+                req.session.user = {username: data.username, password: data.password, role: user.role};
+                if(user.role == "admin" || user.role == "viewer"){
                     admin = true;
                     viewer =true;
-                    res.redirect('home')
+                }else{
+                	admin =false;
+                	viewer=false;
                 }
-                else{
-                    admin = false;
-                    viewer = false;
-                    res.redirect('/login')
-                    user: req.session.user
-                    admin:admin
-                    viewer:viewer
-                }
-           
-            } else{
-            	msg="wrong username or password"
-            	res.render('home',{msg:msg})
-
+            	 res.render('home', {
+                        username: req.session.user,
+                        password: req.session.user,
+                        admin:admin,
+                        viewer:viewer
+                    });
+             	
+            }else{
+            
+            	res.redirect('/login')
+            	           	
             };
 
         });
@@ -56,7 +58,7 @@ exports.signup = function(req, res, next){
 	    	return;
 	    }
 		connection.query('INSERT INTO UserData SET ?', [data], function(err, results){
-		if(err) res.render('userData', {msg: "successfully signed up"});
+		if(err) res.render('home', {msg: "successfully signed up"});
 		});
 	});
 };
