@@ -1,48 +1,10 @@
 past_pages = [],
 administrator = false,
-last_page = "";
+last_page = "",
+counter = 0;
+var bcrypt = require('bcrypt');
 
-// admin = {
-//               username : "admin",
-//               password : "@dmin123",
-//               role : true
-//             },
-// viewer = {
-//               username : "viewer",
-//               password : "Viewer123",
-//               role : false
-//             };
 
-exports.authUser = function(req, res, next){
-
-    past_pages = [];
-
-    var userData = JSON.parse(JSON.stringify(req.body)),
-      user = req.session.user = userData.user,
-      password = userData.password;
-
-    req.getConnection(function(err, connection){
-        if (err) 
-            return next(err);
-        connection.query('SELECT * FROM users WHERE username = ?  AND password = ?', [user, password], function(err, results) {
-            if (err) return next(err);
-
-            if(results.length > 0){
-                req.session.user = results[0].username
-
-                administrator = results[0].admin
-
-                res.redirect("/");
-            }
-            else{
-                res.render("login", {
-                    message : "Username or password incorrect!",
-                    layout : false
-                })
-            }
-         });
-    });
-}
 
 exports.addUser = function(req, res, next){
     req.getConnection(function(err, connection){
@@ -53,7 +15,7 @@ exports.addUser = function(req, res, next){
         var input = JSON.parse(JSON.stringify(req.body));
         var data = {
                     username : input.username,
-                    password : input.password
+                    password: input.password
             };
 
         if (input.password_confirm == input.password){
@@ -62,13 +24,16 @@ exports.addUser = function(req, res, next){
                             console.log("Error inserting : %s ",err );
 
                 if (results1.length == 0){
-                    connection.query('insert into users set ?', data, function(err, results) {
-                            if (err)
+                        bcrypt.hash(input.password,10, function(err, hash){
+                            data.password = hash
+                            connection.query('insert into users set ?', data, function(err, results) {
+                                if (err)
                                     console.log("Error inserting : %s ",err );
-                     
-                            req.session.user = input.username;
-                            res.redirect('/');
-                    });
+                            })
+                        })
+                    
+                    req.session.user = input.username;
+                    res.redirect('/');
                 }
                 else{
                     res.render("sign_up", {
@@ -87,10 +52,68 @@ exports.addUser = function(req, res, next){
     });
 }
 
+exports.authUser = function(req, res, next){
+    req.getConnection(function(err, connection){
+        if (err) 
+            return next(err);
+    past_pages = [];
+
+    var userData = JSON.parse(JSON.stringify(req.body)),
+      user = userData.user,
+      password = userData.password;
+        
+        connection.query('SELECT * FROM users WHERE username = ?', user, function(err, results) {
+            if (err) return next(err);
+
+            if(results.length > 0){
+                bcrypt.compare(password, results[0].password,  function(err, reply){
+                    if(err)
+                        console.log("There was an error with bcrypt.compare() ", err);
+
+                    if(reply && !results[0].locked){
+                        counter = 0
+                        req.session.user = results[0].username
+
+                        administrator = results[0].admin
+
+                        return res.redirect("/");
+                    }
+                    else{
+
+                        counter++;
+                        var msg = '';
+                        if(counter == 3 || results[0].locked){
+                            connection.query('UPDATE users SET locked = ? WHERE username = ?', [true,user], function(err, results) {
+                                if (err) return next(err);
+                            
+                                msg = "Your account has been blocked! Wrong password supplied 3 times!";
+                                return res.render("login", {
+                                    message : msg,
+                                    layout : false
+                                });
+                            });
+                        }else{
+
+                            return res.render("login", {
+                                message : msg+"Username or password incorrect!",
+                                layout : false
+                            });
+                        }
+                    }
+                });
+            }
+            else{
+                counter = 0
+                return res.render("login", {
+                    message : "Username doesn't exist!",
+                    layout : false
+                });
+            }
+        });
+    });
+}
+
 exports.checkUser = function(req, res, next){
-    console.log(past_pages)
-    console.log("-------------------")
-    console.log(res)
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
@@ -386,7 +409,8 @@ exports.show_sales_history = function(req, res, next){
                             sales_history : sales_history,
                             categories : categories,
                             days : days,
-                            products: products
+                            products: products,
+                            administrator : administrator
                         });
                     });
                 });

@@ -6,9 +6,8 @@ var express = require('express'),
     myConnection = require('express-myconnection'),
     bodyParser = require('body-parser'),
     spaza_shop = require('./routes/spaza_shop'),
-    session = require('express-session');
-
-var app = express();
+    session = require('express-session'),
+    app = express();
 
 var dbOptions = {
       host: 'localhost',

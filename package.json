@@ -9,6 +9,7 @@
   "author": "Laurrain and Emanuel",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "bcrypt": "^0.8.3",
     "body-parser": "^1.12.3",
     "express": "~4.12.3",
     "express-handlebars": "^2.0.1",
