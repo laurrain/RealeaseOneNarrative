@@ -7,7 +7,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
     spaza_shop = require('./routes/spaza_shop'),
-
+    
  app = express();
 var user = {};
 
@@ -35,7 +35,7 @@ app.use(bodyParser.json())
 app.use(session({secret: "yada yada", saveUninitialized : false, resave: true, cookie : {maxAge : 5*60000}}));
 
 
-var checkUser = function(req, res, next){
+/**var checkUser = function(req, res, next){
     if(req.session.user ){
         user.username = req.session.user;
         user.role =req.session.user
@@ -46,7 +46,7 @@ var checkUser = function(req, res, next){
     }
         res.redirect('login')
 
-    }
+    }**/
 
 app.get("/",spaza_shop.checkUser, function(req, res){  
 
@@ -59,19 +59,10 @@ app.get("/login", function(req, res){
 
 app.post('/login',spaza_shop.authUser)
 
-app.get("/logout", function(req, res, next){
-  if (req.session.user){
-    delete req.session.user;
-    res.redirect("login")
-  }
-  // the user is not logged in redirect him to the login page-
-
+app.get("/logout", function(req, res){
+  delete req.session.user;
   res.redirect('/login');
-}, function(req, res){
-  
-  res.redirect("/login");
-
-})
+});
 
 app.get("/signup", function(req,res){
   res.render('signup', {data:spaza_shop, layout: false})
