@@ -5,6 +5,26 @@ counter = 0;
 var bcrypt = require('bcrypt');
 
 
+exports.adminPanel = function(req, res, next){
+
+    req.getConnection(function(err, connection){
+        if(err)
+            return next(err);
+
+        connection.query("SELECT username, admin, locked", req.session.user, function(err, results){
+            if(err)
+                console.log("[!] Error requesting adminPanel data from database:  %s", err);
+
+
+            console.log(results)
+            // res.render("admin_panel",
+            //     {users : users,
+            //     roles : roles,
+            //     lock_statuses : lock_statuses
+            // })
+        })
+    })
+}
 
 exports.addUser = function(req, res, next){
     req.getConnection(function(err, connection){
@@ -21,14 +41,14 @@ exports.addUser = function(req, res, next){
         if (input.password_confirm == input.password){
             connection.query('SELECT * FROM users WHERE username = ?', input.username, function(err, results1) {
                     if (err)
-                            console.log("Error inserting : %s ",err );
+                            console.log("[!] Error inserting : %s ",err );
 
                 if (results1.length == 0){
                         bcrypt.hash(input.password,10, function(err, hash){
                             data.password = hash
                             connection.query('insert into users set ?', data, function(err, results) {
                                 if (err)
-                                    console.log("Error inserting : %s ",err );
+                                    console.log("[!] Error inserting : %s ",err );
                             })
                         })
                     
@@ -68,7 +88,7 @@ exports.authUser = function(req, res, next){
             if(results.length > 0){
                 bcrypt.compare(password, results[0].password,  function(err, reply){
                     if(err)
-                        console.log("There was an error with bcrypt.compare() ", err);
+                        console.log("[!] There was an error with bcrypt.compare() ", err);
 
                     if(reply && !results[0].locked){
                         counter = 0
@@ -474,7 +494,7 @@ exports.get_sales_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('SELECT * FROM sales_history WHERE id = ?', [id], function(err,rows){
 			if(err){
-    				console.log("Error Selecting : %s ",err );
+    				console.log("[!] Error Selecting : %s ",err );
 			}
 			res.render('edit_sales_history',{page_title:"Edit Product",
 							data : rows[0],
@@ -492,7 +512,7 @@ exports.update_sales_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('UPDATE sales_history SET ? WHERE id = ?', [data, id], function(err, rows){
 			if (err){
-          			console.log("Error Updating : %s ",err );
+          			console.log("[!] Error Updating : %s ",err );
 			}
       		res.redirect('/sales_history');
 		});
@@ -505,7 +525,7 @@ exports.get_categories = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('SELECT * FROM categories WHERE id = ?', [id], function(err,rows){
 			if(err){
-    				console.log("Error Selecting : %s ",err );
+    				console.log("[!] Error Selecting : %s ",err );
 			}
 			res.render('edit_categories',{page_title:"Edit Categories",
 				data : rows[0],
@@ -523,11 +543,11 @@ exports.update_categories = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('UPDATE categories SET ? WHERE id = ?', [data, id], function(err, rows){
 			if (err){
-          			console.log("Error Updating : %s ",err );
+          			console.log("[!] Error Updating : %s ",err );
 			}
       		connection.query('UPDATE sales_history SET category_name=? WHERE cat_id = (SELECT ID FROM categories WHERE cat_name=?)', [data.cat_name, data.cat_name], function(err, rows){
             if (err){
-                    console.log("Error Updating : %s ",err );
+                    console.log("[!] Error Updating : %s ",err );
             }
                 res.redirect('/categories');
             });
@@ -540,7 +560,7 @@ exports.get_product_sold = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('SELECT * FROM product_sold WHERE id = ?', [id], function(err,rows){
 			if(err){
-    				console.log("Error Selecting : %s ",err );
+    				console.log("[!] Error Selecting : %s ",err );
 			}
 			res.render('edit_product_sold',{page_title:"Edit Product Sold",
 				data : rows[0],
@@ -558,7 +578,7 @@ exports.update_product_sold = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('UPDATE product_sold SET ? WHERE id = ?', [data, id], function(err, rows){
 			if (err){
-          			console.log("Error Updating : %s ",err );
+          			console.log("[!] Error Updating : %s ",err );
 			}
       		res.redirect('/product_sold');
 		});
@@ -570,7 +590,7 @@ exports.get_purchase_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('SELECT * FROM purchase_history WHERE id = ?', [id], function(err,rows){
 			if(err){
-    				console.log("Error Selecting : %s ",err );
+    				console.log("[!] Error Selecting : %s ",err );
 			}
 			res.render('edit_purchase_history',{page_title:"Edit Purchase History",
 				data : rows[0],
@@ -588,7 +608,7 @@ exports.update_purchase_history = function(req, res, next){
 	req.getConnection(function(err, connection){
 		connection.query('UPDATE purchase_history SET ? WHERE id = ?', [data, id], function(err, rows){
 			if (err){
-          			console.log("Error Updating : %s ",err );
+          			console.log("[!] Error Updating : %s ",err );
 			}
       		res.redirect('/purchase_history');
 		});
@@ -612,11 +632,11 @@ exports.add_sales_history = function (req, res, next) {
             };
         connection.query('INSERT INTO sales_history SET ?, cat_id=(SELECT ID FROM categories WHERE cat_name=?)', [data, input.category_name], function(err, results) {
             if (err)
-                console.log("Error inserting : %s ",err );
+                console.log("[!] Error inserting : %s ",err );
 
             connection.query('UPDATE product_sold SET no_sold=no_sold+? WHERE product_name=?', [input.no_sold, input.stock_item], function(err, results) {
                 if (err)
-                        console.log("Error inserting : %s ",err );
+                        console.log("[!] Error inserting : %s ",err );
                 
                 res.redirect('/sales_history');
             });
@@ -641,7 +661,7 @@ exports.add_purchase_history = function (req, res, next) {
             };
         connection.query('insert into purchase_history set ?, supplier_id=(SELECT id FROM suppliers WHERE shop=?)', [data, input.shop], function(err, results) {
                 if (err)
-                        console.log("Error inserting : %s ",err );
+                        console.log("[!] Error inserting : %s ",err );
          
                 res.redirect('/purchase_history');
             });
@@ -661,7 +681,7 @@ exports.add_product_sold = function (req, res, next) {
             };
         connection.query('insert into product_sold set ?', data, function(err, results) {
                 if (err)
-                        console.log("Error inserting : %s ",err );
+                        console.log("[!] Error inserting : %s ",err );
          
                 res.redirect('/product_sold');
             });
@@ -680,7 +700,7 @@ exports.add_categories = function (req, res, next) {
                 };
         connection.query('INSERT INTO categories (SELECT MAX(ID)+1, ?  FROM categories)', input.cat_name, function(err, results) {
                 if (err)
-                        console.log("Error inserting : %s ",err );
+                        console.log("[!] Error inserting : %s ",err );
          
                 res.redirect('/categories');
             });
@@ -692,7 +712,7 @@ exports.delete_sales_history = function(req, res, next){
     req.getConnection(function(err, connection){
         connection.query('DELETE FROM sales_history WHERE id = ?', [id], function(err,rows){
             if(err){
-                    console.log("Error Selecting : %s ",err );
+                    console.log("[!] Error Selecting : %s ",err );
             }
             res.redirect('/sales_history');
         });
@@ -704,7 +724,7 @@ exports.delete_categories = function(req, res, next){
     req.getConnection(function(err, connection){
         connection.query('DELETE FROM categories WHERE id = ?', [id], function(err,rows){
             if(err){
-                    console.log("Error Selecting : %s ",err );
+                    console.log("[!] Error Selecting : %s ",err );
             }
             res.redirect('/categories');
         });
@@ -716,7 +736,7 @@ exports.delete_product_sold = function(req, res, next){
     req.getConnection(function(err, connection){
         connection.query('DELETE FROM product_sold WHERE id = ?', [id], function(err,rows){
             if(err){
-                    console.log("Error Selecting : %s ",err );
+                    console.log("[!] Error Selecting : %s ",err );
             }
             res.redirect('/product_sold');
         });
@@ -728,7 +748,7 @@ exports.delete_purchase_history = function(req, res, next){
     req.getConnection(function(err, connection){
         connection.query('DELETE FROM purchase_history WHERE id = ?', [id], function(err,rows){
             if(err){
-                    console.log("Error Selecting : %s ",err );
+                    console.log("[!] Error Selecting : %s ",err );
             }
             res.redirect('/purchase_history');
         });
@@ -748,7 +768,7 @@ exports.add_all_suppliers = function (req, res, next) {
                 };
         connection.query('insert into suppliers set ?', data, function(err, results) {
                 if (err)
-                        console.log("Error inserting : %s ",err );
+                        console.log("[!] Error inserting : %s ",err );
          
                 res.redirect('/all_suppliers');
             });
@@ -760,7 +780,7 @@ exports.get_all_suppliers = function(req, res, next){
     req.getConnection(function(err, connection){
         connection.query('SELECT * FROM suppliers WHERE id = ?', [id], function(err,rows){
             if(err){
-                    console.log("Error Selecting : %s ",err );
+                    console.log("[!] Error Selecting : %s ",err );
             }
             res.render('edit_all_suppliers',{page_title:"Edit Suppliers",
             	data : rows[0],
@@ -778,11 +798,11 @@ exports.update_all_suppliers = function(req, res, next){
         req.getConnection(function(err, connection){
             connection.query('UPDATE purchase_history SET ? WHERE shop = (SELECT shop FROM suppliers WHERE id = ?)', [data, id], function(err, rows){
                 if (err){
-                        console.log("Error Updating : %s ",err );
+                        console.log("[!] Error Updating : %s ",err );
                 }
                 connection.query('UPDATE suppliers SET ? WHERE id = ?', [data, id], function(err, rows){
                     if (err){
-                            console.log("Error Updating : %s ",err );
+                            console.log("[!] Error Updating : %s ",err );
                     }
                     res.redirect('/all_suppliers');
                 });
@@ -795,7 +815,7 @@ exports.delete_all_suppliers = function(req, res, next){
     req.getConnection(function(err, connection){
         connection.query('DELETE FROM suppliers WHERE id = ?', [id], function(err,rows){
             if(err){
-                    console.log("Error Selecting : %s ",err );
+                    console.log("[!] Error Selecting : %s ",err );
             }
             res.redirect('/all_suppliers');
         });
