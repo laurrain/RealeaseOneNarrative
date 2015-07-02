@@ -144,7 +144,8 @@ app.get('/sign_up', function(req, res){
 
 app.post("/sign_up", spaza_shop.addUser)
 
-app.get("/admin_panel", checkUser, spaza_shop.adminPanel)
+app.get("/admin_panel", spaza_shop.checkUser, spaza_shop.adminPanel)
+app.post("/admin_panel/:username", spaza_shop.checkUser, spaza_shop.promoteUser)
 
 app.get("/*", spaza_shop.checkUser, function(req, res){
   res.redirect("/login");

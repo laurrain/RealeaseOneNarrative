@@ -4,6 +4,22 @@ last_page = "",
 counter = 0;
 var bcrypt = require('bcrypt');
 
+exports.promoteUser = function(req, res, next){
+
+    var input = JSON.parse(JSON.stringify(req.body))
+
+    req.getConnection(function(err, connection){
+        if (err)
+            return next(err);
+
+        connection.query("UPDATE users SET ? WHERE username=?", [input, input.username], function(err, results){
+            if(err)
+                console.log(err)
+
+            res.redirect("/admin_panel")
+        })
+    })
+}
 
 exports.adminPanel = function(req, res, next){
 
@@ -11,17 +27,16 @@ exports.adminPanel = function(req, res, next){
         if(err)
             return next(err);
 
-        connection.query("SELECT username, admin, locked", req.session.user, function(err, results){
+        connection.query("SELECT username, admin, locked FROM users WHERE NOT username = ?", req.session.user, function(err, data){
             if(err)
-                console.log("[!] Error requesting adminPanel data from database:  %s", err);
+                console.log("[!] Error requesting adminPanel data from database:\n\t%s", err);
 
 
-            console.log(results)
-            // res.render("admin_panel",
-            //     {users : users,
-            //     roles : roles,
-            //     lock_statuses : lock_statuses
-            // })
+            // console.log(results)
+            res.render("admin_panel",
+                {data : data,
+                administrator : administrator
+            })
         })
     })
 }
@@ -137,7 +152,7 @@ exports.checkUser = function(req, res, next){
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
-    if (req._parsedOriginalUrl.path.match(/profit/gi) && !administrator ) {
+    if ((req._parsedOriginalUrl.path.match(/profit/gi) && !administrator)  || (!administrator && req._parsedOriginalUrl.path=="/admin_panel")) {
       past_pages.splice(-1)
       last_page = past_pages[past_pages.length-1];
       res.redirect(last_page)
