@@ -35,18 +35,6 @@ app.use(bodyParser.json())
 app.use(session({secret: "yada yada", saveUninitialized : false, resave: true, cookie : {maxAge : 5*60000}}));
 
 
-/**var checkUser = function(req, res, next){
-    if(req.session.user ){
-        user.username = req.session.user;
-        user.role =req.session.user
-        user: req.session.user;
-        return next();
-            
-
-    }
-        res.redirect('login')
-
-    }**/
 
 app.get("/",spaza_shop.checkUser, function(req, res){  
 
@@ -69,7 +57,9 @@ app.get("/signup", function(req,res){
 })
 app.post('/signup', spaza_shop.signup)
 
-app.post('/UserData/signup', spaza_shop.userData)
+app.get("/admin", spaza_shop.checkUser,spaza_shop.admin)
+
+app.post('/admin/:username', spaza_shop.checkUser, spaza_shop.promote_user)
 
 app.get("/category_earnings",spaza_shop.checkUser,spaza_shop.show_category_earnings)
 

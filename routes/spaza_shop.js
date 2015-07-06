@@ -48,7 +48,7 @@ exports.authUser = function(req, res, next){
                         }else{
 
                             return res.render("login", {
-                                message : msg+"Username or password incorrect!",
+                                message : message+"Username or password incorrect!",
                                 layout : false
                             });
                         }
@@ -71,7 +71,7 @@ exports.checkUser = function(req, res, next){
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
-    if (req._parsedOriginalUrl.path.match(/profit/gi) && !administrator ) {
+    if ((req._parsedOriginalUrl.path.match(/profit/gi) && !administrator) || (!administrator && req._parsedOriginalUrl.path=="/admin")) {
       past_pages.splice(-1)
       last_page = past_pages[past_pages.length-1];
       res.redirect(last_page)
@@ -132,6 +132,39 @@ exports.signup = function (req, res, next) {
         })
     });
 }
+
+exports.promote_user = function(req, res, next){
+    var input = JSON.parse(JSON.stringify(req.body))
+
+    console.log(input   )
+
+    req.getConnection(function(err, connection){
+        connection.query('UPDATE UserData set? WHERE username = ?',[input,input.username], function(err,results){
+            if(err){
+                    console.log("Error Selecting : %s ",err );
+            }
+            res.redirect('/admin');      
+        }); 
+    });
+};
+
+exports.admin = function (req, res, next) {
+    req.getConnection(function(err, connection){
+        if (err){ 
+            return next(err);
+        }
+        connection.query("SELECT username, admin, locked FROM UserData WHERE NOT username = ?", req.session.user, function(err, data){
+                if (err)
+                        console.log("Error inserting : %s ",err );
+         console.log(data)
+            res.render("admin",
+                {data : data,
+                administrator : administrator
+            })
+        })
+    })
+}
+
 
 exports.show_popular_products = function (req, res, next) {
 	req.getConnection(function(err, connection){
