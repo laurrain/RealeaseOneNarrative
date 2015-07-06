@@ -94,8 +94,9 @@ exports.authUser = function(req, res, next){
     past_pages = [];
 
     var userData = JSON.parse(JSON.stringify(req.body)),
-      user = userData.user,
+      user = userData.username,
       password = userData.password;
+      console.log(userData)
         
         connection.query('SELECT * FROM users WHERE username = ?', user, function(err, results) {
             if (err) return next(err);
@@ -121,7 +122,7 @@ exports.authUser = function(req, res, next){
                             connection.query('UPDATE users SET locked = ? WHERE username = ?', [true,user], function(err, results) {
                                 if (err) return next(err);
                             
-                                msg = "Your account has been blocked! Wrong password supplied 3 times!";
+                                msg = "Your account has been blocked!";
                                 return res.render("login", {
                                     message : msg,
                                     layout : false
@@ -149,6 +150,7 @@ exports.authUser = function(req, res, next){
 }
 
 exports.checkUser = function(req, res, next){
+    console.log(req)
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     

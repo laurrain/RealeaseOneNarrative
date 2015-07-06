@@ -42,7 +42,7 @@ app.get("/login", function(req, res){
 })
 
 
-app.post("/login", spaza_shop.authUser)
+app.post("/login",spaza_shop.authUser)
 
 app.get("/logout", function(req, res, next){
 
