@@ -32,7 +32,6 @@ exports.adminPanel = function(req, res, next){
                 console.log("[!] Error requesting adminPanel data from database:\n\t%s", err);
 
 
-            // console.log(results)
             res.render("admin_panel",
                 {data : data,
                 administrator : administrator
@@ -53,7 +52,15 @@ exports.addUser = function(req, res, next){
                     password: input.password
             };
 
-        if (input.password_confirm == input.password){
+        if(input.password == undefined || input.password_confirm == undefined){
+
+            return res.render("sign_up", {
+                message : "Password can't be empty!",
+                layout : false
+            })
+
+        }
+        else if (input.password_confirm == input.password){
             connection.query('SELECT * FROM users WHERE username = ?', input.username, function(err, results1) {
                     if (err)
                             console.log("[!] Error inserting : %s ",err );
@@ -68,6 +75,7 @@ exports.addUser = function(req, res, next){
                         })
                     
                     req.session.user = input.username;
+                    administrator = false;
                     res.redirect('/');
                 }
                 else{
@@ -96,7 +104,6 @@ exports.authUser = function(req, res, next){
     var userData = JSON.parse(JSON.stringify(req.body)),
       user = userData.username,
       password = userData.password;
-      console.log(userData)
         
         connection.query('SELECT * FROM users WHERE username = ?', user, function(err, results) {
             if (err) return next(err);
@@ -150,17 +157,8 @@ exports.authUser = function(req, res, next){
 }
 
 exports.checkUser = function(req, res, next){
-    console.log(req)
   if (req.session.user){
-    past_pages.push(req._parsedOriginalUrl.path)
-    
-    if ((req._parsedOriginalUrl.path.match(/profit/gi) && !administrator)  || (!administrator && req._parsedOriginalUrl.path=="/admin_panel")) {
-      past_pages.splice(-1)
-      last_page = past_pages[past_pages.length-1];
-      res.redirect(last_page)
-    }else {
     	return next();
-	}
   }else{
     // the user is not logged in redirect him to the login page-
     res.redirect('/login');

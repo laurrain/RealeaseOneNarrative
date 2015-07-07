@@ -1,5 +1,6 @@
 <div class="container">
 
+	{{#if administrator}}
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -44,4 +45,8 @@
 				{{/data}}
 			</tbody>
 		</table>
+	{{else}}
+		<h1>YOU HAVE TO BE ADMIN DUMBHEAD!</h1>
+		<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+	{{/if}}
 </div>
