@@ -1,25 +1,29 @@
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
 
-		<h2>Past Suppliers</h2>
+		{{#if administrator}}
+			<h2>Past Suppliers</h2>
 
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>Supplier Name</th>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Supplier Name</th>
+					</tr>
+				</thead>
+					<form action="all_suppliers/add_all_suppliers" method="POST">
+						<td><input type="text" name="shop"></td>
+						<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
+					</form>
 				</tr>
-			</thead>
-				<form action="all_suppliers/add_all_suppliers" method="POST">
-					<td><input type="text" name="shop"></td>
-					<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
-				</form>
-			</tr>
-			{{#data}}
-				<tr>
-					<td>{{shop}}</td><td class="col-lg-2"><a href="all_suppliers/edit_all_suppliers/{{id}}">edit</a></td><td class="col-lg-2"><a href="all_suppliers/delete_all_suppliers/{{id}}">delete</a></td>
-				</tr>
-			{{/data}}
-
-		</table>
+				{{#data}}
+					<tr>
+						<td>{{shop}}</td><td class="col-lg-2"><a href="all_suppliers/edit_all_suppliers/{{id}}">edit</a></td><td class="col-lg-2"><a href="all_suppliers/delete_all_suppliers/{{id}}">delete</a></td>
+					</tr>
+				{{/data}}
+			</table>
+		{{else}}
+			<h1>YOU HAVE TO BE ADMIN DUMBHEAD!</h1>
+			<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+		{{/if}}
 	</div>
 </div>

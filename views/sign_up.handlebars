@@ -3,12 +3,40 @@
 	<head>
 		<title>Nelisa Spaza</title>
 		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="static/css/main_page.css">
-		<script src="static/js/jquery.min.js"></script>
-		<script src="static/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="static/css/login.css">
+		<!--script src="static/js/jquery.min.js"></script>
+		<script src="static/js/bootstrap.min.js"></script-->
 	</head>
 	<body>
-		<div class="nav navbar navbar-default navbar-fixed-top">
+
+
+		<div class="main-container container">
+			<div id="fullscreen_bg" class="fullscreen_bg"/>
+
+				<a href="/"><h1 class="form-signin-heading text-muted">Nelisa Spaza Shop</h1></a>
+
+
+				<form class="form-signin" action="/sign_up" method="POST">
+					<h1 class="form-signin-heading text-muted">Sign Up</h1>
+					<input type="text" class="form-control" autocomplete="off" name="username" placeholder="Username" required="" autofocus="">
+					<input type="password" name="password" class="form-control" placeholder="Password" required="">
+					<input type="password" name="password_confirm" class="form-control" placeholder="Re-type Password" required="">
+					{{#if message}}
+						<p>{{message}}</p>
+					{{/if}}
+					<button class="btn btn-lg btn-primary btn-block" type="submit">
+						Sign Up
+					</button>			
+				</form>
+
+				<form class="form-signin" action="/log_in" method="GET">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">
+						Sign In
+					</button>
+				</form>
+			</div>
+		</div>
+		<!--div class="nav navbar navbar-default navbar-fixed-top">
 			<a href="/"><h1>Nelisa Spaza Shop</h1></a>
 		</div>
 
@@ -33,6 +61,6 @@
 				</div>
 				<input type="submit" value="Register">
 			</form>
-		</div>
+		</div-->
 	</body>
 </html>

@@ -1,13 +1,18 @@
-<h1>Edit</h1>
+{{#if administrator}}
+	<h1>Edit</h1>
 
-{{#data}}
-<form action="/sales_history/update_sales_history/{{id}}" method="POST">
-	Day: <input type="text" name="day" value="{{day}}">	
-	Date: <input type="date" name="date" value="{{date}}">	
-	Stock Item: <input type="text" name="stock_item" value="{{stock_item}}">	
-	No Sold: <input type="number" name="no_sold" value="{{no_sold}}">	
-	Sales Price: <input type="text" name="sales_price" value="{{sales_price}}">	
-	
-	<input type="submit">
-</form>
-{{/data}}
+	{{#data}}
+	<form action="/sales_history/update_sales_history/{{id}}" method="POST">
+		Day: <input type="text" name="day" value="{{day}}">	
+		Date: <input type="date" name="date" value="{{date}}">	
+		Stock Item: <input type="text" name="stock_item" value="{{stock_item}}">	
+		No Sold: <input type="number" name="no_sold" value="{{no_sold}}">	
+		Sales Price: <input type="text" name="sales_price" value="{{sales_price}}">	
+		
+		<input type="submit">
+	</form>
+	{{/data}}
+{{else}}
+	<h1>YOU HAVE TO BE ADMIN DUMBHEAD!</h1>
+	<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+{{/if}}
