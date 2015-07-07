@@ -52,10 +52,10 @@ exports.addUser = function(req, res, next){
                     password: input.password
             };
 
-        if(input.password == undefined || input.password_confirm == undefined){
+        if(input.username == undefined || input.password == undefined){
 
             return res.render("sign_up", {
-                message : "Password can't be empty!",
+                message : "Password or username can't be empty!",
                 layout : false
             })
 
