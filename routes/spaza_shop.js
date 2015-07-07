@@ -96,7 +96,6 @@ exports.authUser = function(req, res, next){
     var userData = JSON.parse(JSON.stringify(req.body)),
       user = userData.username,
       password = userData.password;
-      console.log(userData)
         
         connection.query('SELECT * FROM users WHERE username = ?', user, function(err, results) {
             if (err) return next(err);
@@ -150,7 +149,6 @@ exports.authUser = function(req, res, next){
 }
 
 exports.checkUser = function(req, res, next){
-    console.log(req)
   if (req.session.user){
     past_pages.push(req._parsedOriginalUrl.path)
     
