@@ -1,20 +1,25 @@
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
 
-		<h2>Earnings of Products</h2>
-		<table class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>Product</th> <th>Total Item Earnings (in Rands(R))</th>
-				</tr>
-			</thead>
-		
-			{{#data}}
-				<tr>
-					<td>{{stock_item}}</td><td>R{{earnings}}</td>
-				</tr>
-			{{/data}}
+		{{#if administrator}}
+			<h2>Earnings of Products</h2>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Product</th> <th>Total Item Earnings (in Rands(R))</th>
+					</tr>
+				</thead>
+			
+				{{#data}}
+					<tr>
+						<td>{{stock_item}}</td><td>R{{earnings}}</td>
+					</tr>
+				{{/data}}
 
-		</table>
+			</table>
+		{{else}}
+			<h1>YOU HAVE TO BE ADMIN DUMBHEAD!</h1>
+			<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+		{{/if}}
 	</div>
 </div>
