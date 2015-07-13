@@ -23,7 +23,6 @@ app.set("view engine", "handlebars")
 app.use("/static", express.static("views"))
 app.use("/static", express.static("."))
 
-//setup middleware
 app.use(myConnection(mysql, dbOptions, 'single'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
