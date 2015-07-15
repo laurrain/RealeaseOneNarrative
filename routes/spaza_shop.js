@@ -21,25 +21,6 @@ exports.promoteUser = function(req, res, next){
     })
 }
 
-exports.adminPanel = function(req, res, next){
-
-    req.getConnection(function(err, connection){
-        if(err)
-            return next(err);
-
-        connection.query("SELECT username, admin, locked FROM users WHERE NOT username = ?", req.session.user, function(err, data){
-            if(err)
-                console.log("[!] Error requesting adminPanel data from database:\n\t%s", err);
-
-
-            res.render("admin_panel",
-                {data : data,
-                administrator : administrator
-            })
-        })
-    })
-}
-
 exports.addUser = function(req, res, next){
     req.getConnection(function(err, connection){
         if (err){ 
@@ -164,6 +145,25 @@ exports.checkUser = function(req, res, next){
     res.redirect('/login');
   }
 };
+
+exports.adminPanel = function(req, res, next){
+
+    req.getConnection(function(err, connection){
+        if(err)
+            return next(err);
+
+        connection.query("SELECT username, admin, locked FROM users WHERE NOT username = ?", req.session.user, function(err, data){
+            if(err)
+                console.log("[!] Error requesting adminPanel data from database:\n\t%s", err);
+
+
+            res.render("admin_panel",
+                {data : data,
+                administrator : administrator
+            })
+        })
+    })
+}
 
 exports.show_popular_products = function (req, res, next) {
 	req.getConnection(function(err, connection){
