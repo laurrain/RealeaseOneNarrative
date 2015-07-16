@@ -142,10 +142,10 @@ app.get('/sign_up', function(req, res){
   res.render("sign_up", {layout : false});
 })
 
-app.post("/sign_up", spaza_shop.addUser)
+app.post("/sign_up", auth.addUser)
 
 app.get("/admin_panel", auth.checkUser, spaza_shop.adminPanel)
-app.post("/admin_panel/:username", auth.checkUser, spaza_shop.promoteUser)
+app.post("/admin_panel/:username", auth.checkUser, auth.promoteUser)
 
 app.get("/*", auth.checkUser, function(req, res){
   res.redirect("/login");
