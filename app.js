@@ -5,7 +5,6 @@ var express = require('express'),
     mysql = require('mysql'), 
     myConnection = require('express-myconnection'),
     bodyParser = require('body-parser'),
-    tables_settings = require('./routes/tables_settings'),
     session = require('express-session'),
     app = express();
 
@@ -14,6 +13,7 @@ var auth = require('./routes/auth'),
     sales = require('./routes/sales'),
     earnings = require('./routes/earnings'),
     profits = require('./routes/profits'),
+    tables_settings = require('./routes/tables_settings'),
     supplier_info = require('./routes/supplier_info');
 
 var dbOptions = {
