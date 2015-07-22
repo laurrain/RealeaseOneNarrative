@@ -1,0 +1,15 @@
+<table class="table" id="productPriceCostList">
+			<thead>
+				<tr>
+					<th>Product</th> <th>Price of Item (in Rands(R))</th>
+					{{#if administrator}}<th>Cost of Item (in Rands(R))</th>{{/if}}
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{stock_item}}</td><td>{{sales_price}}</td>
+					{{#if administrator}}<td>{{cost}}</td>{{/if}}
+				</tr>
+			{{/data}}
+</table>

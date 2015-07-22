@@ -1,9 +1,14 @@
-<h1>Edit</h1>
+{{#if administrator}}
+	<h1>Edit</h1>
 
-{{#data}}
-<form action="/product_sold/update_product_sold/{{id}}" method="POST">
-	Product Name: <input type="text" name="product_name" value="{{product_name}}">	
-	No Sold: <input type="text" name="no_sold" value="{{no_sold}}">	
-	<input type="submit">
-</form>
-{{/data}}
+	{{#data}}
+	<form action="/product_sold/update_product_sold/{{id}}" method="POST">
+		Product Name: <input type="text" name="product_name" value="{{product_name}}">	
+		No Sold: <input type="text" name="no_sold" value="{{no_sold}}">	
+		<input type="submit">
+	</form>
+	{{/data}}
+{{else}}
+	<h1>YOU HAVE TO BE ADMIN!</h1>
+	<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+{{/if}}

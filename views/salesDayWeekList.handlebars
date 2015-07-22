@@ -1,0 +1,14 @@
+<table class="table" id="salesDayWeekList">
+			<thead>
+				<tr>
+					<th>Product</th> <th>Average Sales of Day</th>
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{day}}</td><td>{{avg_per_weekday}}</td>
+				</tr>
+			{{/data}}
+
+</table>

@@ -1,8 +1,13 @@
-<h1>Edit</h1>
+{{#if administrator}}
+	<h1>Edit Supplier</h1>
 
-{{#data}}
-<form action="/all_suppliers/update_all_suppliers/{{id}}" method="POST">
-	Suppliers Name: <input type="text" name="id" value="{{shop}}">	
-	<input type="submit">
-</form>
-{{/data}}
+	{{#data}}
+	<form action="/all_suppliers/update_all_suppliers/{{id}}" method="POST">
+		Suppliers Name: <input type="text" name="shop" value="{{shop}}">	
+		<input type="submit">
+	</form>
+	{{/data}}
+{{else}}
+	<h1>YOU HAVE TO BE ADMIN!</h1>
+	<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+{{/if}}
