@@ -1,6 +1,7 @@
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
 
+<<<<<<< HEAD
 		{{#if administrator}}
 			<h2>Category Earnings</h2>
 
@@ -24,3 +25,23 @@
 		{{/if}}
 	</div>
 </div>
+=======
+		<h2>Category Earnings</h2>
+
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Category</th> <th>Earnings</th>
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{cat_name}}</td><td>R{{earnings}}</td>
+				</tr>
+			{{/data}}
+
+		</table>
+	</div>
+
+>>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843

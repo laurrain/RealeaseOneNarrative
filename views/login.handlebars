@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 	<head>
@@ -34,3 +35,60 @@
 		</div>
 	</body>
 </html>
+=======
+<!doctype html>
+<html>
+<head>
+
+    <title>Nelisa Spaza</title>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/main_page.css">
+    <link href='static/css/simplesidebar.css' rel='stylesheet' type='text/css'>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<div class="nav navbar navbar-default navbar-fixed-top">
+			<a href="/"><h1>Welcom To Nelisa Spaza Shop</h1></a>
+		</div>
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> Login</h1>
+    <!-- LOGIN FORM -->
+    <form action="/login" method="POST">
+        <div class="form-group">
+        	<label>UserName</label>
+            <input  type="text" name="username" value="{{user.username}}">
+        </div>
+        <div class="form-group">
+        	<label>Password</label>
+            <input type="password"  name="password" value="{{user.password}}">
+            {{#if message}}
+                <p>{{message}}</p>
+            {{/if}}
+        </div>
+        
+        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+    </form>
+    </div>
+    <hr>
+    <p>Need an account? <a href="/signup"><strong>Signup</strong></a></p>
+    <!--form action="/sign_up" method="GET">
+                <input type="submit" value="signup" class="btn">
+    </form-->
+</div>
+         <form method="post" action="mailto:laurrain@projectcodex.co" >
+            <input type="submit" value="Send Email for Reset Account" /> 
+        </form>
+</div>
+</body>
+
+</html>
+>>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843

@@ -2,11 +2,16 @@
 	<div class="cols-xs-10 shifter">
 
 		<h2>Price and Cost of Each Product</h2>
+<<<<<<< HEAD
 		<table class="table" id="productPriceCostList">
 			<thead>
 				<tr>
 					<th>Product</th> <th>Price of Item (in Rands(R))</th>
 					{{#if administrator}}<th>Cost of Item (in Rands(R))</th>{{/if}}
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Product</th> <th>Price of Item (in Rands(R))</th><th>Cost of Item (in Rands(R))</th>
 				</tr>
 			</thead>
 		
@@ -14,6 +19,7 @@
 				<tr>
 					<td>{{stock_item}}</td><td>{{sales_price}}</td>
 					{{#if administrator}}<td>{{cost}}</td>{{/if}}
+					<td>{{stock_item}}</td><td>{{sales_price}}</td><td>{{cost}}</td>
 				</tr>
 			{{/data}}
 

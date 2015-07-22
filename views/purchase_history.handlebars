@@ -1,5 +1,6 @@
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
+<<<<<<< HEAD
 		{{#if administrator}}
 			<h2>Purchase History</h2>
 			<table class="table table-striped table-bordered">
@@ -36,5 +37,39 @@
 			<h1>YOU HAVE TO BE ADMIN!</h1>
 			<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
 		{{/if}}
+=======
+		
+		<h2>Purchase History</h2>
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>Shop</th><th>Date</th><th>Item</th><th>Quantity</th><th>Cost</th><th colspan="3">Total Cost</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<form action="purchase_history/add_purchase_history" method="POST">
+						<td>
+							<select name="shop">
+								{{#shops}}
+								<option name="{{shop}}">{{shop}}</option>
+								{{/shops}}
+							</select>
+						</td>
+						<td><input type="text" name="date"></td>
+						<td><input class="col-xs-12" type="text" name="item"></td>	
+						<td><input type="number" name="quantity"></td>
+						<td><input type="number" name="cost"></td>	
+						<td colspan="3"><input class="col-xs-12" value="Save" type="submit"></td>
+					</form>
+				</tr>
+				{{#data}}
+					<tr>
+						<td>{{shop}}</td><td>{{date}}</td><td>{{item}}</td><td>{{quantity}}</td><td>{{cost}}</td><td>{{total_cost}}</td><td><a href="purchase_history/edit_purchase_history/{{id}}">edit</a></td><td><a href="purchase_history/delete_purchase_history/{{id}}">delete</a></td>
+					</tr>
+				{{/data}}
+			</tbody>
+		</table>
+>>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
 	</div>
 </div>
