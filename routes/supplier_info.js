@@ -42,6 +42,7 @@ exports.show_all_suppliers = function(req, res, next){
     		});
       });
 	});
+<<<<<<< HEAD
 };
 
 exports.getSearchAll_suppliers = function(req, res, next){
@@ -69,3 +70,6 @@ exports.getSearchAll_suppliers = function(req, res, next){
     })
 };
 
+=======
+};
+>>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9

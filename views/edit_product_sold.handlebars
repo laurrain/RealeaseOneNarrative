@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {{#if administrator}}
 	<h1>Edit</h1>
 
@@ -24,3 +25,19 @@
 </form>
 {{/data}}
 >>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
+=======
+{{#if administrator}}
+	<h1>Edit</h1>
+
+	{{#data}}
+	<form action="/product_sold/update_product_sold/{{id}}" method="POST">
+		Product Name: <input type="text" name="product_name" value="{{product_name}}">	
+		No Sold: <input type="text" name="no_sold" value="{{no_sold}}">	
+		<input type="submit">
+	</form>
+	{{/data}}
+{{else}}
+	<h1>YOU HAVE TO BE ADMIN!</h1>
+	<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
+{{/if}}
+>>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
