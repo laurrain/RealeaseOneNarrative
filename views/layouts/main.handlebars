@@ -4,28 +4,12 @@
 		<title>Nelisa Spaza</title>
 		<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/main_page.css">
-<<<<<<< HEAD
-		<link href='static/css/simplesidebar.css' rel='stylesheet' type='text/css'>
-=======
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
 		<script src="static/js/jquery.min.js"></script>
 		<script src="static/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<div class="nav navbar navbar-default navbar-fixed-top">
 			<a href="/"><h1>Nelisa Spaza Shop</h1></a>
-<<<<<<< HEAD
-		</div>	
-			<form class="text-center" action="/logout" method="get">
-  				<button type="submit" class="btn btn-warning btn-lg navbar-left"><strong>LogOut</strong></button>
-			</form>
-			
-			<a href="/"><h1>Nelisa Spaza Shop</h1></a>
-		</div>
-=======
-		</div>
-		
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
 		<!--main-container div encases the buton and the tables that appear below-->
 		<div class="main-container container">
 		
@@ -55,15 +39,6 @@
 		                            	<li><a href="products_per_day_per_week">Product Sold (per Day/Week)	</a></li>
 		                            	<li><a href="sales_per_day">Average Weekday Sales</a></li>
 									{{/if}}
-<<<<<<< HEAD
-		                        	<li><a href="admin">Administrator</a></li>
-		                            <li><a href="category_sales_per_day_per_week">Category Sales (per Day/Week)</a></li>
-		                            <li><a href="regular_sales">Most Regular Sales</a></li>
-		                            <li><a href="popular_products">Popular Products</a></li>
-		                            <li><a href="products_per_day_per_week">Product Sold (per Day/Week)</a></li>
-		                            <li><a href="sales_per_day">Average Weekday Sales</a></li>
-=======
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
 		                            <li><a href="stock_rates">Stock Rates</a></li>
 		                            <li class="divider"></li>
 		                            <li><a href="entire_stock">Entire Stock</a></li>
@@ -90,33 +65,6 @@
 			                        </ul>
 			                    </li>
 			                {{/if}}
-<<<<<<< HEAD
-
-		                    <li class="dropdown">
-		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Earnings<b class="caret"></b></a>
-		                        <ul class="dropdown-menu">
-		                        	{{#if administrator}}
-		                            <li><a href="category_earnings">Category Earnings</a></li>
-		                            <li><a href="product_earnings">Product Earnings</a></li>
-		                            <li class="divider"></li>
-		                            <li><a href="products_price_cost">Products Price and Cost</a></li>
-		                            
-		                        </ul>
-		                    </li>
-		                    
-		                    <li class="dropdown">
-		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Profits<b class="caret"></b></a>
-		                        <ul class="dropdown-menu">
-		                        	<li><a href="admin/{{user.username}}">Administrator</a></li>
-		                            <li><a href="category_profits">Category Profits</a></li>
-		                            <li><a href="daily_profits">Average Daily Profits</a></li>
-		                            <li><a href="product_profits">Product Profits</a></li>
-		                            <li class="divider"></li>
-		                            {{/if}}
-		                        </ul>
-		                    </li>
-=======
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
 		                    <li class="dropdown">
 		                        <a href="" data-toggle="dropdown" class="dropdown-toggle">Supplier Information<b class="caret"></b></a>
 		                        <ul class="dropdown-menu">
@@ -125,13 +73,6 @@
 		                            <li class="divider"></li>
 		                            {{#if administrator}}
 			                            <li><a href="all_suppliers">Past Suppliers</a></li>
-<<<<<<< HEAD
-		                            <li><a href="supplier_profitable_product">Supplier of Most Profitable Product</a></li>
-		                            <li class="divider"></li>
-		                            {{#if administrator}}
-		                            <li><a href="all_suppliers">Past Suppliers</a></li>
-=======
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
 		                            {{/if}}
 		                        </ul>
 		                    </li>
@@ -150,17 +91,6 @@
 			                            <li><a href="admin_panel"><strong>Admin Settings</strong></a></li>
 			                        {{/if}}
 		                            <li class="divider"></li>
-<<<<<<< HEAD
-		                           {{#if administrator}}
-		                            <li><a href="purchase_history">Purchase History</a></li>
-		                            <li><a href="product_sold">Products Sold</a></li>
-		                            <li><a href="categories">Categories</a></li>
-		                            <li><a href="all_suppliers">Past Suppliers</a></li>
-		                            <li class="divider"></li>
-		                            <li><a href="admin"><strong>Admin Settings</strong></a></li>
-			                        {{/if}}
-=======
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
 		                            <li><a href="logout" class="btn-danger"><strong>Log Out</strong></a></li>
 		                        </ul>
 		                    </li>
@@ -170,6 +100,10 @@
 		    </nav>
 
 			{{{body}}}
+
+			<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/render.js"></script>
+		<script src="/static/js/handlebars.js"></script>
 			
 		</div>
 		<!-- main-container ends here -->
@@ -186,16 +120,7 @@
 				<div class="col-xs-2">Powered by <a href="http://www.projectcodex.co">CodeX</a></div>
 			</div>
 		</footer>
-<<<<<<< HEAD
-		<script src="/static/js/jquery.min.js"></script>
-		<script src="/static/js/render.js"></script>
-		<script src="/static/js/handlebars.js"></script>
-	</body>
-</html>
-
-=======
 
 		<script src="static/js/handlebars.js"></script>
 	</body>
 </html>
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9

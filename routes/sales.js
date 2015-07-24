@@ -118,7 +118,6 @@ exports.show_popular_category = function (req, res, next) {
     });
 };
 
-<<<<<<< HEAD
 exports.getSearchsales = function(req, res, next){
     req.getConnection(function(err, connection){
         if(err) return next(err);
@@ -287,5 +286,3 @@ exports.getSearchEntire_stock = function(req, res, next){
         }
     })
 };
-=======
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9

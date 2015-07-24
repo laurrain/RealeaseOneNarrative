@@ -1,11 +1,10 @@
 <div class="container col-xs-12">
 	<div class="cols-xs-10 shifter">
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 		{{#if administrator}}
 			<h2>Past Suppliers</h2>
 			<form>
+				<label class="label-lg label-info">Seacrh</label>
 				<input class="searchBar" id="all_supplierSearchBar" type="text" name="all_suppliers"></input>
 			</form>
 
@@ -30,50 +29,4 @@
 			<h1>YOU HAVE TO BE ADMIN!</h1>
 			<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
 		{{/if}}
-=======
-		<h2>Past Suppliers</h2>
-=======
-		{{#if administrator}}
-			<h2>Past Suppliers</h2>
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
-
-			<table class="table table-striped table-bordered">
-				<thead>
-					<tr>
-						<th>Supplier Name</th>
-					</tr>
-				</thead>
-					<form action="all_suppliers/add_all_suppliers" method="POST">
-						<td><input type="text" name="shop"></td>
-						<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
-					</form>
-				</tr>
-<<<<<<< HEAD
-			</thead>
-				<form action="all_suppliers/add_all_suppliers" method="POST">
-					<td><input type="text" name="shop"></td>
-					<td colspan="2"><input class="col-xs-12" value="Save" type="submit"></td>
-				</form>
-			</tr>
-			{{#data}}
-				<tr>
-					<td>{{shop}}</td><td class="col-lg-2"><a href="all_suppliers/edit_all_suppliers/{{id}}">edit</a></td><td class="col-lg-2"><a href="all_suppliers/delete_all_suppliers/{{id}}">delete</a></td>
-				</tr>
-			{{/data}}
-
-		</table>
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
-=======
-				{{#data}}
-					<tr>
-						<td>{{shop}}</td><td class="col-lg-2"><a href="all_suppliers/edit_all_suppliers/{{id}}">edit</a></td><td class="col-lg-2"><a href="all_suppliers/delete_all_suppliers/{{id}}">delete</a></td>
-					</tr>
-				{{/data}}
-			</table>
-		{{else}}
-			<h1>YOU HAVE TO BE ADMIN!</h1>
-			<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
-		{{/if}}
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
-	</div>
 </div>

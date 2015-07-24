@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 {{#if administrator}}
 	<h1>Edit</h1>
 
@@ -19,40 +18,3 @@
 	<h1>YOU HAVE TO BE ADMIN!</h1>
 	<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
 {{/if}}
-=======
-<h1>Edit</h1>
-
-{{#data}}
-<form action="/purchase_history/update_purchase_history/{{id}}" method="POST">
-	Supplier Name: <input type="text" name="shop" value="{{shop}}">	
-	Date of Purchase: <input type="date" name="date" value="{{date}}">
-	Stock Item: <input type="text" name="item" value="{{item}}">
-	Quantity: <input type="text" name="quantity" value="{{quantity}}">
-	Cost of One: <input type="text" name="cost" value="{{cost}}">
-	Total Cost: <input type="text" name="total_cost" value="{{total_cost}}">	
-
-	<input type="submit">
-</form>
-{{/data}}
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
-=======
-{{#if administrator}}
-	<h1>Edit</h1>
-
-	{{#data}}
-	<form action="/purchase_history/update_purchase_history/{{id}}" method="POST">
-		Supplier Name: <input type="text" name="shop" value="{{shop}}">	
-		Date of Purchase: <input type="date" name="date" value="{{date}}">
-		Stock Item: <input type="text" name="item" value="{{item}}">
-		Quantity: <input type="text" name="quantity" value="{{quantity}}">
-		Cost of One: <input type="text" name="cost" value="{{cost}}">
-		Total Cost: <input type="text" name="total_cost" value="{{total_cost}}">	
-
-		<input type="submit">
-	</form>
-	{{/data}}
-{{else}}
-	<h1>YOU HAVE TO BE ADMIN!</h1>
-	<H1>WHAT YOU DOING HERE ANYWAY?!</H1>
-{{/if}}
->>>>>>> 5f9a6079d290b88f76870bcf1546fa1a445e02d9
