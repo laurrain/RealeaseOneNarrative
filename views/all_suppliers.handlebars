@@ -4,7 +4,12 @@
 		{{#if administrator}}
 			<h2>Past Suppliers</h2>
 
-			<table class="table table-striped table-bordered">
+			<form>
+				<label for="all_supplierSearchBar">Search</label>
+				<input placeholder="Search" class="searchBar" id="all_supplierSearchBar" type="text" name="all_suppliers"></input>
+			</form>
+
+			<table class="table table-striped table-bordered" id="supplierList">
 				<thead>
 					<tr>
 						<th>Supplier Name</th>
