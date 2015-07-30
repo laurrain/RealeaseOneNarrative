@@ -1,5 +1,5 @@
 var bcrypt = require('bcrypt');
-
+var sql_queries = require('./sql_queries')
 
 exports.promoteUser = function(req, res, next){
 
@@ -8,13 +8,8 @@ exports.promoteUser = function(req, res, next){
     req.getConnection(function(err, connection){
         if (err)
             return next(err);
-
-        connection.query("UPDATE users SET ? WHERE username=?", [input, input.username], function(err, results){
-            if(err)
-                console.log(err)
-
-            res.redirect("/admin_panel")
-        })
+        
+            sql_queries.promoteUser;
     })
 }
 
