@@ -43,3 +43,28 @@ exports.show_all_suppliers = function(req, res, next){
       });
 	});
 };
+
+exports.getSearchAll_suppliers = function(req, res, next){
+    req.getConnection(function(err, connection){
+        if(err) return next(err);
+        var searchValue = req.params.searchValue;
+        var processResults = function(err, results){
+            if (err) return next(err);
+            res.render('suppliersList', {
+                username: req.session.user,
+                administrator: administrator,
+                data: results,
+                layout: false
+            })
+            console.log(results)
+        };
+        if(searchValue === "all"){
+            connection.query('SELECT * FROM suppliers', processResults)
+
+        }
+        else{
+            searchValue = "%" +searchValue + "%";
+            connection.query('SELECT * FROM suppliers where shop Like ?', [searchValue], processResults);
+        }
+    })
+};

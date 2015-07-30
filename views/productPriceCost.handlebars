@@ -1,12 +1,8 @@
-<div class="container col-xs-12">
-	<div class="cols-xs-10 shifter">
-
-		<h2>Price and Cost of Each Product</h2>
-		<table class="table" id="productPriceCostList">
+<table class="table" id="productPriceCostList">
 			<thead>
 				<tr>
 					<th>Product</th> <th>Price of Item (in Rands(R))</th>
-{{#if administrator}}<th>Cost of Item (in Rands(R))</th>{{/if}}
+					{{#if administrator}}<th>Cost of Item (in Rands(R))</th>{{/if}}
 				</tr>
 			</thead>
 		
@@ -16,7 +12,4 @@
 					{{#if administrator}}<td>{{cost}}</td>{{/if}}
 				</tr>
 			{{/data}}
-
-		</table>
-	</div>
-</div>
+</table>

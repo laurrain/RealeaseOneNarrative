@@ -1,0 +1,14 @@
+<table class="table" id="stock_ratesList">
+			<thead>
+				<tr>
+					<th>Product</th> <th>Rate of Decrease(%)</th>
+				</tr>
+			</thead>
+		
+			{{#data}}
+				<tr>
+					<td>{{item}}</td><td>{{rate_as_percent}}</td>
+				</tr>
+			{{/data}}
+
+</table>
