@@ -9,7 +9,7 @@ exports.promoteUser = function(req, res, next){
         if (err)
             return next(err);
 
-        connection.query("UPDATE UserData SET ? WHERE username=?", [input, input.username], function(err, results){
+        connection.query("UPDATE users SET ? WHERE username=?", [input, input.username], function(err, results){
             if(err)
                 console.log(err)
 
@@ -39,14 +39,14 @@ exports.addUser = function(req, res, next){
 
         }
         else if (input.password_confirm == input.password){
-            connection.query('SELECT * FROM UserData WHERE username = ?', input.username, function(err, results1) {
+            connection.query('SELECT * FROM users WHERE username = ?', input.username, function(err, results1) {
                     if (err)
                             console.log("[!] Error inserting : %s ",err );
 
                 if (results1.length == 0){
                         bcrypt.hash(input.password,10, function(err, hash){
                             data.password = hash
-                            connection.query('insert into UserData set ?', data, function(err, results) {
+                            connection.query('insert into users set ?', data, function(err, results) {
                                 if (err)
                                     console.log("[!] Error inserting : %s ",err );
                             })
@@ -79,11 +79,11 @@ exports.authUser = function(req, res, next){
             return next(err);
     past_pages = [];
 
-    var userData = JSON.parse(JSON.stringify(req.body)),
-      user = userData.username,
-      password = userData.password;
+    var users = JSON.parse(JSON.stringify(req.body)),
+      user = users.username,
+      password = users.password;
         
-        connection.query('SELECT * FROM UserData WHERE username = ?', user, function(err, results) {
+        connection.query('SELECT * FROM users WHERE username = ?', user, function(err, results) {
             if (err) return next(err);
 
             if(results.length > 0){
@@ -105,7 +105,7 @@ exports.authUser = function(req, res, next){
                         var msg = '';
                         if(counter == 3 || results[0].locked){
 
-                            connection.query('UPDATE UserData SET locked = ? WHERE username = ?', [true,user], function(err, results) {
+                            connection.query('UPDATE users SET locked = ? WHERE username = ?', [true,user], function(err, results) {
                                 if (err) return next(err);
                             
                                 msg = "Your account has been blocked!";

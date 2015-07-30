@@ -1,20 +1,9 @@
 a {
 	text-decoration: none;
-<<<<<<< HEAD
 	margin: 0;
 	padding: 0;
 	color: rgb(133,0,0);
-=======
-<<<<<<< HEAD
-	margin: 0;
-	padding: 0;
-	color: rgb(133,0,0);
-=======
 	clear: none;
-	margin: 0;
-	padding: 0;
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
 }
 
 a:hover {
@@ -29,25 +18,13 @@ h1 {
 
 h3 {
 	text-align: center;
-<<<<<<< HEAD
 	padding: 5em 0 0 0;
 	margin: 0;
-=======
-<<<<<<< HEAD
-	padding: 5em 0 0 0;
-	margin: 0;
-=======
 	padding-top: 5em 
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
 }
 
 h2 {
 	text-align: center;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
 	font-size: 2.5em
 }
 
@@ -62,51 +39,34 @@ h2 {
 .main-container {
 	padding:0 0 5em 0;
 	margin: 0 auto;
-<<<<<<< HEAD
 }
 
 body {
 	background-color: rgb(50,200,250);
-}
-
-=======
-=======
-	font-size: 5em
 }
 
 .main-container {
 	padding-top: 9em;
 	padding-bottom: 5em;
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
 }
 
 body {
 	background-color: rgb(50,200,250);
 }
 
-<<<<<<< HEAD
-=======
 .btn-container {
 }
 
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
 table {
 	background-color: white;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 .row > button {
 	margin: 0.5em 0em auto 0em;
 	text-align: center;
 	height: 4em;
 }
 
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
 .row {
 	margin: 0 auto;
 }
@@ -140,12 +100,4 @@ footer {
 
 tr > td {
 	width: 33%;
-<<<<<<< HEAD
 }
-=======
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843

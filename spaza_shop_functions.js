@@ -147,13 +147,13 @@ module.exports = {
 		popular_items_list.forEach(function(item, i){
 			switch(item["product"]){
 				case "Mixed Sweets 5s":
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
+
+
+
 				case "Top Class Soy Mince":
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
+
+
 				case "Fanta 500ml":
 				case "Cream Soda 500ml":
 				case "Heart Chocolates":
@@ -164,14 +164,14 @@ module.exports = {
 				case "Chakalaka Can":
 				case "Gold Dish Vegetable Curry Can":
 				case "Iwisa Pap 5kg":
-<<<<<<< HEAD
+
 				case "Top Class Soy Mince":
-=======
-<<<<<<< HEAD
+
+
 				case "Top Class Soy Mince":
-=======
->>>>>>> fafffc0177323eee9be914c915a73e4f157d8ecc
->>>>>>> 3b95f8960004ffc68e2e655b84bb34e0995bb843
+
+
+
 				case "Bread":
 					veg_and_carbs += Number(item["sold_no"]);
 				break;
