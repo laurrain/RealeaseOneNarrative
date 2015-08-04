@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 var bcrypt = require('bcrypt'); 
+=======
+var bcrypt = require('bcrypt');
+var SqlQueries = require('./sql_queries')
+
+>>>>>>> fd615fd9f42798c4f82b61fb62c7a82dc97587ff
 exports.promoteUser = function(req, res, next){
 
     var input = JSON.parse(JSON.stringify(req.body))
@@ -7,12 +13,16 @@ exports.promoteUser = function(req, res, next){
         if (err)
             return next(err);
 
-        connection.query("UPDATE UserData SET ? WHERE username=?", [input, input.username], function(err, results){
-            if(err)
+        var sql = new SqlQueries(connection);
+
+        sql.promoteUser(input, function(err, results){
+             if(err)
                 console.log(err)
 
             res.redirect("/admin_panel")
-        })
+        });
+
+        
     })
 }
 
@@ -33,34 +43,29 @@ exports.addUser = function(req, res, next){
             return res.render("sign_up", {
                 message : "Password or username can't be empty!",
                 layout : false
-            })
-
+            });
         }
         else if (input.password_confirm == input.password){
-            connection.query('SELECT * FROM UserData WHERE username = ?', input.username, function(err, results1) {
-                    if (err)
-                            console.log("[!] Error inserting : %s ",err );
+            bcrypt.hash(input.password,10, function(err, hash){
+                data.password = hash;
 
-                if (results1.length == 0){
-                        bcrypt.hash(input.password,10, function(err, hash){
-                            data.password = hash
-                            connection.query('insert into UserData set ?', data, function(err, results) {
-                                if (err)
-                                    console.log("[!] Error inserting : %s ",err );
-                            })
-                        })
-                    
+                var sql = new SqlQueries(connection);
+                sql.addUser(data, function(err, results) {
+                    if (err){
+                        console.log("[!] Error inserting : %s ",err );
+                    }
+                    else if (results.affectedRows == 0) {
+                        return res.render("sign_up", {
+                            message : "Username alredy exists!",
+                            layout : false
+                            });
+                    };
+
                     req.session.user = input.username;
                     administrator = false;
                     res.redirect('/');
-                }
-                else{
-                    res.render("sign_up", {
-                                            message : "Username alredy exists!",
-                                            layout : false
-                                            })
-                }
-            });
+                })
+            })
         }
         else{
             res.render("sign_up", {
@@ -77,11 +82,11 @@ exports.authUser = function(req, res, next){
             return next(err);
     past_pages = [];
 
-    var userData = JSON.parse(JSON.stringify(req.body)),
-      user = userData.username,
-      password = userData.password;
+    var users = JSON.parse(JSON.stringify(req.body)),
+      user = users.username,
+      password = users.password;
         
-        connection.query('SELECT * FROM UserData WHERE username = ?', user, function(err, results) {
+        connection.query('SELECT * FROM users WHERE username = ?', user, function(err, results) {
             if (err) return next(err);
 
             if(results.length > 0){
@@ -103,7 +108,7 @@ exports.authUser = function(req, res, next){
                         var msg = '';
                         if(counter == 3 || results[0].locked){
 
-                            connection.query('UPDATE UserData SET locked = ? WHERE username = ?', [true,user], function(err, results) {
+                            connection.query('UPDATE users SET locked = ? WHERE username = ?', [true,user], function(err, results) {
                                 if (err) return next(err);
                             
                                 msg = "Your account has been blocked!";
