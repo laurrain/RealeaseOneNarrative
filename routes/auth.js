@@ -1,5 +1,5 @@
 var bcrypt = require('bcrypt');
-var sql_queries = require('./sql_queries')
+var SqlQueries = require('./sql_queries')
 
 exports.promoteUser = function(req, res, next){
 
@@ -8,8 +8,17 @@ exports.promoteUser = function(req, res, next){
     req.getConnection(function(err, connection){
         if (err)
             return next(err);
+
+        var sql = new SqlQueries(connection);
+
+        sql.promoteUser(input, function(err, results){
+             if(err)
+                console.log(err)
+
+            res.redirect("/admin_panel")
+        });
+
         
-            sql_queries.promoteUser;
     })
 }
 
@@ -30,34 +39,29 @@ exports.addUser = function(req, res, next){
             return res.render("sign_up", {
                 message : "Password or username can't be empty!",
                 layout : false
-            })
-
+            });
         }
         else if (input.password_confirm == input.password){
-            connection.query('SELECT * FROM users WHERE username = ?', input.username, function(err, results1) {
-                    if (err)
-                            console.log("[!] Error inserting : %s ",err );
+            bcrypt.hash(input.password,10, function(err, hash){
+                data.password = hash;
 
-                if (results1.length == 0){
-                        bcrypt.hash(input.password,10, function(err, hash){
-                            data.password = hash
-                            connection.query('insert into users set ?', data, function(err, results) {
-                                if (err)
-                                    console.log("[!] Error inserting : %s ",err );
-                            })
-                        })
-                    
+                var sql = new SqlQueries(connection);
+                sql.addUser(data, function(err, results) {
+                    if (err){
+                        console.log("[!] Error inserting : %s ",err );
+                    }
+                    else if (results.affectedRows == 0) {
+                        return res.render("sign_up", {
+                            message : "Username alredy exists!",
+                            layout : false
+                            });
+                    };
+
                     req.session.user = input.username;
                     administrator = false;
                     res.redirect('/');
-                }
-                else{
-                    res.render("sign_up", {
-                                            message : "Username alredy exists!",
-                                            layout : false
-                                            })
-                }
-            });
+                })
+            })
         }
         else{
             res.render("sign_up", {
