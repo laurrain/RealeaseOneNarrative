@@ -22,9 +22,9 @@ var user = {};
 var dbOptions = {
       host: 'localhost',
       user: 'root',
-      password: 'MysqlServer123',
+      password: '42926238',
       port: 3306,
-      database: 'spaza_shop'
+      database: 'nelisa_spaza_shop'
 };
 
 app.engine("handlebars", exphbs({defaultLayout:"main"}))

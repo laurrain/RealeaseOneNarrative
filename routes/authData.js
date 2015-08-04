@@ -23,19 +23,19 @@ var getData = function(query, inputData, cb){
 
 this.promoteUser = function(inputData, cb){
 
-        var sql = "UPDATE users SET ? WHERE username=?";
+        var sql = "UPDATE UserData SET ? WHERE username=?";
   		postData(sql, inputData, cb)
 }
 
 this.addUser = function(inputData, cb){
     if(input.password_confirm == input.password){
-        var sql = 'SELECT * FROM users WHERE username = ?';
+        var sql = 'SELECT * FROM UserData WHERE username = ?';
         getData(sql, inputData, cb)
     }
         if (results1.length == 0){
             bcrypt.hash(input.password,10, function(err, hash){
             data.password = hash
-            var sql = 'insert into users set ?';
+            var sql = 'insert into UserData set ?';
             insertData(sql, inputData, cb)
         }) 
     }     
@@ -43,12 +43,12 @@ this.addUser = function(inputData, cb){
 
 this.authUser = function(inputData, cb){
 
-    var sql = 'SELECT * FROM users WHERE username = ?'
+    var sql = 'SELECT * FROM UserData WHERE username = ?'
     getData(sql, inputData.username, cb)
               
     if(counter == 3 ){
 
-    var sql = 'UPDATE users SET locked = ? WHERE username = ?';
+    var sql = 'UPDATE UserData SET locked = ? WHERE username = ?';
     postData(sql, inputData.username, cb)
     }
 	 
