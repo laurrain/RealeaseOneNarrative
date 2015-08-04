@@ -1,23 +1,20 @@
-var bcrypt = require('bcrypt'); 
-exports.promoteUser = function(req, res, next){
 
-    var input = JSON.parse(JSON.stringify(req.body))
+module.exports = function(connect){
+    var bcrypt = require('bcrypt'); 
 
-    req.getConnection(function(err, connection){
+    var res = function(err, results){
+        var input = JSON.parse(JSON.stringify(req.body))
+
+        req.getConnection(function(err, connection){
         if (err)
             return next(err);
-
-        connection.query("UPDATE UserData SET ? WHERE username=?", [input, input.username], function(err, results){
             if(err)
                 console.log(err)
 
             res.redirect("/admin_panel")
-        })
-    })
-}
+        });
 
-exports.addUser = function(req, res, next){
-    req.getConnection(function(err, connection){
+    var precond =  req.getConnection(function(err, connection){
         if (err){ 
             return next(err);
         }
@@ -37,7 +34,10 @@ exports.addUser = function(req, res, next){
 
         }
         else if (input.password_confirm == input.password){
-            connection.query('SELECT * FROM UserData WHERE username = ?', input.username, function(err, results1) {
+            query
+        }
+
+    var res = function(err, results1) {
                     if (err)
                             console.log("[!] Error inserting : %s ",err );
 
@@ -68,20 +68,16 @@ exports.addUser = function(req, res, next){
                 layout : false
             })
         }
-    });
-}
+    };
 
-exports.authUser = function(req, res, next){
-    req.getConnection(function(err, connection){
-        if (err) 
-            return next(err);
-    past_pages = [];
+    var userData = function(query, res){
+        connection.query(query,res)
+    };
+    
 
-    var userData = JSON.parse(JSON.stringify(req.body)),
-      user = userData.username,
-      password = userData.password;
-        
-        connection.query('SELECT * FROM UserData WHERE username = ?', user, function(err, results) {
+} 
+
+var res = function(err, results) {
             if (err) return next(err);
 
             if(results.length > 0){
@@ -130,13 +126,28 @@ exports.authUser = function(req, res, next){
                 });
             }
         });
-    });
+    };
+
+this.promoteUser = function(res){
+
+        userData("UPDATE UserData SET ? WHERE username=?", [input, input.username],res)
+}
+
+this.addUser = function(res){
+   
+            userData('SELECT * FROM UserData WHERE username = ?', input.username, res);
+}
+
+this.authUser = function(res){
+    
+        userData('SELECT * FROM UserData WHERE username = ?', user,res)
 }
 
 exports.checkUser = function(req, res, next){
   if (req.session.user){
     	return next();
   }else{
+    // the user is not logged in redirect him to the login page-
     res.redirect('/login');
   }
 };

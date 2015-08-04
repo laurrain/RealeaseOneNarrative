@@ -1,27 +1,40 @@
+var mysql = require('mysql');
 var bcrypt = require('bcrypt'); 
+
+var connection = mysql.createConnection({
+    host : 'localhost',
+    user : 'root',
+    password : '42926238'
+});
+var AuthDataService = require('./authData');
+connection.connect();
+connection.query('use nelisa_spaza_shop');
+var authData = new AuthDataService(connection);
+
+exports.show_supplier_popular_product = function (req, res, next) {
+    supplierData.show_supplier_popular_product
+        supplierData.show_supplier_popular_product(function(err, results) {
+            if (err) return next(err);
+
+            res.render( 'supplier_popular_product', {
+                data : results,
+                administrator : administrator
+            });
+    });
+};
+
 exports.promoteUser = function(req, res, next){
 
     var input = JSON.parse(JSON.stringify(req.body))
-
-    req.getConnection(function(err, connection){
-        if (err)
-            return next(err);
-
-        connection.query("UPDATE UserData SET ? WHERE username=?", [input, input.username], function(err, results){
+        authData.promoteUser(function(err, results){
             if(err)
                 console.log(err)
 
             res.redirect("/admin_panel")
         })
-    })
 }
 
 exports.addUser = function(req, res, next){
-    req.getConnection(function(err, connection){
-        if (err){ 
-            return next(err);
-        }
-        
         var input = JSON.parse(JSON.stringify(req.body));
         var data = {
                     username : input.username,
@@ -37,7 +50,7 @@ exports.addUser = function(req, res, next){
 
         }
         else if (input.password_confirm == input.password){
-            connection.query('SELECT * FROM UserData WHERE username = ?', input.username, function(err, results1) {
+            authData.addUser(function(err, results1) {
                     if (err)
                             console.log("[!] Error inserting : %s ",err );
 
@@ -68,20 +81,15 @@ exports.addUser = function(req, res, next){
                 layout : false
             })
         }
-    });
 }
 
 exports.authUser = function(req, res, next){
-    req.getConnection(function(err, connection){
-        if (err) 
-            return next(err);
     past_pages = [];
-
     var userData = JSON.parse(JSON.stringify(req.body)),
       user = userData.username,
       password = userData.password;
         
-        connection.query('SELECT * FROM UserData WHERE username = ?', user, function(err, results) {
+        authData.authUser(userData, function(err, results) {
             if (err) return next(err);
 
             if(results.length > 0){
@@ -103,7 +111,7 @@ exports.authUser = function(req, res, next){
                         var msg = '';
                         if(counter == 3 || results[0].locked){
 
-                            connection.query('UPDATE UserData SET locked = ? WHERE username = ?', [true,user], function(err, results) {
+                            authData.authUser(function(err, results) {
                                 if (err) return next(err);
                             
                                 msg = "Your account has been blocked!";
@@ -130,13 +138,14 @@ exports.authUser = function(req, res, next){
                 });
             }
         });
-    });
+   
 }
 
 exports.checkUser = function(req, res, next){
   if (req.session.user){
-    	return next();
+        return next();
   }else{
     res.redirect('/login');
-  }
-};
+  
+}
+}

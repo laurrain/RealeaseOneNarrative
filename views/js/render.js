@@ -89,4 +89,5 @@ $(document).ready(function(){
 			$("#productPriceCostList").html(results)
 		})
 	})
+
 })

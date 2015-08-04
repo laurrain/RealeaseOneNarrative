@@ -10,12 +10,12 @@ var express = require('express'),
 
 
 //Statistics files objects
-var auth = require('./routes/auth'),
-    sales = require('./routes/sales'),
-    earnings = require('./routes/earnings'),
-    profits = require('./routes/profits'),
+var auth = require('./routes/Auth'),
+    sales = require('./routes/Sales'),
+    earnings = require('./routes/Earnings'),
+    profits = require('./routes/Profits'),
     tables_settings = require('./routes/tables_settings'),
-    supplier_info = require('./routes/supplier_info');
+    supplier_info = require('./routes/Suppliers');
     
 var user = {};
 
@@ -85,37 +85,37 @@ app.get("/category_profits", auth.checkUser, profits.show_category_profits)
 app.get("/daily_profits", auth.checkUser, profits.show_daily_profits)
 
 app.get("/entire_stock", auth.checkUser, sales.show_entire_stock)
-app.get('/entire_stock/search/:searchValue',sales.getSearchEntire_stock)
+app.get('/entire_stock/search/:searchValue',sales.getSearchEntireStock)
 
 app.get("/regular_sales", auth.checkUser, sales.show_regular_sales);
-app.get('/regular_sales/search/:searchValue',sales.getSearchsales)
+app.get('/regular_sales/search/:searchValue',sales.getSearchSales)
 
 app.get("/popular_categories", auth.checkUser, sales.show_popular_category);
 
 app.get("/popular_products", auth.checkUser, sales.show_popular_products);
-app.get('/popular_products/search/:searchValue',sales.getSearchPopular_product)
+app.get('/popular_products/search/:searchValue',sales.getSearchPopularProduct)
 
 app.get("/products_price_cost", auth.checkUser, earnings.show_products_price_cost);
 
 app.get("/product_earnings", auth.checkUser, earnings.show_product_earnings);
 
 app.get("/products_per_day_per_week", auth.checkUser, sales.show_products_per_day_per_week)
-app.get('/products_per_day_per_week/search/:searchValue',sales.getSearchproduct_per_day_per_week)
+app.get('/products_per_day_per_week/search/:searchValue',sales.getSearchProductPerDayPerWeek)
 
 app.get("/product_profits", auth.checkUser, profits.show_product_profits);
 
 app.get("/sales_per_day", auth.checkUser, sales.show_sales_per_day)
-app.get('/sales_per_day/search/:searchValue',sales.getSearchsales_per_day_week)
+app.get('/sales_per_day/search/:searchValue',sales.getSearchsalesPerDayWeek)
 
 app.get("/stock_rates", auth.checkUser, sales.show_stock_rates)
-app.get('/stock_rates/search/:searchValue',sales.getSearchstock_rates)
+app.get('/stock_rates/search/:searchValue',sales.getSearchstockRates)
 
 app.get("/supplier_popular_product", auth.checkUser, supplier_info.show_supplier_popular_product)
 
 app.get("/supplier_prof_product", auth.checkUser, supplier_info.show_supplier_profitable_product);
 
 app.get("/all_suppliers", auth.checkUser, supplier_info.show_all_suppliers);
-app.get('/all_suppliers/search/:searchValue',supplier_info.getSearchAll_suppliers)
+app.get('/all_suppliers/search/:searchValue',supplier_info.getSearchAllSuppliers)
 
 app.get("/sales_history", auth.checkUser, tables_settings.show_sales_history);
 
