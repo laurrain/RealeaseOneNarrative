@@ -57,7 +57,7 @@ exports.addUser = function(req, res, next){
                 if (results1.length == 0){
                         bcrypt.hash(input.password,10, function(err, hash){
                             data.password = hash
-                            connection.query('insert into UserData set ?', data, function(err, results) {
+                            connection.query('insert into users set ?', data, function(err, results) {
                                 if (err)
                                     console.log("[!] Error inserting : %s ",err );
                             })
