@@ -5,7 +5,7 @@ module.exports = function (connection) {
 };
   
   var getData = function(query, cb){
-      connection.query(query, cb);
+      connection.query(query, null, cb);
   };
 
   var getSearchData = function(query, searchValue, cb){

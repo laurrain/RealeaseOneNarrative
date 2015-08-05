@@ -2,11 +2,11 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : '42926238'
+    password : 'MysqlServer123'
 });
 var ProfitsDataService = require('./profitsData');
 connection.connect();
-connection.query('use nelisa_spaza_shop');
+connection.query('use spaza_shop');
 var profitData = new ProfitsDataService(connection);
 
 exports.show_product_profits = function (req, res, next) {

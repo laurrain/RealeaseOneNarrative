@@ -2,11 +2,11 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : '42926238'
+    password : 'MysqlServer123'
 });
 var SuppliersDataService = require('./suppliersData');
 connection.connect();
-connection.query('use nelisa_spaza_shop');
+connection.query('use spaza_shop');
 var supplierData = new SuppliersDataService(connection);
 
 exports.show_supplier_popular_product = function (req, res, next) {

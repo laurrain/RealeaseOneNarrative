@@ -2,21 +2,20 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : '42926238'
+    password : 'MysqlServer123'
 });
 var SaleDataService = require('./salesData');
 connection.connect();
-connection.query('use nelisa_spaza_shop');
+connection.query('use spaza_shop');
 var salesData = new SaleDataService(connection);
 
 exports.show_category_sales_per_day_per_week = function (req, res, next) {
     salesData.show_category_sales_per_day_per_week(function(err, results) {
-            if (err) return next(err);
+        if (err) return next(err);
             res.render( 'category_sales_per_day_per_week', {
                 data : results,
                 administrator : administrator
             });
-     
     });
 };
 
