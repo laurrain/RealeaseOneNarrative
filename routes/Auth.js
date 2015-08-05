@@ -4,11 +4,11 @@ var bcrypt = require('bcrypt');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : '42926238'
+    password : 'MysqlServer123'
 });
 var AuthDataService = require('./authData');
 connection.connect();
-connection.query('use nelisa_spaza_shop');
+connection.query('use spaza_shop');
 var authData = new AuthDataService(connection);
 
 exports.show_supplier_popular_product = function (req, res, next) {

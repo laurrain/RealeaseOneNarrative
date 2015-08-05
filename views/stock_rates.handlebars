@@ -6,20 +6,19 @@
 			<label class="label-lg label-info">Seacrh</label>
 			<input class="searchBar" id="stock_ratesSearchBar" type="text" name="stock_rates"></input>
 		</form>
-		<table class="table" id="stock_ratesList">
-		<table class="table table-striped table-bordered">
+		<table class="table table-striped table-bordered" id="stock_ratesList">
 			<thead>
 				<tr>
 					<th>Product</th> <th>Rate of Decrease(%)</th>
 				</tr>
 			</thead>
-		
-			{{#data}}
-				<tr>
-					<td>{{item}}</td><td>{{rate_as_percent}}</td>
-				</tr>
-			{{/data}}
-
+			<body>
+				{{#data}}
+					<tr>
+						<td>{{item}}</td><td>{{rate_as_percent}}</td>
+					</tr>
+				{{/data}}
+			</body>
 		</table>
 	</div>
 </div>
