@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-var bcrypt = require('bcrypt'); 
-=======
 var bcrypt = require('bcrypt');
 var SqlQueries = require('./sql_queries')
 
->>>>>>> fd615fd9f42798c4f82b61fb62c7a82dc97587ff
 exports.promoteUser = function(req, res, next){
 
     var input = JSON.parse(JSON.stringify(req.body))
