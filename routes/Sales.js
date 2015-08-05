@@ -208,7 +208,7 @@ exports.getSearchstockRates = function(req, res, next){
        var searchValue = req.params.searchValue;
         salesData.getSearchstockRates(searchValue, function(err, results){
             if (err) return next(err)
-            res.render('entire_stockList', {
+            res.render('stock_ratesList', {
                 username: req.session.user,
                 administrator: administrator,
                 data: results,
