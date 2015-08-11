@@ -24,7 +24,7 @@ var dbOptions = {
       user: 'root',
       password: '42926238',
       port: 3306,
-      database: 'nelisa_spaza_shop'
+      database: 'spaza_shop'
 };
 
 app.engine("handlebars", exphbs({defaultLayout:"main"}))

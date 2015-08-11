@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : 'MysqlServer123'
+    password : '42926238'
 });
 var SuppliersDataService = require('./suppliersData');
 connection.connect();

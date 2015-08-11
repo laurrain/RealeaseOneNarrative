@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt');
 var connection = mysql.createConnection({
     host : 'localhost',
     user : 'root',
-    password : 'MysqlServer123'
+    password : '42926238'
 });
 var AuthDataService = require('./authData');
 connection.connect();
