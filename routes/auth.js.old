@@ -44,6 +44,7 @@ exports.addUser = function(req, res, next){
         else if (input.password_confirm == input.password){
             bcrypt.hash(input.password,10, function(err, hash){
                 data.password = hash;
+                console.log(hash)
 
                 var sql = new SqlQueries(connection);
                 sql.addUser(data, function(err, results) {
@@ -55,11 +56,17 @@ exports.addUser = function(req, res, next){
                             message : "Username alredy exists!",
                             layout : false
                             });
+                    }
+                    else{
+                        // bcrypt.hash(input.password,10, function(err, hash){
+                        //     data.password = hash
+                        //     var sql = 'insert into users set ?';
+                        //     sql.insertData(sql, inputData, cb)
+                        // }) 
+                        res.session.user = input.username;
+                        administrator = false;
+                        return res.redirect('/')
                     };
-
-                    req.session.user = input.username;
-                    administrator = false;
-                    res.redirect('/');
                 })
             })
         }

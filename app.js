@@ -155,7 +155,7 @@ app.get('/all_suppliers/delete_all_suppliers/:id', auth.checkUser, tables_settin
 
 app.get("/*", auth.checkUser, function(req, res){
   res.redirect("/login");
-})
+});
 
 var port = process.env.PORT || 5000;
 
@@ -163,4 +163,4 @@ var server = app.listen(port, function(){
 
 	console.log("server is running on " + server.address().address + ":" +server.address().port)
 
-})
+});

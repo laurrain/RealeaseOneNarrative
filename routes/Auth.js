@@ -50,29 +50,33 @@ exports.addUser = function(req, res, next){
 
         }
         else if (input.password_confirm == input.password){
-            authData.addUser(function(err, results1) {
-                    if (err)
-                            console.log("[!] Error inserting : %s ",err );
 
-                if (results1.length == 0){
-                        bcrypt.hash(input.password,10, function(err, hash){
-                            data.password = hash
-                            connection.query('insert into users set ?', data, function(err, results) {
-                                if (err)
-                                    console.log("[!] Error inserting : %s ",err );
-                            })
-                        })
-                    
-                    req.session.user = input.username;
-                    administrator = false;
-                    res.redirect('/');
-                }
-                else{
-                    res.render("sign_up", {
-                                            message : "Username alredy exists!",
-                                            layout : false
-                                            })
-                }
+            bcrypt.hash(input.password, 10, function(err, hash){
+                data.password = hash;
+
+                authData.addUser(data, function(err, results) {
+                    if (err)
+                        console.log("[!] Error inserting : %s ",err );
+
+                    if(results.affectedRows == 0){
+                        res.render("sign_up", {
+                                                message : "Username alredy exists!",
+                                                layout : false
+                                                })
+                    }
+                    else /*(results.length == 0)*/{
+                            // bcrypt.hash(input.password,10, function(err, hash){
+                            //     data.password = hash
+                            //     connection.query('insert into users set ?', data, function(err, results) {
+                            //         if (err)
+                            //             console.log("[!] Error inserting : %s ",err );
+                            //     })
+                            // })
+                        req.session.user = input.username;
+                        administrator = false;
+                        return res.redirect('/');
+                    }
+                });
             });
         }
         else{
