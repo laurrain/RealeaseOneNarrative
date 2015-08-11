@@ -115,7 +115,7 @@ exports.authUser = function(req, res, next){
                         var msg = '';
                         if(counter == 3 || results[0].locked){
 
-                            authData.authUser(function(err, results) {
+                            authData.lock(userData, function(err, results) {
                                 if (err) return next(err);
                             
                                 msg = "Your account has been blocked!";
