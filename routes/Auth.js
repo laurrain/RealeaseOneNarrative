@@ -26,7 +26,7 @@ exports.show_supplier_popular_product = function (req, res, next) {
 exports.promoteUser = function(req, res, next){
 
     var input = JSON.parse(JSON.stringify(req.body))
-        authData.promoteUser(function(err, results){
+        authData.promoteUser(input, function(err, results){
             if(err)
                 console.log(err)
 
@@ -50,29 +50,33 @@ exports.addUser = function(req, res, next){
 
         }
         else if (input.password_confirm == input.password){
-            authData.addUser(function(err, results1) {
-                    if (err)
-                            console.log("[!] Error inserting : %s ",err );
 
-                if (results1.length == 0){
-                        bcrypt.hash(input.password,10, function(err, hash){
-                            data.password = hash
-                            connection.query('insert into UserData set ?', data, function(err, results) {
-                                if (err)
-                                    console.log("[!] Error inserting : %s ",err );
-                            })
-                        })
-                    
-                    req.session.user = input.username;
-                    administrator = false;
-                    res.redirect('/');
-                }
-                else{
-                    res.render("sign_up", {
-                                            message : "Username alredy exists!",
-                                            layout : false
-                                            })
-                }
+            bcrypt.hash(input.password, 10, function(err, hash){
+                data.password = hash;
+
+                authData.addUser(data, function(err, results) {
+                    if (err)
+                        console.log("[!] Error inserting : %s ",err );
+
+                    if(results.affectedRows == 0){
+                        res.render("sign_up", {
+                                                message : "Username alredy exists!",
+                                                layout : false
+                                                })
+                    }
+                    else /*(results.length == 0)*/{
+                            // bcrypt.hash(input.password,10, function(err, hash){
+                            //     data.password = hash
+                            //     connection.query('insert into users set ?', data, function(err, results) {
+                            //         if (err)
+                            //             console.log("[!] Error inserting : %s ",err );
+                            //     })
+                            // })
+                        req.session.user = input.username;
+                        administrator = false;
+                        return res.redirect('/');
+                    }
+                });
             });
         }
         else{
@@ -110,8 +114,8 @@ exports.authUser = function(req, res, next){
                         counter++;
                         var msg = '';
                         if(counter == 3 || results[0].locked){
-
-                            authData.authUser(function(err, results) {
+                            userData.locked = 1;
+                            authData.lock(userData, function(err, results) {
                                 if (err) return next(err);
                             
                                 msg = "Your account has been blocked!";
