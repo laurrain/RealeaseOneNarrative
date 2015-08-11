@@ -20,8 +20,8 @@ var getData = function(query, inputData, cb){
 
 this.promoteUser = function(inputData, cb){
 
-      var sql = "UPDATE users SET ? WHERE username=?";
-  		postData(sql, inputData, cb)
+      var sql = "UPDATE users SET admin = ?, locked = ? WHERE username=?";
+  		postData(sql, [inputData.admin, inputData.locked, inputData.username], cb)
 }
 
 this.addUser = function(inputData, cb){
@@ -36,10 +36,10 @@ this.authUser = function(inputData, cb){
     getData(sql, inputData.username, cb)
 	 
 	};
-  
+
 this.lock = function(inputData, cb){
 
     var sql = 'UPDATE users SET locked = ? WHERE username = ?';
-    postData(sql, [1, inputData.username], cb)
+    postData(sql, [inputData.admin, inputData.username], cb)
   };
 }

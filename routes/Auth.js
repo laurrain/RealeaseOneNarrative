@@ -26,7 +26,7 @@ exports.show_supplier_popular_product = function (req, res, next) {
 exports.promoteUser = function(req, res, next){
 
     var input = JSON.parse(JSON.stringify(req.body))
-        authData.promoteUser(function(err, results){
+        authData.promoteUser(input, function(err, results){
             if(err)
                 console.log(err)
 
@@ -114,7 +114,7 @@ exports.authUser = function(req, res, next){
                         counter++;
                         var msg = '';
                         if(counter == 3 || results[0].locked){
-
+                            userData.locked = 1;
                             authData.lock(userData, function(err, results) {
                                 if (err) return next(err);
                             
