@@ -1,80 +1,91 @@
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '42926238'
-});
-var SaleDataService = require('./salesData');
-connection.connect();
-connection.query('use spaza_shop');
-var salesData = new SaleDataService(connection);
+module.exports = function(){ 
 
-exports.show_category_sales_per_day_per_week = function (req, res, next) {
-    salesData.show_category_sales_per_day_per_week(function(err, results) {
-        if (err) return next(err);
-            res.render( 'category_sales_per_day_per_week', {
+    this.show_category_sales_per_day_per_week = function (req, res, next) {
+        req.services(function(err, services){
+        var salesData = services.salesDataServ;
+        salesData.show_category_sales_per_day_per_week(function(err, results) {
+            if (err) return next(err);
+                res.render( 'category_sales_per_day_per_week', {
                 data : results,
                 administrator : administrator
             });
+        });
     });
 };
 
-exports.show_regular_sales = function (req, res, next) {
-    salesData.show_regular_sales(function(err, results) {
+    this.show_regular_sales = function (req, res, next) {
+        req.services(function(err, services){
+        var salesData = services.salesDataServ;
+        salesData.show_regular_sales(function(err, results) {
           if (err) return next(err);
             res.render( 'regular_sales', {
                 data : results,
                 administrator : administrator
             });
      
-    });
+        });
+    })
 };
 
-exports.show_sales_per_day = function (req, res, next) {
-    salesData.show_sales_per_day(function(err, results){
+    this.show_sales_per_day = function (req, res, next) {
+        req.services(function(err, services){
+        var salesData = services.salesDataServ;
+        salesData.show_sales_per_day(function(err, results){
             if (err) return next(err);
             res.render( 'sales_per_day', {
                 data : results,
                 administrator : administrator
             });
      
-    });
+        });
+    })
 };
 
-exports.show_stock_rates = function (req, res, next) {
-    salesData.show_stock_rates(function(err, results){
+    this.show_stock_rates = function (req, res, next) {
+        req.services(function(err, services){
+        var salesData = services.salesDataServ;
+        salesData.show_stock_rates(function(err, results){
             if (err) return next(err);
             res.render( 'stock_rates', {
                 data : results,
                 administrator : administrator
             });
+        });
     });
 };
 
-exports.show_entire_stock = function (req, res, next) {
-    salesData.show_entire_stock(function(err, results){
+    this.show_entire_stock = function (req, res, next) {
+        req.services(function(err, services){
+        var salesData = services.salesDataServ;
+        salesData.show_entire_stock(function(err, results){
               if (err) return next(err);
             res.render( 'entire_stock', {
                 data : results,
                 administrator : administrator
             });
       
+        });
     });
     
 };
 
-exports.show_products_per_day_per_week = function (req, res, next) {
-    salesData.show_products_per_day_per_week(function(err, results){
+    this.show_products_per_day_per_week = function (req, res, next) {
+        req.services(function(err, services){
+        var salesData = services.salesDataServ;
+        salesData.show_products_per_day_per_week(function(err, results){
             if (err) return next(err);
             res.render( 'products_per_day_per_week', {
                 data : results,
                 administrator : administrator
             });
      
+        });
     });
 };
 
-exports.show_popular_products = function (req, res, next) {
+this.show_popular_products = function (req, res, next) {
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
     salesData.show_popular_products(function(err, results){
              if (err) return next(err);
 
@@ -83,10 +94,13 @@ exports.show_popular_products = function (req, res, next) {
                 administrator : administrator
             });
       
+        });
     });
 };
 
-exports.show_popular_category = function (req, res, next) {
+this.show_popular_category = function (req, res, next) {
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
     salesData.show_popular_category(function(err, results){
              if (err) return next(err);
 
@@ -95,11 +109,14 @@ exports.show_popular_category = function (req, res, next) {
                 administrator : administrator
             });
      
+        });
     });
 };
 
-exports.getSearchSales = function(req, res, next){
-    req.getConnection(function(err, connection){
+this.getSearchSales = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
+    salesData.getSearchSales(function(err, connection){
        if(err) return next(err);
 
        var searchValue = req.params.searchValue;
@@ -117,10 +134,13 @@ exports.getSearchSales = function(req, res, next){
 
         })
     })
+})
 };
 
-exports.getSearchCategory = function(req, res, next){
-    req.getConnection(function(err, connection){ 
+this.getSearchCategory = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
+    salesData.getSearchCategory(function(err, connection){ 
        console.log(err); 
 
        if(err) return next(err);
@@ -141,10 +161,13 @@ exports.getSearchCategory = function(req, res, next){
 
         })
     })
+})
 };
 
- exports.getSearchsalesPerDayWeek = function(req, res, next){
-    req.getConnection(function(err, connection){
+ this.getSearchsalesPerDayWeek = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
+    salesData.getSearchsalesPerDayWeek(function(err, connection){
        if(err) return next(err);
 
        var searchValue = req.params.searchValue;
@@ -159,11 +182,14 @@ exports.getSearchCategory = function(req, res, next){
 
         })
     })
+})
 };
 
 
-exports.getSearchPopularProduct = function(req, res, next){
-    req.getConnection(function(err, connection){
+this.getSearchPopularProduct = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
+    salesData.getSearchPopularProduct(function(err, connection){
        if(err) return next(err);
 
        var searchValue = req.params.searchValue;
@@ -178,10 +204,13 @@ exports.getSearchPopularProduct = function(req, res, next){
 
         })
     })
+});
 };
 
 
-exports.getSearchProductPerDayPerWeek = function(req, res, next){
+this.getSearchProductPerDayPerWeek = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
   req.getConnection(function(err, connection){
        if(err) return next(err);
 
@@ -197,10 +226,13 @@ exports.getSearchProductPerDayPerWeek = function(req, res, next){
 
         })
     })
+})
 };
 
 
-exports.getSearchstockRates = function(req, res, next){
+this.getSearchstockRates = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
    req.getConnection(function(err, connection){
        if(err) return next(err);
 
@@ -216,9 +248,12 @@ exports.getSearchstockRates = function(req, res, next){
 
         })
     })
+})
 };
 
-exports.getSearchEntireStock = function(req, res, next){
+this.getSearchEntireStock = function(req, res, next){
+    req.services(function(err, services){
+        var salesData = services.salesDataServ;
    req.getConnection(function(err, connection){
        if(err) return next(err);
 
@@ -234,4 +269,7 @@ exports.getSearchEntireStock = function(req, res, next){
 
         })
     })
-};
+   })
+    };
+    
+}

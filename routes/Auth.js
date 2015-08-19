@@ -1,45 +1,24 @@
-var mysql = require('mysql');
-var bcrypt = require('bcrypt'); 
-
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '42926238'
-});
-var AuthDataService = require('./authData');
-connection.connect();
-connection.query('use spaza_shop');
-var authData = new AuthDataService(connection);
-
-exports.show_supplier_popular_product = function (req, res, next) {
-    supplierData.show_supplier_popular_product
-        supplierData.show_supplier_popular_product(function(err, results) {
-            if (err) return next(err);
-
-            res.render( 'supplier_popular_product', {
-                data : results,
-                administrator : administrator
-            });
-    });
-};
-
-exports.promoteUser = function(req, res, next){
-
-    var input = JSON.parse(JSON.stringify(req.body))
+module.exports = function(){
+    var bcrypt = require('bcrypt'); 
+    this.promoteUser = function(req, res, next){
+        req.services(function(err, services){
+        var authData = services.authDataServ;
+        var input = JSON.parse(JSON.stringify(req.body))
         authData.promoteUser(input, function(err, results){
             if(err)
                 console.log(err)
 
             res.redirect("/admin_panel")
         })
-}
+        })
+    };
 
-exports.addUser = function(req, res, next){
+    this.addUser = function(req, res, next){
         var input = JSON.parse(JSON.stringify(req.body));
         var data = {
                     username : input.username,
                     password: input.password
-            };
+            }
 
         if(input.username == undefined || input.password == undefined){
 
@@ -53,7 +32,8 @@ exports.addUser = function(req, res, next){
 
             bcrypt.hash(input.password, 10, function(err, hash){
                 data.password = hash;
-
+                req.services(function(err, services){
+        var authData = services.authDataServ;
                 authData.addUser(data, function(err, results) {
                     if (err)
                         console.log("[!] Error inserting : %s ",err );
@@ -78,6 +58,7 @@ exports.addUser = function(req, res, next){
                     }
                 });
             });
+            })
         }
         else{
             res.render("sign_up", {
@@ -85,14 +66,16 @@ exports.addUser = function(req, res, next){
                 layout : false
             })
         }
-}
+    };
 
-exports.authUser = function(req, res, next){
-    past_pages = [];
-    var userData = JSON.parse(JSON.stringify(req.body)),
-      user = userData.username,
-      password = userData.password;
-        
+
+    this.authUser = function(req, res, next){
+        past_pages = [];
+        var userData = JSON.parse(JSON.stringify(req.body)),
+        user = userData.username,
+        password = userData.password;
+        req.services(function(err, services){
+        var authData = services.authDataServ;
         authData.authUser(userData, function(err, results) {
             if (err) return next(err);
 
@@ -133,7 +116,9 @@ exports.authUser = function(req, res, next){
                         }
                     }
                 });
+                
             }
+
             else{
                 counter = 0
                 return res.render("login", {
@@ -142,14 +127,19 @@ exports.authUser = function(req, res, next){
                 });
             }
         });
-   
+        })
+    };
+
+    this.checkUser = function(req, res, next){
+        if (req.session.user){
+            return next();
+        }else{
+            res.redirect('/login');
+  
+        }
+    };
+    
 }
 
-exports.checkUser = function(req, res, next){
-  if (req.session.user){
-        return next();
-  }else{
-    res.redirect('/login');
-  
-}
-}
+
+ 

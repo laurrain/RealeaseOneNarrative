@@ -1,15 +1,7 @@
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '42926238'
-});
-var ProfitsDataService = require('./profitsData');
-connection.connect();
-connection.query('use spaza_shop');
-var profitData = new ProfitsDataService(connection);
-
-exports.show_product_profits = function (req, res, next) {
+module.exports = function(){ 
+this.show_product_profits = function (req, res, next) {
+        req.services(function(err, services){
+        var profitData = services.profitDataServ;
         profitData.show_product_profits(function(err, results) {
             if (err) return next(err);
 
@@ -17,10 +9,13 @@ exports.show_product_profits = function (req, res, next) {
                 data : results,
                 administrator : administrator
             });
+        });
     });
 };
 
-exports.show_daily_profits = function(req, res, next){
+this.show_daily_profits = function(req, res, next){
+    req.services(function(err, services){
+        var profitData = services.profitDataServ;
         profitData.show_daily_profits(function(err, results) {
             if (err) return next(err);
 
@@ -28,10 +23,13 @@ exports.show_daily_profits = function(req, res, next){
                 data : results,
                 administrator : administrator
             });
+        });
     });
 };
 
-exports.show_category_profits = function(req, res, next){
+this.show_category_profits = function(req, res, next){
+        req.services(function(err, services){
+        var profitData = services.profitDataServ;
         profitData.show_category_profits(function(err, results) {
             if (err) return next(err);
 
@@ -39,5 +37,7 @@ exports.show_category_profits = function(req, res, next){
                 data : results,
                 administrator : administrator
             });
+        });
     });
 };
+}

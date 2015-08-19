@@ -5,27 +5,48 @@ var express = require('express'),
     mysql = require('mysql'), 
     myConnection = require('express-myconnection'),
     bodyParser = require('body-parser'),
-    session = require('express-session'),
-    app = express();
+    session = require('express-session');
+    
 
 
 //Statistics files objects
-var auth = require('./routes/Auth'),
+var connectionProvider = require('./routes/connectionProvider'),
+    auth = require('./routes/Auth'),
+    AuthDataService = require('./dataServices/authData'),
     sales = require('./routes/Sales'),
+    SaleDataService = require('./dataServices/salesData'),
     earnings = require('./routes/Earnings'),
+    EarningsDataService = require('./dataServices/earningData'),
     profits = require('./routes/Profits'),
+    ProfitsDataService = require('./dataServices/profitsData'),
     tables_settings = require('./routes/tables_settings'),
-    supplier_info = require('./routes/Suppliers');
-    
+    supplier_info = require('./routes/Suppliers'),
+    SuppliersDataService = require('./dataServices/suppliersData'),
+    app = express();
 var user = {};
 
 var dbOptions = {
       host: 'localhost',
       user: 'root',
-      password: 'MysqlServer123',
+      password: '42926238',
       port: 3306,
       database: 'spaza_shop'
 };
+
+var serviceSetupCallback = function(connection){
+  return {
+    earningDataServ: new EarningsDataService(connection),
+    authDataServ: new AuthDataService(connection),
+    profitDataServ: new ProfitsDataService(connection),
+    salesDataServ: new SaleDataService(connection),
+    supplierDataServ: new SuppliersDataService(connection)
+  }
+};
+
+var myConnectionProvider = new connectionProvider(dbOptions, serviceSetupCallback);
+app.use(myConnectionProvider.setupProvider);
+
+app.use(myConnection(mysql, dbOptions, 'pool'));
 
 app.engine("handlebars", exphbs({defaultLayout:"main"}))
 app.set("view engine", "handlebars")
@@ -42,6 +63,7 @@ app.use(bodyParser.json())
 
 app.use(session({secret: "yada yada", saveUninitialized : false, resave: true, cookie : {maxAge : 5*60000}}));
 
+var auth = new auth()
 app.get("/", auth.checkUser, function(req, res){
 
   res.render("home", {administrator : administrator})
@@ -78,9 +100,10 @@ app.get("/logout", function(req, res, next){
 
 app.get("/category_earnings", auth.checkUser, earnings.show_category_earnings)
 
+var sales = new sales()
 app.get("/category_sales_per_day_per_week", auth.checkUser, sales.show_category_sales_per_day_per_week);
 app.get('/category_sales_per_day_per_week/search/:searchValue',sales.getSearchCategory)
-
+var profits = new profits()
 app.get("/category_profits", auth.checkUser, profits.show_category_profits)
 
 app.get("/daily_profits", auth.checkUser, profits.show_daily_profits)
@@ -111,6 +134,8 @@ app.get('/sales_per_day/search/:searchValue',sales.getSearchsalesPerDayWeek)
 app.get("/stock_rates", auth.checkUser, sales.show_stock_rates)
 app.get('/stock_rates/search/:searchValue',sales.getSearchstockRates)
 
+
+var supplier_info = new supplier_info()
 app.get("/supplier_popular_product", auth.checkUser, supplier_info.show_supplier_popular_product)
 
 app.get("/supplier_prof_product", auth.checkUser, supplier_info.show_supplier_profitable_product);
