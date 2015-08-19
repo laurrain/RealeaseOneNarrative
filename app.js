@@ -62,6 +62,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(session({secret: "yada yada", saveUninitialized : false, resave: true, cookie : {maxAge : 5*60000}}));
+app.set("x-bowered-by", false)
 
 var auth = new auth()
 app.get("/", auth.checkUser, function(req, res){
