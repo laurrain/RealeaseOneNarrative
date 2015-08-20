@@ -7,8 +7,6 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     session = require('express-session');
     
-
-
 //Statistics files objects
 var connectionProvider = require('./routes/connectionProvider'),
     auth = require('./routes/Auth'),
@@ -23,12 +21,11 @@ var connectionProvider = require('./routes/connectionProvider'),
     supplier_info = require('./routes/Suppliers'),
     SuppliersDataService = require('./dataServices/suppliersData'),
     app = express();
-var user = {};
 
 var dbOptions = {
       host: 'localhost',
       user: 'root',
-      password: '42926238',
+      password: 'MysqlServer123',
       port: 3306,
       database: 'spaza_shop'
 };
@@ -64,7 +61,7 @@ app.use(bodyParser.json())
 app.use(session({secret: "yada yada", saveUninitialized : false, resave: true, cookie : {maxAge : 5*60000}}));
 app.set("x-bowered-by", false)
 
-var auth = new auth()
+// var auth = new auth()
 app.get("/", auth.checkUser, function(req, res){
 
   res.render("home", {administrator : administrator})
