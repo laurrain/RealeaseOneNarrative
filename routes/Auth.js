@@ -11,18 +11,6 @@ connection.connect();
 connection.query('use spaza_shop');
 var authData = new AuthDataService(connection);
 
-exports.show_supplier_popular_product = function (req, res, next) {
-    supplierData.show_supplier_popular_product
-        supplierData.show_supplier_popular_product(function(err, results) {
-            if (err) return next(err);
-
-            res.render( 'supplier_popular_product', {
-                data : results,
-                administrator : administrator
-            });
-    });
-};
-
 exports.promoteUser = function(req, res, next){
 
     var input = JSON.parse(JSON.stringify(req.body));
