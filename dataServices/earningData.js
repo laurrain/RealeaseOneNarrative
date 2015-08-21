@@ -6,7 +6,7 @@ function QueryExecute(connection) {
     this.execute = function(query, data){
         data = data || [];
         return new Promise(function(accept, error){
-            connection.query( query, data, function(err, results){
+            connection.query(query, data, function(err, results){
               if (err){
                 return error(err)
               }
@@ -15,6 +15,7 @@ function QueryExecute(connection) {
         })
     };
 }
+
 module.exports = function (connection) {
 	var queryExecutor = new QueryExecute(connection); 
 

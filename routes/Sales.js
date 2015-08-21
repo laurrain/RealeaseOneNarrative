@@ -2,16 +2,17 @@ module.exports = function(){
 
     this.show_category_sales_per_day_per_week = function (req, res, next) {
         req.services(function(err, services){
-        var salesData = services.salesDataServ;
-        salesData.show_category_sales_per_day_per_week(function(err, results) {
-            if (err) return next(err);
-                res.render( 'category_sales_per_day_per_week', {
-                data : results,
-                administrator : administrator
+            var salesData = services.salesDataServ;
+            salesData
+            .show_category_sales_per_day_per_week(function(err, results) {
+                if (err) return next(err);
+                    res.render( 'category_sales_per_day_per_week', {
+                    data : results,
+                    administrator : administrator
+                });
             });
         });
-    });
-};
+    };
 
     this.show_regular_sales = function (req, res, next) {
         req.services(function(err, services){

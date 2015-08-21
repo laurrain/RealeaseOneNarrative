@@ -1,14 +1,19 @@
 exports.show_product_earnings = function (req, res, next) {
-     req.services(function(err, services){
+    req.services(function(err, services){
         var earningData = services.earningDataServ;
-	earningData.show_product_earnings(function(err, results){
-       	if (err) return next(err);
+    	earningData
+        .show_product_earnings()
+        .then(function(results){
+            if (err) return next(err);
 
-    		res.render( 'product_earnings', {
-    			data : results,
-    			administrator : administrator
-    		});
-	   });
+            res.render( 'product_earnings', {
+                data : results,
+                administrator : administrator
+            });
+       })
+        .catch(function(err){
+            console.log(err)
+        });
     })
 };
 
