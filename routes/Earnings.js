@@ -20,13 +20,18 @@ exports.show_product_earnings = function (req, res, next) {
 exports.show_category_earnings = function(req, res, next){
     req.services(function(err, services){
         var earningData = services.earningDataServ;
-    earningData.show_category_earnings(function(err, results){
-        if (err) return next(err);
+        earningData
+        .show_category_earnings()
+        .then(function(results){
+            if (err) return next(err);
 
             res.render( 'category_earnings', {
                 data : results,
                 administrator : administrator
             });
+        })
+        .catch(function(err){
+            console.log(err);
         });
     })
 };
