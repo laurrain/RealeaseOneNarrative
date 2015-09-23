@@ -20,25 +20,25 @@ var getData = function(query, inputData, cb){
 
 this.promoteUser = function(inputData, cb){
 
-      var sql = "UPDATE users SET admin = ?, locked = ? WHERE username=?";
+      var sql = "UPDATE UserData SET admin = ?, locked = ? WHERE username=?";
   		postData(sql, [inputData.admin, inputData.locked, inputData.username], cb)
 }
 
 this.addUser = function(inputData, cb){
     
-    var sql = "INSERT INTO users(username, password) SELECT * FROM (SELECT ?, ?) AS tmp WHERE NOT EXISTS (SELECT username FROM users WHERE username = ?) LIMIT 1;";
+    var sql = "INSERT INTO UserData(username, password) SELECT * FROM (SELECT ?, ?) AS tmp WHERE NOT EXISTS (SELECT username FROM UserData WHERE username = ?) LIMIT 1;";
     insertData(sql, [inputData.username, inputData.password, inputData.username], cb)
 };
 
 this.authUser = function(inputData, cb){
 
-    var sql = 'SELECT * FROM users WHERE username = ?'
+    var sql = 'SELECT * FROM UserData WHERE username = ?'
     getData(sql, inputData.username, cb)
 
               
     if(counter == 3 ){
 
-    var sql = 'UPDATE users SET locked = ? WHERE username = ?';
+    var sql = 'UPDATE UserData SET locked = ? WHERE username = ?';
     postData(sql, inputData.username, cb)
     }
 
@@ -48,7 +48,7 @@ this.authUser = function(inputData, cb){
 
 this.lock = function(inputData, cb){
 
-    var sql = 'UPDATE users SET locked = ? WHERE username = ?';
+    var sql = 'UPDATE UserData SET locked = ? WHERE username = ?';
     postData(sql, [inputData.admin, inputData.username], cb)
   };
 }
